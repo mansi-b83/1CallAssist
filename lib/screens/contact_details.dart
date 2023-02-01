@@ -2,7 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/requestid_generated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'globals.dart' as globals;
 
 class ContactDetail extends StatefulWidget {
   final String? finalval;
@@ -159,7 +160,7 @@ class _ContactDetailState extends State<ContactDetail> {
                             else{
                               form?.save();
                               _sendFinalUserinfo(context);
-                              addUserRequest();
+                              // addUserRequest();
                             }
                             // form?.save();
 
@@ -180,19 +181,24 @@ class _ContactDetailState extends State<ContactDetail> {
 
     const available_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     var _rnd = Random();
-    final reqid_list = [];
+    // final reqid_list = [];
     request_id = List.generate(8, (index) => available_chars[_rnd.nextInt(available_chars.length)]).join();
-    bool found = reqid_list.contains(request_id);
+    // request_id = 'rn9CCUMA';
+    bool found = globals.reqid_list.contains(request_id);
     if(found){
       _sendFinalUserinfo(context);
+      // globals.reqid_list.add('found id');
+      // print('hey');
+
     }
     else{
-      reqid_list.add(request_id);
+      globals.reqid_list.add(request_id);
       print(final_catgandoption);
       print(_phonenum);
       print(_preftime);
       print(request_id);
-      // print(reqid_list);
+      print(globals.reqid_list);
+      addUserRequest();
       // Navigator.push(context , MaterialPageRoute(builder: (context) => UserRequestGenerated(pno: _phonenum, time: _preftime, catgandopt: final_catgandoption, reqid: request_id)));
       // FirebaseFirestore.instance
       //     .collection('UserRequest_data')
