@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/requestid_generated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'globals.dart' as globals;
 
 class ContactDetail extends StatefulWidget {
@@ -24,6 +25,7 @@ class _ContactDetailState extends State<ContactDetail> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // CollectionReference users_requestdetails = FirebaseFirestore.instance.collection('UserRequest_data');
   final databaseReference = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -208,13 +210,14 @@ class _ContactDetailState extends State<ContactDetail> {
     }
   }
   void addUserRequest() async{
-    await databaseReference.collection("UserRequest_data")
-        .add({
-      'contactno': '$_phonenum',
-      'preffered_time': '$_preftime',
-      'Category': '$final_catgandoption',
-      'RequestID' : '$request_id'
-    })
+    await databaseReference.collection("UserRequest_Details")
+        .doc(user?.uid)
+        .set({
+          'contactno': '$_phonenum',
+          'preffered_time': '$_preftime',
+          'Category': '$final_catgandoption',
+          'RequestID' : '$request_id'
+        })
     .then((value) => print("User Request Added"))
     .catchError((error) => print("Failed to add user: $error"));
   }

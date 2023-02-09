@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:demo/screens/healthbuy_form.dart';
+import 'package:demo/screens/healthrenew_form.dart';
 class UserRequestGenerated extends StatefulWidget {
 
   // final String? pno;
@@ -35,16 +36,56 @@ class _UserRequestGeneratedState extends State<UserRequestGenerated> {
         ),
         backgroundColor: Colors.orangeAccent,
       ),
-      body: Container(
-        child: Center(
-          child: Text(
-            'Request ID: $requestid_user',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+      body: Center(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+             Text(
+              'Request ID: $requestid_user',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+             ),
+             Padding(padding: EdgeInsets.all(10),
+                 child: TextButton(
+                   style: ButtonStyle(
+                     foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                     backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
+                   ),
+                   onPressed: () {
+                     Navigator.push(context , MaterialPageRoute(builder: (context) => healthbuyForm()));
+                   },
+                   child: Text('Buy Form'),
+                 )
+             ),
+              Padding(padding: EdgeInsets.all(10),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
+                    ),
+                    onPressed: () {
+                      Navigator.push(context , MaterialPageRoute(builder: (context) => healthRenewForm()));
+                    },
+                    child: Text('Renew Form'),
+                  )
+
+              )
+
+
+            ],
           )
-        )
+          // child: Text(
+          //   'Request ID: $requestid_user',
+          //   style: TextStyle(
+          //     fontSize: 24,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+
+        ),
       ),
     );
   }

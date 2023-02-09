@@ -1,27 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo/reusable_widgets/reusable_widget.dart';
-import 'package:demo/screens/home_screen.dart';
 import 'package:demo/utils/color_utils.dart';
-import 'package:flutter/material.dart';
+import 'package:demo/screens/healthbuy_form.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class Emp_SignUp extends StatefulWidget {
+  const Emp_SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<Emp_SignUp> createState() => _Emp_SignUpState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _fullNameTextController = TextEditingController();
-  // final User? user = FirebaseAuth.instance.currentUser;
-  // void inputData() async {
-  //   final User? user = await FirebaseAuth.instance.currentUser;
-  //   final useruid = user?.uid;
-  //   // here you write the codes to input the data into firestore
-  // }
+class _Emp_SignUpState extends State<Emp_SignUp> {
+
+  TextEditingController _EmpemailController = TextEditingController();
+  TextEditingController _EmppasswordController = TextEditingController();
+  TextEditingController _Empfullnameontroller = TextEditingController();
+  TextEditingController _EmpcontactnumController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,55 +48,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 20,
                     ),
                     reusableTextField("Enter Fullname", Icons.person_outline, false,
-                        _fullNameTextController),
+                        _Empfullnameontroller),
                     const SizedBox(
                       height: 20,
                     ),
-                    reusableTextField("Enter Email Id", Icons.person_outline, false,
-                        _emailTextController),
+                    reusableTextField("Enter Email Id", Icons.email_outlined, false,
+                        _EmpemailController),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    reusableTextField("Enter Contact Number", Icons.phone_outlined, false,
+                        _EmpcontactnumController),
                     const SizedBox(
                       height: 20,
                     ),
                     reusableTextField("Enter Password", Icons.lock_outlined, true,
-                        _passwordTextController),
+                        _EmppasswordController),
                     const SizedBox(
                       height: 20,
                     ),
                     firebaseUIButton(context, "Sign Up", () async {
-                      print( _fullNameTextController.text);
-                      print(_emailTextController.text);
-
                       await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
+                          email: _EmpemailController.text,
+                          password: _EmppasswordController.text)
                           .then((value) {
-                            print("Created New Account");
-                            // final userid = user?.uid;
-                            // print('Signedup  User: $userid');
-                            addUserDetails();
-                            Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => HomeScreen()));
+                        print("Created New Account");
+                        addEmployeeDetails();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => healthbuyForm()));
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });
-                      // print('Current user id: $userid');
-
                     })
-
                   ],
                 ),
-              ))),
+              ),
+          ),
+      ),
     );
   }
-  void addUserDetails() async{
+  void addEmployeeDetails() async{
     final User? user = await FirebaseAuth.instance.currentUser;
     final useruid = user?.uid;
     print(useruid);
-    await FirebaseFirestore.instance.collection('Users').doc(user?.uid)
+    await FirebaseFirestore.instance.collection('Employees').doc(user?.uid)
         .set({
-      'FullName': _fullNameTextController.text,
-      'Email' : _emailTextController.text
+      'FullName':_Empfullnameontroller.text,
+      'Email' : _EmpemailController.text,
+      'ContactNumber': _EmpcontactnumController.text
     });
+
   }
 }

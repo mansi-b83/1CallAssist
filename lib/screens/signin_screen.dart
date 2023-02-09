@@ -1,5 +1,6 @@
 import 'package:demo/screens/reset_password.dart';
 import 'package:demo/screens/signup_screen.dart';
+import 'package:demo/screens/employee_signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,9 @@ import '../utils/color_utils.dart';
 import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
+
   const SignInScreen({Key? key}) : super(key: key);
+
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -17,6 +20,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String? empflag;
+  String? tpflag;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,12 +67,60 @@ class _SignInScreenState extends State<SignInScreen> {
                     print("Error ${error.toString()}");
                   });
                 }),
-                signUpOption()
+                signUpOption(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    UIButton(context, 'Employee SignIn', (){
+                      print('Employee Signin');
+                      empflag = 'emp';
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Emp_SignIn()));
+                    }),
+                    UIButton(context, 'Third Party SignIn', (){
+                      print('Third Part SignIn');
+                      tpflag = 'tp';
+                    })
+                  ],
+                )
+
+                // Container(
+                //   width: 200,
+                //     firebaseUIButton(context, 'Employee Signin',(){
+                //       print('Emp signin');
+                //     })
+                // )
+
+
+
+                // Padding(padding: EdgeInsets.only(top: 30),
+                //     child: Row(
+                //       children: [
+                //         EmployeeSignIn(context),
+                //         ThirdpartySignIn(context)
+                //       ],
+                //
+                //     ),
+                // ),
+
+
+                // Row(
+                //   children: [
+                //     Padding(padding: EdgeInsets.only(top: 20.0),
+                //         child: Align(
+                //           alignment: Alignment.bottomLeft,
+                //           child: EmployeeSignIn(context),
+                //         ),
+                //     ),
+                //   ],
+                // )
+                // EmployeeSignIn(context)
+
               ],
             ),
           ),
         ),
       ),
+
     );
   }
 
@@ -107,4 +160,89 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+
+  // Widget EmployeeSignIn(BuildContext context) {
+  //   return GestureDetector(
+  //
+  //     child: Container(
+  //         height: 60,
+  //         // width: 200,
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.all(
+  //             Radius.circular(16),
+  //           ),
+  //         ),
+  //         child:SizedBox(
+  //           width:  170,
+  //           child: Center(
+  //             child: Text(
+  //               'Employee SignIn',
+  //               maxLines: 2,
+  //               overflow: TextOverflow.ellipsis,
+  //               textAlign: TextAlign.justify,
+  //               style: TextStyle(
+  //                 color: Colors.black,
+  //                 fontSize: 22,
+  //               ),
+  //             ),
+  //           ),
+  //         )
+  //     ),
+
+      // child: TextButton(
+      //   child: const Text(
+      //     "Forgot Password?",
+      //     style: TextStyle(color: Colors.white70),
+      //     textAlign: TextAlign.right,
+      //   ),
+      //   onPressed: () => Navigator.push(
+      //       context, MaterialPageRoute(builder: (context) => ResetPassword())),
+      // ),
+  //   );
+  // }
+
+  // Widget ThirdpartySignIn(BuildContext context) {
+  //   return Padding(padding: EdgeInsets.only(left: 20.0),
+  //     child: GestureDetector(
+  //       child: Container(
+  //         height: 60,
+  //         // width: 200,
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.all(
+  //             Radius.circular(22),
+  //           ),
+  //         ),
+  //         child: SizedBox(
+  //             width: 170,
+  //             child: Center(
+  //               child: Text(
+  //                 'Third Party SignIn',
+  //                 maxLines: 2,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 textAlign: TextAlign.center,
+  //                 style: TextStyle(
+  //                   color: Colors.black,
+  //                   fontSize: 22,
+  //                 ),
+  //               ),
+  //             )
+  //
+  //
+  //         ),
+  //       ),
+
+        // child: TextButton(
+        //   child: const Text(
+        //     "Forgot Password?",
+        //     style: TextStyle(color: Colors.white70),
+        //     textAlign: TextAlign.right,
+        //   ),
+        //   onPressed: () => Navigator.push(
+        //       context, MaterialPageRoute(builder: (context) => ResetPassword())),
+        // ),
+    //   ),
+    // );
+  // }
 }
