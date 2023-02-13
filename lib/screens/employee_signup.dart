@@ -16,7 +16,7 @@ class _Emp_SignUpState extends State<Emp_SignUp> {
 
   TextEditingController _EmpemailController = TextEditingController();
   TextEditingController _EmppasswordController = TextEditingController();
-  TextEditingController _Empfullnameontroller = TextEditingController();
+  TextEditingController _EmpfullnameController = TextEditingController();
   TextEditingController _EmpcontactnumController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _Emp_SignUpState extends State<Emp_SignUp> {
                       height: 20,
                     ),
                     reusableTextField("Enter Fullname", Icons.person_outline, false,
-                        _Empfullnameontroller),
+                        _EmpfullnameController),
                     const SizedBox(
                       height: 20,
                     ),
@@ -94,7 +94,7 @@ class _Emp_SignUpState extends State<Emp_SignUp> {
     print(useruid);
     await FirebaseFirestore.instance.collection('Employees').doc(user?.uid)
         .set({
-      'FullName':_Empfullnameontroller.text,
+      'FullName':_EmpfullnameController.text,
       'Email' : _EmpemailController.text,
       'ContactNumber': _EmpcontactnumController.text
     });

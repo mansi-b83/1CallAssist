@@ -1,31 +1,33 @@
-import 'package:demo/screens/reset_password.dart';
-import 'package:demo/screens/signup_screen.dart';
-import 'package:demo/screens/employee_signin.dart';
-import'package:demo/screens/thirdparty_signin.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:demo/screens/reset_password.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:demo/screens/healthbuy_form.dart';
+import 'package:demo/screens/thirdparty_signup.dart';
 import '../reusable_widgets/reusable_widget.dart';
 import '../utils/color_utils.dart';
-import 'home_screen.dart';
-
-class SignInScreen extends StatefulWidget {
-
-  const SignInScreen({Key? key}) : super(key: key);
-
+class ThirdParty_SignIn extends StatefulWidget {
+  const ThirdParty_SignIn({Key? key}) : super(key: key);
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  State<ThirdParty_SignIn> createState() => _ThirdParty_SignInState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  String? empflag;
-  String? tpflag;
+class _ThirdParty_SignInState extends State<ThirdParty_SignIn> {
+  TextEditingController _EmppasswordController = TextEditingController();
+  TextEditingController _EmpemailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        // title: const Text(
+        //   "Sign Up",
+        //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        // ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -45,13 +47,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField("Enter Email", Icons.person_outline, false,
+                    _EmpemailController),
                 const SizedBox(
                   height: 20,
                 ),
                 reusableTextField("Enter Password", Icons.lock_outline, true,
-                    _passwordTextController),
+                    _EmppasswordController),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // reusableTextField("Enter Contact Number", Icons.contact_emergency_outlined, true,
+                //     _EmpcontactnumController),
                 const SizedBox(
                   height: 5,
                 ),
@@ -59,31 +66,49 @@ class _SignInScreenState extends State<SignInScreen> {
                 firebaseUIButton(context, "Sign In", () {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text)
+                      email: _EmpemailController.text,
+                      password: _EmppasswordController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => healthbuyForm()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
                 }),
                 signUpOption(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    UIButton(context, 'Employee SignIn', (){
-                      print('Employee Signin');
-                      empflag = 'emp';
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Emp_SignIn()));
-                    }),
-                    UIButton(context, 'Third Party SignIn', (){
-                      print('Third Part SignIn');
-                      tpflag = 'tp';
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdParty_SignIn()));
-                    })
-                  ],
-                )
+
+
+                // Container(
+                //   width: 200,
+                //     firebaseUIButton(context, 'Employee Signin',(){
+                //       print('Emp signin');
+                //     })
+                // )
+
+
+
+                // Padding(padding: EdgeInsets.only(top: 30),
+                //     child: Row(
+                //       children: [
+                //         EmployeeSignIn(context),
+                //         ThirdpartySignIn(context)
+                //       ],
+                //
+                //     ),
+                // ),
+
+
+                // Row(
+                //   children: [
+                //     Padding(padding: EdgeInsets.only(top: 20.0),
+                //         child: Align(
+                //           alignment: Alignment.bottomLeft,
+                //           child: EmployeeSignIn(context),
+                //         ),
+                //     ),
+                //   ],
+                // )
+                // EmployeeSignIn(context)
 
               ],
             ),
@@ -103,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
         GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+                MaterialPageRoute(builder: (context) => ThirdParty_SignUp()));
           },
           child: const Text(
             " Sign Up",
@@ -130,5 +155,4 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-
 }

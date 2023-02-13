@@ -16,6 +16,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _fullNameTextController = TextEditingController();
+  String? dateString;
+  var dateTime;
+  var date;
+
+
   // final User? user = FirebaseAuth.instance.currentUser;
   // void inputData() async {
   //   final User? user = await FirebaseAuth.instance.currentUser;

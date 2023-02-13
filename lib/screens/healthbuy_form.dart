@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 
-// void main() async {
-//   // WidgetsFlutterBinding.ensureInitialized();
-//   // await Firebase.initializeApp();
-//   runApp(const healthbuyForm());
-// }
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:demo/screens/openandpath_pdf.dart';
+import 'package:demo/screens/PDF_preview.dart';
+
 class healthbuyForm extends StatefulWidget {
   const healthbuyForm({Key? key}) : super(key: key);
 
@@ -17,6 +16,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
   String? tobacco;
   String instype = 'Individual';
   int? flag = 0;
+  int? age;
   // int? noofmembers;
   String? disease;
   bool _showTextField = false;
@@ -27,9 +27,22 @@ class _healthbuyFormState extends State<healthbuyForm> {
     'Individual'
   ];
   TextEditingController numofmem_contr = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final details = <buydetails>[
+  //   buydetails(
+  //     age = ageController.text,
+  //     smoke: smoke,
+  //
+  //
+  //
+  //   ),
+  // ];
+
+  // static int get age => 0 ;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -52,11 +65,20 @@ class _healthbuyFormState extends State<healthbuyForm> {
               children: [
                   Padding(padding: EdgeInsets.only(left: 15.0,top: 30.0,bottom: 15.0,right: 15.0),
                     child: TextField(
+                      controller: ageController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         // labelText: 'Contact Number',
                         hintText: 'Enter Age',
                       ),
+                      onChanged: (value){
+                        setState(() {
+                          age = int.parse(value);
+                          print(age);
+                        });
+                      }
+
+
 
                     ),
                   ),
@@ -222,55 +244,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                                     hintText: 'Number of members',
                                   ),
                                   keyboardType: TextInputType.number,
-                                  // onChanged: (String? val){
-                                  //   setState(() {
-                                  //     String _numofmemS = val!;
-                                  //     int _numofmem = int.parse(_numofmemS);
-                                  //     print(_numofmem);
-                                      // if(_numofmem >= 1){
-                                      //   print('hey $_numofmem');
-                                      //   _showfamdetailstxtbox = true;
-                                      // }
-                                      // else{
-                                      //   _showfamdetailstxtbox = false;
-                                      // }
-                                    // });
-                                // validator: (value) {
-                                //   String _numofmemS = value!;
-                                //   int _numofmem = int.parse(_numofmemS);
-                                //   print(_numofmem);
-                                //   if(_numofmem >= 1){
-                                //     print('hey $_numofmem');
-                                //     _showfamdetailstxtbox = true;
-                                //   }
-                                //   else{
-                                //     _showfamdetailstxtbox = false;
-                                //   }
-                                //
-                                // if(_numofmem >= 1){
-                                //   for(int i =0 ; i<_numofmem; i++){
-                                //     print('hey');
-                                //     Padding(padding: EdgeInsets.all(10),
-                                //       child: TextFormField(
-                                //         controller: numofmem_contr,
-                                //         decoration: InputDecoration(
-                                //           border: OutlineInputBorder(),
-                                //           // labelText: 'Contact Number',
-                                //           hintText: 'Number of members',
-                                //         ),
-                                //       ),
-                                //     );
-                                //   }
-                                // }
-                                //   onChanged: (numofmem_contr){
-                                //     int numofmem = int.parse(numofmem_contr.text);
-                                //   },
-                                // onSaved: (value){
-                                //   String _noofmem = value!;
-                                //   int m = int.parse(_noofmem);
-                                //   noofmembers = m!;
-                                //   print(noofmembers);
-                                // },
+
                               ),
                             ),
                         ),
@@ -351,41 +325,74 @@ class _healthbuyFormState extends State<healthbuyForm> {
 
                 Center(
                   child: Padding(padding: EdgeInsets.all(20),
-                    child: GestureDetector(
-                      child: Container(
-                        height: 60,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(16),
-                          ),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        icon: Icon(Icons.picture_as_pdf),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
                         ),
-                        child: Center(
-                          child: Text(
-                            'Create PDF',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        print("button pressed");
-                        final form = _formKey.currentState;
-                        if (form != null && !form.validate()){
-                          return;
-                        }
-                        else{
-                          form?.save();
-                          // _sendFinalUserinfo(context);
-                          // addUserRequest();
-                        }
-                        // form?.save();
+                        onPressed: (){
+                          print("button pressed");
+                          final form = _formKey.currentState;
+                          if (form != null && !form.validate()){
+                            return;
+                          }
+                          else{
+                            form?.save();
+                            sendbuyforminput();
+                            // _sendFinalUserinfo(context);
+                            // create_pdf();
 
-                      },
-                    ),
+                          }
+                        },
+                        label: Text(
+                          'Preview PDF',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+
+                      ),
+                    )
+
+                    // child: GestureDetector(
+                    //   child: Container(
+                    //     height: 60,
+                    //     width: 200,
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.orangeAccent,
+                    //       borderRadius: BorderRadius.all(
+                    //         Radius.circular(16),
+                    //       ),
+                    //     ),
+                    //     child: Center(
+                    //       child: Text(
+                    //         'Create PDF',
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 22,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //
+                    //   onTap: () {
+                    //     print("button pressed");
+                    //     final form = _formKey.currentState;
+                    //     if (form != null && !form.validate()){
+                    //       return;
+                    //     }
+                    //     else{
+                    //       form?.save();
+                    //       // _sendFinalUserinfo(context);
+                    //       create_pdf();
+                    //     }
+                    //     // form?.save();
+                    //
+                    //   },
+                    // ),
                   ),
                 ),
 
@@ -396,6 +403,20 @@ class _healthbuyFormState extends State<healthbuyForm> {
         ),
       ),
     );
+  }
+  void create_pdf() async{
+    PdfDocument document = PdfDocument();
+    document.pages.add();
+
+    List<int> bytes = await document.save();
+    document.dispose();
+    
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => )
+    saveAndLaunchFile(bytes, 'Output.pdf');
+
+  }
+  void sendbuyforminput() async{
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => PDFPreviewPage(userage: age, smoke_status: smoke, tobacco_status: tobacco, ins_type: instype, disease_status: disease)));
   }
 }
 
@@ -483,15 +504,36 @@ class _famDetailsState extends State<_famDetails> {
   }
 }
 
-
-
 class FamDetailsEntry {
   final String relation;
   final String age;
-
   FamDetailsEntry(this.relation, this.age);
   @override
   String toString() {
     return 'Person: relation= $relation, age= $age';
   }
 }
+
+class buydetails{
+  // final List<LineItem> items;
+  // buydetails(this.items);
+  final int age;
+  final String smoke;
+  final String tobacco;
+  final String ins_type;
+  final String disval;
+
+  buydetails(this.age,this.smoke,this.tobacco,this.ins_type,this.disval);
+}
+
+// class LineItem{
+//   final int age;
+//   final String smoke;
+//   final String tobacco;
+//   final String ins_type;
+//   final String disval;
+//
+//   LineItem(this.age,this.smoke,this.tobacco,this.ins_type,this.disval);
+// }
+
+
