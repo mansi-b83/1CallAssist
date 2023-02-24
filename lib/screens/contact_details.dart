@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:demo/screens/requestid_generated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:demo/screens/signin_screen.dart';
 import 'package:date_field/date_field.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'globals.dart' as globals;
 
 class ContactDetail extends StatefulWidget {
-  final String? finalval;
-  const ContactDetail({Key? key,@required this.finalval}) : super(key: key);
+  final String? finalcatg;
+  final String? finalopt;
+  const ContactDetail({Key? key,@required this.finalcatg,@required this.finalopt  }) : super(key: key);
 
   @override
   State<ContactDetail> createState() => _ContactDetailState();
@@ -21,7 +23,8 @@ class _ContactDetailState extends State<ContactDetail> {
 
   String? _phonenum;
   String? _preftime;
-  String? final_catgandoption;
+  String? final_category;
+  String? final_option;
   String? request_id;
   var dateString;
   var dateTime;
@@ -32,7 +35,7 @@ class _ContactDetailState extends State<ContactDetail> {
     super.initState();
     dateString = DateTime.now().toString();
     dateTime = DateTime.parse(dateString!);
-    date = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+    date = "${dateTime.day}-${dateTime.month}-${dateTime.year} ${dateTime.hour}.${dateTime.minute}.${dateTime.second}";
   }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // CollectionReference users_requestdetails = FirebaseFirestore.instance.collection('UserRequest_data');
@@ -41,8 +44,9 @@ class _ContactDetailState extends State<ContactDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final_catgandoption = widget.finalval;
-    final format = DateFormat('dd-MM-yyyy HH:mm:ss');
+    final_category = widget.finalcatg;
+    final_option = widget.finalopt;
+    // final format = DateFormat('dd-MM-yyyy HH:mm:ss');
 
     // CollectionReference users_requestdetails = FirebaseFirestore.instance.collection('UserRequest_data');
     // Future<void> addUserRequest() {
@@ -66,6 +70,13 @@ class _ContactDetailState extends State<ContactDetail> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+              onPressed: (){
+                signOut();
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
         backgroundColor: Colors.orangeAccent,
       ),
       body: SingleChildScrollView(
@@ -174,22 +185,6 @@ class _ContactDetailState extends State<ContactDetail> {
                             // });
                           }
                         },
-  // if(pickedTime != null ){
-  // print(pickedTime.format(context));   //output 10:51 PM
-  // DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-  // //converting to DateTime so that we can further format on different pattern.
-  // print(parsedTime); //output 1970-01-01 22:53:00.000
-  // String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
-  // print(formattedTime); //output 14:59:00
-  // //DateFormat() is from intl package, you can format the time on any pattern you need.
-  //
-  // setState(() {
-  // timeinput.text = formattedTime; //set the value of text field.
-  // });
-  // }else{
-  // print("Time is not selected");
-  // }
-  // },
                         validator: (value) {
                           if(value!.isEmpty){
                             return "Preffered Callback Time is required";
@@ -268,7 +263,8 @@ class _ContactDetailState extends State<ContactDetail> {
     }
     else{
       globals.reqid_list.add(request_id);
-      print(final_catgandoption);
+      print(final_category);
+      print(final_option);
       print(_phonenum);
       print(_preftime);
       print(request_id);
@@ -283,15 +279,23 @@ class _ContactDetailState extends State<ContactDetail> {
     }
   }
   void addUserRequest() async{
-    await databaseReference.collection("UserRequest_Details")
-        .doc(user?.uid).collection(date)
+    await databaseReference.collection("User_Requests")
+        // .doc(user?.uid).collection(date)
         .add({
-          'contactno': '$_phonenum',
-          'preffered_time': '$_preftime',
-          'Category': '$final_catgandoption',
-          'RequestID' : '$request_id'
+          'ContactNo': '$_phonenum',
+          'PrefferedTime': '$_preftime',
+          'Category': '$final_category',
+          'Option': '$final_option',
+          'RequestID' : '$request_id',
+          'UserId' : user?.uid,
+          'Date' : date
         })
     .then((value) => print("User Request Added"))
     .catchError((error) => print("Failed to add user: $error"));
+  }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
   }
 }

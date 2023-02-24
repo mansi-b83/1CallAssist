@@ -1,11 +1,14 @@
-
+import 'package:demo/screens/select_tp.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:demo/screens/openandpath_pdf.dart';
-import 'package:demo/screens/PDF_preview.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class healthbuyForm extends StatefulWidget {
-  const healthbuyForm({Key? key}) : super(key: key);
+  final String? userid;
+  final String? category;
+  final String? requestid;
+  final String? option;
+  // final List? famdetails;
+  const healthbuyForm({Key? key, @required this.userid,@required this.requestid,@required this.category,@required this.option}) : super(key: key);
 
   @override
   State<healthbuyForm> createState() => _healthbuyFormState();
@@ -17,7 +20,6 @@ class _healthbuyFormState extends State<healthbuyForm> {
   String instype = 'Individual';
   int? flag = 0;
   int? age;
-  // int? noofmembers;
   String? disease;
   bool _showTextField = false;
   bool _showdiseasenametxtbox = false;
@@ -26,23 +28,25 @@ class _healthbuyFormState extends State<healthbuyForm> {
     'Family',
     'Individual'
   ];
+  List buy_famdetails =[];
+  String? buy_userid,buy_requestid,buy_category,ins_option;
+  String? newid;
+
   TextEditingController numofmem_contr = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  TextEditingController diseaseController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // final details = <buydetails>[
-  //   buydetails(
-  //     age = ageController.text,
-  //     smoke: smoke,
-  //
-  //
-  //
-  //   ),
-  // ];
 
-  // static int get age => 0 ;
+  final databaseReference = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
-
+    // buy_famdetails = widget.famdetails!;
+    buy_category = widget.category;
+    buy_requestid = widget.requestid;
+    buy_userid = widget.userid;
+    ins_option = widget.option;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -66,20 +70,19 @@ class _healthbuyFormState extends State<healthbuyForm> {
                   Padding(padding: EdgeInsets.only(left: 15.0,top: 30.0,bottom: 15.0,right: 15.0),
                     child: TextField(
                       controller: ageController,
-                      decoration: InputDecoration(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         // labelText: 'Contact Number',
                         hintText: 'Enter Age',
                       ),
+
                       onChanged: (value){
                         setState(() {
                           age = int.parse(value);
                           print(age);
                         });
                       }
-
-
-
                     ),
                   ),
 
@@ -215,6 +218,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                                       print(flag);
                                       _showTextField = true;
                                     }else{
+                                      flag = 0;
                                       _showTextField = false;
                                     }
                                     // print(flag);
@@ -223,7 +227,6 @@ class _healthbuyFormState extends State<healthbuyForm> {
                               ),
                             ),
                           ),
-
                         ),
                       ],
                     ),
@@ -233,28 +236,47 @@ class _healthbuyFormState extends State<healthbuyForm> {
                   child: Visibility(
                     visible: _showTextField,
                     child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Flexible(
+                        SizedBox(
+                          width: 200,
                             child:  Padding(padding: EdgeInsets.only(right: 15.0),
                               child: TextFormField(
-                                  controller: numofmem_contr,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
+                                controller: numofmem_contr,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
                                     // labelText: 'Contact Number',
-                                    hintText: 'Number of members',
-                                  ),
-                                  keyboardType: TextInputType.number,
-
+                                  hintText: 'Number of members',
+                                ),
+                                keyboardType: TextInputType.number,
                               ),
                             ),
                         ),
-                        Flexible(
+                        SizedBox(
+                          height: 40,
+                          width: 110,
                             child: ElevatedButton(
-                            child: Text('Add entries'),
+                              child: Text('Add entries',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
                               onPressed: () async {
                                 List<FamDetailsEntry> persons = await Navigator.push(context, MaterialPageRoute(builder: (context) => _famDetails()));
-                                if (persons != null) persons.forEach(print);
+                                if (persons != null){
+                                  buy_famdetails =[];
+                                  for(int i = 0;i<persons.length;i++){
+                                    buy_famdetails.add(persons[i]);
+                                  }
+                                }
+                                // setState(() {
+                                //
+                                // });
                               },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                              ),
+
                             ),
                         ),
                       ],
@@ -314,6 +336,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                   child: Visibility(
                       visible: _showdiseasenametxtbox,
                       child: TextFormField(
+                        controller: diseaseController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           // labelText: 'Contact Number',
@@ -328,7 +351,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                     child: SizedBox(
                       height: 50,
                       child: ElevatedButton.icon(
-                        icon: Icon(Icons.picture_as_pdf),
+                        icon: Icon(Icons.send_outlined),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
                         ),
@@ -347,7 +370,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                           }
                         },
                         label: Text(
-                          'Preview PDF',
+                          'Send',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
@@ -355,44 +378,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
                         ),
 
                       ),
-                    )
-
-                    // child: GestureDetector(
-                    //   child: Container(
-                    //     height: 60,
-                    //     width: 200,
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.orangeAccent,
-                    //       borderRadius: BorderRadius.all(
-                    //         Radius.circular(16),
-                    //       ),
-                    //     ),
-                    //     child: Center(
-                    //       child: Text(
-                    //         'Create PDF',
-                    //         style: TextStyle(
-                    //           color: Colors.white,
-                    //           fontSize: 22,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //
-                    //   onTap: () {
-                    //     print("button pressed");
-                    //     final form = _formKey.currentState;
-                    //     if (form != null && !form.validate()){
-                    //       return;
-                    //     }
-                    //     else{
-                    //       form?.save();
-                    //       // _sendFinalUserinfo(context);
-                    //       create_pdf();
-                    //     }
-                    //     // form?.save();
-                    //
-                    //   },
-                    // ),
+                    ),
                   ),
                 ),
 
@@ -404,21 +390,85 @@ class _healthbuyFormState extends State<healthbuyForm> {
       ),
     );
   }
-  void create_pdf() async{
-    PdfDocument document = PdfDocument();
-    document.pages.add();
-
-    List<int> bytes = await document.save();
-    document.dispose();
-    
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => )
-    saveAndLaunchFile(bytes, 'Output.pdf');
-
-  }
+  // void create_pdf() async{
+  //   PdfDocument document = PdfDocument();
+  //   document.pages.add();
+  //
+  //   List<int> bytes = await document.save();
+  //   document.dispose();
+  //
+  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => )
+  //   saveAndLaunchFile(bytes, 'Output.pdf');
+  //
+  // }
   void sendbuyforminput() async{
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => PDFPreviewPage(userage: age, smoke_status: smoke, tobacco_status: tobacco, ins_type: instype, disease_status: disease)));
+    // await Navigator.push(context, MaterialPageRoute(builder: (context) => PDFPreviewPage(userage: age, smoke_status: smoke, tobacco_status: tobacco, ins_type: instype, disease_status: disease)));
+    await databaseReference.collection("Employee_Clients")
+        .add({
+            'Category' : '$buy_category',
+            'Option' : '$ins_option',
+            'RequestID' : '$buy_requestid',
+            'UserID' : '$buy_userid',
+            'EmployeeID' : user?.uid,
+            'Age' : '$age',
+            'Smoke' : '$smoke',
+            'Tobacco' : '$tobacco',
+            'InsuranceType' : '$instype',
+            // 'Members' : FieldValue.arrayUnion(buy_famdetails),
+            'ExistingDisease' : '$disease',
+        })
+          .then((value) {
+            newid = value.id;
+            print("User Request Added $newid");
+          })
+          .catchError((error) => print("Failed to add user: $error"));
+
+      if(disease == 'yes'){
+        await databaseReference.collection('Employee_Clients').doc(newid)
+            .update({
+          'DiseaseName': '${diseaseController.text}'
+        })
+            .then((value) => print('disease name added'))
+            .catchError((error) => print("Failed to add disease: $error"));
+
+      }
+      if(flag == 1) {
+        await databaseReference.collection('Employee_Clients').doc(newid)
+            .update({
+          'Member' : '$buy_famdetails',
+        })
+            .then((value) => print('famdetails added'))
+            .catchError((error) => print("Failed to add family details: $error"));
+      }
+      print('Age- $age');
+      print('Smoke- $smoke');
+      print('Tobacco- $tobacco');
+      if(flag == 1){
+        print('Insurance Type- $instype');
+        print('Number of members- ${numofmem_contr.text}');
+        print('Family Details- $buy_famdetails');
+      }
+      else{
+        print('Insurance Type- $instype');
+      }
+      print('Any existing disease?- $disease');
+      if(disease == 'yes'){
+        print('Disease - ${diseaseController.text}');
+      }
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectTp(curr_docid: newid,reqid: buy_requestid)));
+    // else{
+    //   print('Age- $age');
+    //   print('Smoke- $smoke');
+    //   print('Tobacco- $tobacco');
+    //   print('Insurance Type- $instype');
+    //   print('Any existing disease?- $disease');
+    //   if(disease == 'yes'){
+    //     print('Disease - ${diseaseController.text}');
+    //   }
+      // print()
   }
 }
+
 
 class _famDetails extends StatefulWidget {
   const _famDetails({Key? key}) : super(key: key);
@@ -438,9 +488,11 @@ class _famDetailsState extends State<_famDetails> {
     fam_relation.add(famrelationController);
     fam_age.add(fammem_ageController);
     return Card(
+      margin: EdgeInsets.all(20),
         child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+          // mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
           // Text('Pe ${cards.length + 1}'),
           TextField(
             controller: famrelationController,
@@ -448,7 +500,7 @@ class _famDetailsState extends State<_famDetails> {
           TextField(
             controller: fammem_ageController,
             decoration: InputDecoration(labelText: 'Age')),
-        ],
+          ],
         ),
     );
   }
@@ -464,7 +516,13 @@ class _famDetailsState extends State<_famDetails> {
       var fammem_age = fam_age[i].text;
       entries.add(FamDetailsEntry(fammem_rel, fammem_age));
     }
-    Navigator.pop(context, entries);
+
+    // for(int j=0;j < entries.length; j++){
+    //   print('Entry $j - ${entries[j]}');
+    // }
+    print('Entries $entries');
+    Navigator.pop(context,entries);
+
   }
 
   @override
@@ -492,16 +550,30 @@ class _famDetailsState extends State<_famDetails> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              child: Text('add new'),
+              child: Text('add new',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+
+              ),
               onPressed: () => setState(() => cards.add(createCard())),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+              ),
             ),
           )
         ],
       ),
       floatingActionButton:
-      FloatingActionButton(child: Icon(Icons.done), onPressed: _onDone),
+      FloatingActionButton(child: Icon(Icons.done),
+        onPressed: _onDone,
+        backgroundColor: Colors.orangeAccent,
+      ),
     );
   }
+  // void addHealthBuyDetails() async{
+  //
+  // }
 }
 
 class FamDetailsEntry {
@@ -510,30 +582,9 @@ class FamDetailsEntry {
   FamDetailsEntry(this.relation, this.age);
   @override
   String toString() {
-    return 'Person: relation= $relation, age= $age';
+    return 'Relation= $relation, Age= $age';
   }
 }
 
-class buydetails{
-  // final List<LineItem> items;
-  // buydetails(this.items);
-  final int age;
-  final String smoke;
-  final String tobacco;
-  final String ins_type;
-  final String disval;
-
-  buydetails(this.age,this.smoke,this.tobacco,this.ins_type,this.disval);
-}
-
-// class LineItem{
-//   final int age;
-//   final String smoke;
-//   final String tobacco;
-//   final String ins_type;
-//   final String disval;
-//
-//   LineItem(this.age,this.smoke,this.tobacco,this.ins_type,this.disval);
-// }
 
 

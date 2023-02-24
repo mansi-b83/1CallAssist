@@ -1,3 +1,6 @@
+// import 'dart:js';
+
+
 import 'package:flutter/material.dart';
 
 Image logoWidget(String imageName) {
@@ -96,3 +99,10 @@ Container UIButton(BuildContext context, String title, Function onTap) {
   );
 
 }
+
+// signOut() async{
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   await auth.signOut();
+//   var context;
+//   Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
+// }

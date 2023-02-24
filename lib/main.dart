@@ -1,4 +1,7 @@
+import 'package:demo/screens/Employees/employee_homepage.dart';
 import 'package:demo/screens/signin_screen.dart';
+import 'package:demo/screens/select_tp_health.dart';
+import 'package:demo/screens/select_tp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +33,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SignInScreen(),
+      // home: const EmployeeHomePage(),
+      // home: SelectTp(),
     );
   }
 }

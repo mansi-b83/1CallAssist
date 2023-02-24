@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demo/screens/reset_password.dart';
 import 'package:demo/screens/healthbuy_form.dart';
+import'package:demo/screens/Employees/employee_homepage.dart';
 import 'package:demo/screens/employee_signup.dart';
 import 'package:demo/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,7 +73,7 @@ class _Emp_SignInState extends State<Emp_SignIn> {
                       password: _EmppasswordController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => healthbuyForm()));
+                        MaterialPageRoute(builder: (context) => EmployeeHomePage()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

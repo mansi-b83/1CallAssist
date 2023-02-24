@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class healthRenewForm extends StatefulWidget {
-  const healthRenewForm({Key? key}) : super(key: key);
+
+  final String? userid;
+  final String? category;
+  final String? option;
+  final String? requestid;
+
+  const healthRenewForm({Key? key,@required this.userid,@required this.requestid,@required this.category,@required this.option}) : super(key: key);
 
   @override
   State<healthRenewForm> createState() => _healthRenewFormState();
@@ -228,46 +234,82 @@ class _healthRenewFormState extends State<healthRenewForm> {
                   ),
                 ),
 
-
                 Center(
-                  child: Padding(padding: EdgeInsets.only(left: 0.0,right: 0.0,top: 100.0,bottom: 0.0),
-                    child: GestureDetector(
-                      child: Container(
-                        height: 60,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(16),
-                          ),
+                  child: Padding(padding: EdgeInsets.all(20),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        icon: Icon(Icons.send_outlined),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
                         ),
-                        child: Center(
-                          child: Text(
-                            'Create PDF',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        print("button pressed");
-                        final form = _formKey.currentState;
-                        if (form != null && !form.validate()){
-                          return;
-                        }
-                        else{
-                          form?.save();
-                          _sendRenewPolicyInfo(context);
-                          // addUserRequest();
-                        }
-                        // form?.save();
+                        onPressed: (){
+                          print("button pressed");
+                          final form = _formKey.currentState;
+                          if (form != null && !form.validate()){
+                            return;
+                          }
+                          else{
+                            form?.save();
+                            _sendRenewPolicyInfo(context);
+                            // _sendFinalUserinfo(context);
+                            // create_pdf();
 
-                      },
+                          }
+                        },
+                        label: Text(
+                          'Send',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+
+                      ),
                     ),
                   ),
                 ),
+
+
+                // Center(
+                //   child: Padding(padding: EdgeInsets.only(left: 0.0,right: 0.0,top: 100.0,bottom: 0.0),
+                //     child: GestureDetector(
+                //       child: Container(
+                //         height: 60,
+                //         width: 200,
+                //         decoration: BoxDecoration(
+                //           color: Colors.orangeAccent,
+                //           borderRadius: BorderRadius.all(
+                //             Radius.circular(16),
+                //           ),
+                //         ),
+                //         child: Center(
+                //           child: Text(
+                //             'Send',
+                //             style: TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 22,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       onTap: () {
+                //         print("button pressed");
+                //         final form = _formKey.currentState;
+                //         if (form != null && !form.validate()){
+                //           return;
+                //         }
+                //         else{
+                //           form?.save();
+                //           _sendRenewPolicyInfo(context);
+                //           // addUserRequest();
+                //         }
+                //         // form?.save();
+                //
+                //       },
+                //     ),
+                //   ),
+                // ),
               ],
             )
           ),

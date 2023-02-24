@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demo/screens/contact_details.dart';
-
+import 'package:demo/screens/signin_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class Insurance extends StatefulWidget {
   final String? val;
   const Insurance({Key? key,@required this.val}) : super(key: key);
@@ -23,6 +24,13 @@ class _InsuranceState extends State<Insurance> {
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
+        actions: [
+          IconButton(
+              onPressed: (){
+                signOut();
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
         backgroundColor: Colors.orangeAccent,
         ),
         body: Column(
@@ -130,20 +138,11 @@ class _InsuranceState extends State<Insurance> {
     );
   }
   void _sendCategoryAndInsOption(BuildContext context){
-    if(option == 'buy'){
-      String catgandoption = '$chosen_catg + $option';
-      print(catgandoption);
-      Navigator.push(context , MaterialPageRoute(builder: (context) => ContactDetail(finalval: catgandoption)));
-    }
-    if(option == 'renew'){
-      String catgandoption = '$chosen_catg + $option';
-      print(catgandoption);
-      Navigator.push(context , MaterialPageRoute(builder: (context) => ContactDetail(finalval: catgandoption)));
-    }
-    if(option == 'claim'){
-      String catgandoption = '$chosen_catg + $option';
-      print(catgandoption);
-      Navigator.push(context , MaterialPageRoute(builder: (context) => ContactDetail(finalval: catgandoption)));
-    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
+  }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
   }
 }

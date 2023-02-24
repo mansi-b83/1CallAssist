@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:demo/screens/healthbuy_form.dart';
-import 'package:demo/screens/healthrenew_form.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:demo/screens/signin_screen.dart';
 class UserRequestGenerated extends StatefulWidget {
 
   // final String? pno;
@@ -34,6 +34,13 @@ class _UserRequestGeneratedState extends State<UserRequestGenerated> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+              onPressed: (){
+                signOut();
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
         backgroundColor: Colors.orangeAccent,
       ),
       body: Center(
@@ -48,31 +55,31 @@ class _UserRequestGeneratedState extends State<UserRequestGenerated> {
                 fontWeight: FontWeight.bold,
               ),
              ),
-             Padding(padding: EdgeInsets.all(10),
-                 child: TextButton(
-                   style: ButtonStyle(
-                     foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                     backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
-                   ),
-                   onPressed: () {
-                     Navigator.push(context , MaterialPageRoute(builder: (context) => healthbuyForm()));
-                   },
-                   child: Text('Buy Form'),
-                 )
-             ),
-              Padding(padding: EdgeInsets.all(10),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                        backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
-                    ),
-                    onPressed: () {
-                      Navigator.push(context , MaterialPageRoute(builder: (context) => healthRenewForm()));
-                    },
-                    child: Text('Renew Form'),
-                  )
-
-              )
+             // Padding(padding: EdgeInsets.all(10),
+             //     child: TextButton(
+             //       style: ButtonStyle(
+             //         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+             //         backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
+             //       ),
+             //       onPressed: () {
+             //         Navigator.push(context , MaterialPageRoute(builder: (context) => healthbuyForm()));
+             //       },
+             //       child: Text('Buy Form'),
+             //     )
+             // ),
+             //  Padding(padding: EdgeInsets.all(10),
+             //      child: TextButton(
+             //        style: ButtonStyle(
+             //            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+             //            backgroundColor: MaterialStateProperty.all(Colors.orangeAccent)
+             //        ),
+             //        onPressed: () {
+             //          Navigator.push(context , MaterialPageRoute(builder: (context) => healthRenewForm()));
+             //        },
+             //        child: Text('Renew Form'),
+             //      )
+             //
+             //  )
 
 
             ],
@@ -88,5 +95,10 @@ class _UserRequestGeneratedState extends State<UserRequestGenerated> {
         ),
       ),
     );
+  }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
   }
 }
