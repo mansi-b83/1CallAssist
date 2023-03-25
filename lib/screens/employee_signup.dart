@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo/reusable_widgets/reusable_widget.dart';
 import 'package:demo/utils/color_utils.dart';
+import'package:demo/screens/Employees/empnavbar.dart';
 import 'package:demo/screens/healthbuy_form.dart';
 
 class Emp_SignUp extends StatefulWidget {
@@ -35,9 +36,11 @@ class _Emp_SignUpState extends State<Emp_SignUp> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                hexStringToColor("CB2B93"),
-                hexStringToColor("9546C4"),
-                hexStringToColor("5E61F4")
+                // hexStringToColor("CB2B93"),
+                // hexStringToColor("9546C4"),
+                // hexStringToColor("5E61F4")
+                hexStringToColor("FAD889"),
+                hexStringToColor("FCBC2F"),
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
               child: Padding(
@@ -76,7 +79,7 @@ class _Emp_SignUpState extends State<Emp_SignUp> {
                         print("Created New Account");
                         addEmployeeDetails();
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => healthbuyForm()));
+                            MaterialPageRoute(builder: (context) => EmpNavbar()));
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });

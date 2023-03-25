@@ -35,3 +35,19 @@ class RenewRequests{
         option = snapshot.data()['Option'],
         contactno = snapshot.data()['ContactNo'];
 }
+
+class TpQuotations{
+  String? compname;
+  String? quotation_url;
+  String? requestid;
+
+
+  TpQuotations();
+
+  Map<String, dynamic> toJson() => {'RequestID': requestid,'CompanyName': compname,'QuotationURL' : quotation_url};
+
+  TpQuotations.fromSnapshot(snapshot)
+      :requestid = snapshot.data()['RequestID'],
+        compname = snapshot.data()['CompanyName'],
+        quotation_url = snapshot.data()['QuotationURL'];
+}

@@ -440,6 +440,15 @@ class _healthbuyFormState extends State<healthbuyForm> {
             .then((value) => print('famdetails added'))
             .catchError((error) => print("Failed to add family details: $error"));
       }
+      
+      await databaseReference.collection('User_Requests')
+          .where('RequestID', isEqualTo: '$buy_requestid')
+          .get()
+          .then((value) => value.docs.forEach((doc) {
+            doc.reference.update({'Status' : 'Necessary details collected'});
+      })).catchError((error) => print('Status not updated: $error'));
+
+
       print('Age- $age');
       print('Smoke- $smoke');
       print('Tobacco- $tobacco');

@@ -1,3 +1,4 @@
+import 'package:demo/screens/Employees/emp_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/Employees/buy_requests.dart';
 import 'package:demo/screens/Employees/renew_requests.dart';
@@ -8,19 +9,19 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 //import 'package:line_icons/line_icons.dart';
 
-class EmployeeHomePage extends StatefulWidget {
-  const EmployeeHomePage({super.key});
+class EmpNavbar extends StatefulWidget {
+  const EmpNavbar({super.key});
   @override
-  _EmployeeHomePageState createState() => _EmployeeHomePageState();
+  _EmpNavbarState createState() => _EmpNavbarState();
 }
 
-class _EmployeeHomePageState extends State<EmployeeHomePage> {
+class _EmpNavbarState extends State<EmpNavbar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetOptions = <Widget>[
     // HomeScreen(),
-    Text('Home'),
+    EmpHomePage(),
     Buy_Page(),
     RenewApp(),
     Text(
@@ -32,10 +33,11 @@ class _EmployeeHomePageState extends State<EmployeeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+
       appBar: AppBar(
         elevation: 20,
         title: const Text('GoogleNavBar'),
+        leading: Icon(Icons.menu),
         actions: [
           IconButton(
             onPressed: (){
@@ -44,6 +46,7 @@ class _EmployeeHomePageState extends State<EmployeeHomePage> {
             icon: Icon(Icons.logout_outlined),
           ),
         ],
+        backgroundColor: Colors.orangeAccent,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

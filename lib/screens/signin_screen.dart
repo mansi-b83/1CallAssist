@@ -2,6 +2,7 @@ import 'package:demo/screens/reset_password.dart';
 import 'package:demo/screens/signup_screen.dart';
 import 'package:demo/screens/employee_signin.dart';
 import'package:demo/screens/thirdparty_signin.dart';
+import 'package:demo/screens/userside_bottomnav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -31,9 +32,12 @@ class _SignInScreenState extends State<SignInScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              hexStringToColor("CB2B93"),
-              hexStringToColor("9546C4"),
-              hexStringToColor("5E61F4")
+              // hexStringToColor("CB2B93"),
+              // // hexStringToColor("9546C4"),
+              // hexStringToColor("5E61F4")
+              hexStringToColor("FAD889"),
+              hexStringToColor("FCBC2F"),
+
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
@@ -41,7 +45,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget("assets/images/logo.jpg"),
+                logoWidget("assets/images/1callassist_logo.png"),
+
                 const SizedBox(
                   height: 30,
                 ),
@@ -63,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       password: _passwordTextController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => User_Botnav()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

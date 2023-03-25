@@ -1,0 +1,544 @@
+// import 'dart:io';
+//
+// import 'package:demo/screens/Employees/Requests_list.dart';
+// import 'package:flutter/gestures.dart';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:printing/printing.dart';
+// import 'package:flutter_pdfview/flutter_pdfview.dart';
+// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// // import 'package:flutter_downloader/flutter_downloader.dart';
+// // import 'package:open_file/open_file.dart';
+// // import 'package:file_picker/file_picker.dart';
+// class QuatationsRecdPage extends StatefulWidget {
+//   // final String? curremp;
+//   const QuatationsRecdPage({Key? key}) : super(key: key);
+//
+//   @override
+//   State<QuatationsRecdPage> createState() => _QuatationsRecdPageState();
+// }
+//
+// class _QuatationsRecdPageState extends State<QuatationsRecdPage> {
+//   // String? currloggedinemp;
+//   final User? user = FirebaseAuth.instance.currentUser;
+//   final databaseReference = FirebaseFirestore.instance;
+//
+//   List _quotationList = [];
+//   File? file;
+//
+//   @override
+//   void didChangeDependencies(){
+//     getQuotations();
+//     super.didChangeDependencies();
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     // currloggedinemp = widget.curremp;
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: IconButton(
+//           icon: Icon(
+//             Icons.arrow_back,
+//           ),
+//           onPressed: () => Navigator.of(context).pop(),
+//         ),
+//         backgroundColor: Colors.orangeAccent,
+//       ),
+//       body: Container(
+//         child: _createQuotationCard(_quotationList),
+//         // child: Text(
+//         //   '${user?.uid}',
+//         // ),
+//       ),
+//     );
+//   }
+//
+//   Future getQuotations() async{
+//     print('Hello');
+//     var data = await databaseReference
+//         .collection('ThirdParties_Quotations')
+//         .where("EmployeeID", isEqualTo: '${user?.uid}')
+//     // .orderBy('Date', descending: false)
+//         .get();
+//
+//     setState(() {
+//       _quotationList = List.from(data.docs.map((doc) => TpQuotations.fromSnapshot(doc)));
+//       // print(requestid);
+//       // print(_requestList);
+//     });
+//   }
+//
+//   Widget _createQuotationCard(List quotationList){
+//
+//     List<Widget> list = <Widget>[];
+//     for(int i = 0; i < quotationList.length; i++){
+//       list.add(
+//         Container(
+//           child: Card(
+//             child: Padding(
+//                 padding: EdgeInsets.all(12.0),
+//                 child: InkWell(
+//                   splashColor: Colors.blue.withAlpha(30),
+//                   // onTap: () {
+//                   //   // buy_user_requestid = requestList[i].requestid;
+//                   //   // buy_user_contactno = requestList[i].contactno;
+//                   //   // buy_user_id = requestList[i].userid;
+//                   //   // buy_ins_category = requestList[i].category;
+//                   //   // ins_option = requestList[i].option;
+//                   //   print("Quotation URL- ${quotationList[i].quotation_url}");// assume that id is in .id field
+//                   //   print("Request ID- ${quotationList[i].requestid}");
+//                   //   print("Company Name- ${quotationList[i].compname}");
+//                   //
+//                   // },
+//                   child: Column(
+//                     children: [
+//                       Padding(padding: EdgeInsets.all(10.0),
+//                         child: Text(
+//                           "Request ID: ${quotationList[i].requestid}",
+//                         ),
+//                       ),
+//                       Padding(padding: EdgeInsets.all(10.0),
+//                         child: Text(
+//                           'Company: ${quotationList[i].compname}'
+//                         ),
+//                         // child: Row(
+//                         //   children: [
+//                         //     Expanded(
+//                         //         child: Column(
+//                         //           children: [
+//                         //             Text(
+//                         //               "Category: ${quotationList[i].compname}",
+//                         //             ),
+//                         //           ],
+//                         //         ),
+//                         //     ),
+//                         //    Expanded(
+//                         //        child:  Column(
+//                         //          children: [
+//                         //            Text(
+//                         //              "Quotation: ${quotationList[i].quotation_url}",
+//                         //            ),
+//                         //          ],
+//                         //        ),
+//                         //    ),
+//                         //   ],
+//                         // )
+//                       ),
+//                       Padding(padding: EdgeInsets.all(10),
+//                       //     child: Text(
+//                       //     'Quotation: ${quotationList[i].quotation_url}'
+//                       // ),
+//                         child: ElevatedButton(
+//                           child: Text('View PDF'),
+//                           style: ButtonStyle(
+//                               backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+//                           ),
+//                           onPressed: (){
+//                             print('view pdf button pressed ${quotationList[i].quotation_url}');
+//                             Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+//                           },
+//                         )
+//
+//                       ),
+//                     ],
+//                   ),
+//                 )
+//
+//             ),
+//           ),
+//         ),
+//       );
+//     }
+//     return ListView(children: list);
+//   }
+// }
+//
+// class ViewPDF extends StatefulWidget {
+//   final String? pathPDF;
+//   const ViewPDF({Key? key,@required this.pathPDF}) : super(key: key);
+//   @override
+//   State<ViewPDF> createState() => _ViewPDFState();
+// }
+//
+// class _ViewPDFState extends State<ViewPDF> {
+//
+//   // String? pdfurl;
+//   @override
+//   Widget build(BuildContext context) {
+//     final pdfurl = widget.pathPDF;
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: IconButton(
+//           icon: Icon(
+//             Icons.arrow_back,
+//           ),
+//           onPressed: () => Navigator.of(context).pop(),
+//         ),
+//         backgroundColor: Colors.orangeAccent,
+//         // actions: [
+//         //   IconButton(
+//         //     onPressed: () async{
+//         //       // print(pdfurl?.split(RegExp(r'(%2F)..*(%2F)'))[1].split(".")[0]);
+//         //       final taskId = await FlutterDownloader.enqueue(
+//         //         url: '$pdfurl',
+//         //         savedDir: '/storage/emulated/0/Download/',
+//         //         showNotification: true, // show download progress in status bar (for Android)
+//         //         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+//         //       );
+//         //       // downloadFileExample(pdfurl!);
+//         //       // final ref = FirebaseStorage.instance.ref('files/$pdfurl');
+//         //       // print(ref);
+//         //       // File file = File()
+//         //       // await downloadFileExample(pdfurl!);
+//         //       final snackBar = SnackBar(
+//         //         content: Text('Downloaded'),
+//         //       );
+//         //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//         //     },
+//         //     icon: Icon(Icons.download),
+//         //   ),
+//         //
+//         // ],
+//       ),
+//       body: SfPdfViewer.network('$pdfurl'),
+//       // body: PDFView(
+//       //   filePath: widget.pathPDF,
+//       // ),
+//     );
+//   }
+// }
+
+import 'dart:io';
+
+import 'package:demo/screens/Employees/Requests_list.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:printing/printing.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:demo/screens/signin_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:open_file/open_file.dart';
+// import 'package:file_picker/file_picker.dart';
+class QuatationsRecdPage extends StatefulWidget {
+  // final String? curremp;
+  const QuatationsRecdPage({Key? key}) : super(key: key);
+
+  @override
+  State<QuatationsRecdPage> createState() => _QuatationsRecdPageState();
+}
+
+class _QuatationsRecdPageState extends State<QuatationsRecdPage> {
+  // String? currloggedinemp;
+  final User? user = FirebaseAuth.instance.currentUser;
+  final databaseReference = FirebaseFirestore.instance;
+
+  List _requestidList = [];
+  File? file;
+
+  @override
+  void didChangeDependencies(){
+    getReqid();
+    super.didChangeDependencies();
+  }
+  @override
+  Widget build(BuildContext context) {
+    // currloggedinemp = widget.curremp;
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          IconButton(
+            onPressed: (){
+              signOut();
+            },
+            icon: Icon(Icons.logout_outlined),
+          ),
+        ],
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body: Container(
+        child: _createRequestIDCard(_requestidList),
+        // child: Text(
+        //   '${user?.uid}',
+        // ),
+      ),
+    );
+  }
+
+  Future getReqid() async{
+    print('Hello');
+    var data = await databaseReference
+        .collection('ThirdParties_Quotations')
+        .where("EmployeeID", isEqualTo: '${user?.uid}')
+    // .orderBy('Date', descending: false)
+        .get();
+
+    setState(() {
+      _requestidList = List.from(data.docs.map((doc) => TpQuotations.fromSnapshot(doc)));
+      // print(requestid);
+      // print(_requestList);
+    });
+  }
+
+  Widget _createRequestIDCard(List reqidList){
+
+    List<Widget> list = <Widget>[];
+    List unique_reqid = [];
+    for(int i = 0; i < reqidList.length; i++){
+      if(unique_reqid.contains(reqidList[i].requestid)){
+        print(unique_reqid);
+        continue;
+      }
+      else{
+        unique_reqid.add(reqidList[i].requestid);
+        list.add(
+          Container(
+            child: Card(
+              child: Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: InkWell(
+                    splashColor: Colors.blue.withAlpha(30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                "Request ID: ${reqidList[i].requestid}",
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Padding(padding: EdgeInsets.all(10.0),
+                              child: ElevatedButton(
+                                child: Text('Quotations'),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                ),
+                                onPressed: (){
+                                  print('Quotations button pressed ${reqidList[i].requestid}');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent(reqid: reqidList[i].requestid)));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+
+                  )
+
+              ),
+            ),
+          ),
+        );
+        print(unique_reqid);
+      }
+    }
+    return ListView(children: list);
+  }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
+  }
+}
+
+class QuotationsSent extends StatefulWidget {
+  final String? reqid;
+  const QuotationsSent({Key? key,@required this.reqid}) : super(key: key);
+
+  @override
+  State<QuotationsSent> createState() => _QuotationsSentState();
+}
+
+class _QuotationsSentState extends State<QuotationsSent> {
+  final User? user = FirebaseAuth.instance.currentUser;
+  final databaseReference = FirebaseFirestore.instance;
+  List _quotationsentList = [];
+  String? _requestid;
+
+  @override
+  void initState(){
+    _requestid = widget.reqid;
+    getQuotations();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // _requestid = widget.reqid;
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          IconButton(
+            onPressed: (){
+              signOut();
+            },
+            icon: Icon(Icons.logout_outlined),
+          ),
+        ],
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body: Container(
+        child: _createQuotationCard(_quotationsentList),
+      ),
+    );
+  }
+
+  Future getQuotations() async{
+    print('Hello $_requestid');
+    var data = await databaseReference
+        .collection('ThirdParties_Quotations')
+        .where("RequestID", isEqualTo: '$_requestid')
+    // .orderBy('Date', descending: false)
+        .get();
+
+    setState(() {
+      _quotationsentList = List.from(data.docs.map((doc) => TpQuotations.fromSnapshot(doc)));
+      print(_requestid);
+      print(_quotationsentList);
+    });
+  }
+
+  Widget _createQuotationCard(List quotationList){
+    print('in createqutation');
+
+    List<Widget> list = <Widget>[];
+    for(int i = 0; i < quotationList.length; i++){
+      list.add(
+        Container(
+          child: Card(
+            child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child: InkWell(
+                  splashColor: Colors.blue.withAlpha(30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Padding(padding: EdgeInsets.all(10.0),
+                            child: Text(
+                              "${quotationList[i].compname}",
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Padding(padding: EdgeInsets.all(10.0),
+                            child: ElevatedButton(
+                              child: Text('View PDF'),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                              ),
+                              onPressed: (){
+                                print('ViewPDF button pressed');
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent()))
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+
+                )
+
+            ),
+          ),
+        ),
+      );
+    }
+    return ListView(children: list);
+  }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
+  }
+
+}
+
+
+class ViewPDF extends StatefulWidget {
+  final String? pathPDF;
+  const ViewPDF({Key? key,@required this.pathPDF}) : super(key: key);
+  @override
+  State<ViewPDF> createState() => _ViewPDFState();
+}
+
+class _ViewPDFState extends State<ViewPDF> {
+
+  // String? pdfurl;
+  @override
+  Widget build(BuildContext context) {
+    final pdfurl = widget.pathPDF;
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.orangeAccent,
+        // actions: [
+        //   IconButton(
+        //     onPressed: () async{
+        //       // print(pdfurl?.split(RegExp(r'(%2F)..*(%2F)'))[1].split(".")[0]);
+        //       final taskId = await FlutterDownloader.enqueue(
+        //         url: '$pdfurl',
+        //         savedDir: '/storage/emulated/0/Download/',
+        //         showNotification: true, // show download progress in status bar (for Android)
+        //         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+        //       );
+        //       // downloadFileExample(pdfurl!);
+        //       // final ref = FirebaseStorage.instance.ref('files/$pdfurl');
+        //       // print(ref);
+        //       // File file = File()
+        //       // await downloadFileExample(pdfurl!);
+        //       final snackBar = SnackBar(
+        //         content: Text('Downloaded'),
+        //       );
+        //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //     },
+        //     icon: Icon(Icons.download),
+        //   ),
+        //
+        // ],
+      ),
+      body: SfPdfViewer.network('$pdfurl'),
+      // body: PDFView(
+      //   filePath: widget.pathPDF,
+      // ),
+    );
+  }
+}

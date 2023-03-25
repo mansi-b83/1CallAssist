@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demo/screens/reset_password.dart';
 import 'package:demo/screens/healthbuy_form.dart';
-import'package:demo/screens/Employees/employee_homepage.dart';
+import'package:demo/screens/Employees/empnavbar.dart';
 import 'package:demo/screens/employee_signup.dart';
 import 'package:demo/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,9 +36,11 @@ class _Emp_SignInState extends State<Emp_SignIn> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              hexStringToColor("CB2B93"),
-              hexStringToColor("9546C4"),
-              hexStringToColor("5E61F4")
+              // hexStringToColor("CB2B93"),
+              // hexStringToColor("9546C4"),
+              // hexStringToColor("5E61F4")
+              hexStringToColor("FAD889"),
+              hexStringToColor("FCBC2F"),
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
@@ -46,7 +48,7 @@ class _Emp_SignInState extends State<Emp_SignIn> {
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget("assets/images/logo.jpg"),
+                logoWidget("assets/images/1callassist_logo.png"),
                 const SizedBox(
                   height: 30,
                 ),
@@ -73,7 +75,7 @@ class _Emp_SignInState extends State<Emp_SignIn> {
                       password: _EmppasswordController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EmployeeHomePage()));
+                        MaterialPageRoute(builder: (context) => EmpNavbar()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

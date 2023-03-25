@@ -16,30 +16,48 @@ class _HomeScreenState extends State<HomeScreen> {
   late String healthval;
   late String lifeval;
   late int flag;
+  // int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: ,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-                          // LOGOUT Feature
-        actions: [
-          IconButton(
-            onPressed: (){
-              signOut();
-            },
-            icon: Icon(Icons.logout_outlined),
-          ),
-        ],
-
-        backgroundColor: Colors.orangeAccent,
-      ),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(
+      //       Icons.arrow_back,
+      //     ),
+      //     onPressed: () => Navigator.of(context).pop(),
+      //   ),
+      //                     // LOGOUT Feature
+      //   actions: [
+      //     IconButton(
+      //       onPressed: (){
+      //         signOut();
+      //       },
+      //       icon: Icon(Icons.logout_outlined),
+      //     ),
+      //   ],
+      //
+      //   backgroundColor: Colors.orangeAccent,
+      // ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //       // backgroundColor: Colors.red,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_box_rounded),
+      //       label: 'Account',
+      //       // backgroundColor: Colors.green,
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.amber[800],
+      //   onTap: _onItemTapped,
+      // ),
       body: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(15),
@@ -135,11 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     }
   }
-  void signOut() async{
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    await auth.signOut();
-    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
-  }
+
 
 }
 

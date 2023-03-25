@@ -288,6 +288,7 @@ class _ContactDetailState extends State<ContactDetail> {
           'Option': '$final_option',
           'RequestID' : '$request_id',
           'UserId' : user?.uid,
+          'Status' : 'Request generated',
           'Date' : date
         })
     .then((value) => print("User Request Added"))

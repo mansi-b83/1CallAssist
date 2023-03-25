@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo/screens/healthbuy_form.dart';
+import 'package:demo/screens/tp_homepage.dart';
 import '../reusable_widgets/reusable_widget.dart';
 import '../utils/color_utils.dart';
 // import 'package:multiselect/multiselect.dart';
@@ -47,9 +48,11 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              hexStringToColor("CB2B93"),
-              hexStringToColor("9546C4"),
-              hexStringToColor("5E61F4")
+              // hexStringToColor("CB2B93"),
+              // hexStringToColor("9546C4"),
+              // hexStringToColor("5E61F4")
+              hexStringToColor("FAD889"),
+              hexStringToColor("FCBC2F"),
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
@@ -97,7 +100,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                             Padding(padding: EdgeInsets.only(left: 10.0,top:15.0),
                               child: Icon(
                                 Icons.health_and_safety_outlined,
-                                color: Colors.white70,
+                                color: Colors.black.withOpacity(0.3),
                               ),
 
                             ),
@@ -107,7 +110,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                                 'Select insurance you will provide',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.black.withOpacity(0.3),
                                 ),
                               ),
                             ),
@@ -118,7 +121,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                             Flexible(
                                 // padding: EdgeInsets.only(left: 10.0, top: 10.0),
                                 child: Theme(
-                                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                                  data: ThemeData(unselectedWidgetColor: Colors.black.withOpacity(0.3)),
                                   child: CheckboxListTile(
                                     checkColor: Colors.black,
                                     activeColor: Colors.white,
@@ -140,7 +143,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                                     },
                                     title: Text('Health',
                                       style: TextStyle(
-                                          color: Colors.white.withOpacity(0.9)
+                                          color: Colors.black.withOpacity(0.3)
                                       ),
 
                                     ),
@@ -149,7 +152,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                             ),
                             Flexible(
                               child: Theme(
-                                data: ThemeData(unselectedWidgetColor: Colors.white),
+                                data: ThemeData(unselectedWidgetColor: Colors.black.withOpacity(0.3)),
                                 child: CheckboxListTile(
                                   checkColor: Colors.black,
                                   activeColor: Colors.white,
@@ -172,7 +175,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                                   },
                                   title: Text('Life',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9)
+                                      color: Colors.black.withOpacity(0.3)
                                     ),
                                   ),
                                 // tileColor: Colors.white.withOpacity(0.9),
@@ -221,7 +224,7 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                     addThirdPartyDetails();
                     // addEmployeeDetails();
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => healthbuyForm()));
+                        MaterialPageRoute(builder: (context) => TpHomePage()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
