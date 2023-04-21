@@ -36,7 +36,7 @@ class _EmpNavbarState extends State<EmpNavbar> {
 
       appBar: AppBar(
         elevation: 20,
-        title: const Text('GoogleNavBar'),
+        // title: const Text('GoogleNavBar'),
         leading: Icon(Icons.menu),
         actions: [
           IconButton(

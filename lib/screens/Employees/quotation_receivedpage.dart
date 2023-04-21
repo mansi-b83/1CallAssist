@@ -406,7 +406,46 @@ class _QuotationsSentState extends State<QuotationsSent> {
         backgroundColor: Colors.orangeAccent,
       ),
       body: Container(
-        child: _createQuotationCard(_quotationsentList),
+         child: _createQuotationCard(_quotationsentList),
+        // child: Column(
+        //   children: [
+        //     _createQuotationCard(_quotationsentList),
+        //     Padding(padding: EdgeInsets.fromLTRB(0.0,20,0.0,0.0),
+        //         child: Align(
+        //           alignment: Alignment.bottomCenter,
+        //           child: ElevatedButton(
+        //             onPressed: () {
+        //               print('button pressed');
+        //               _interestedQuotations();
+        //               // _sendCompaniesSelected();
+        //               final snackBar = SnackBar(
+        //                 content: const Text('Successfully sent to customers!'),
+        //                 action: SnackBarAction(
+        //                   label: 'Ok',
+        //                   onPressed: () {
+        //                     // Some code to undo the change.
+        //                     // Navigator.push(context, MaterialPageRoute(builder: (context) => EmpNavbar()));
+        //                   },
+        //                 ),
+        //               );
+        //               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //             },
+        //             child: Text(
+        //                 'Send To Customer'
+        //             ),
+        //             style: ElevatedButton.styleFrom(
+        //               // shape: CircleBorder(),
+        //               padding: EdgeInsets.all(20),
+        //               backgroundColor: Colors.orangeAccent, // <-- Button color
+        //               // foregroundColor: Colors.red, // <-- Splash color
+        //               alignment: Alignment.bottomRight,
+        //             ),
+        //           ),
+        //         )
+        //     ),
+        //   ],
+        // ),
+
       ),
     );
   }
@@ -426,6 +465,8 @@ class _QuotationsSentState extends State<QuotationsSent> {
     });
   }
 
+
+  List quotationChecked = [];
   Widget _createQuotationCard(List quotationList){
     print('in createqutation');
 
@@ -433,14 +474,32 @@ class _QuotationsSentState extends State<QuotationsSent> {
     for(int i = 0; i < quotationList.length; i++){
       list.add(
         Container(
-          child: Card(
-            child: Padding(
-                padding: EdgeInsets.all(12.0),
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
+          child: Column(
+            children: [
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.all(12.0),
+                  // child: InkWell(
+                  //   splashColor: Colors.blue.withAlpha(30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Column(
+                        children: [
+                          Padding(padding: EdgeInsets.all(10.0),
+                              child: Checkbox(
+                                value: quotationChecked.contains(quotationList[i].quotation_url),
+                                // print('userChecked.contains(companyList[i].companyname)')
+                                onChanged: (val) {
+                                  print('$val ${quotationList[i].quotation_url}');
+                                  _onSelected(val!, quotationList[i].quotation_url);
+                                },
+
+                              )
+
+                          ),
+                        ],
+                      ),
                       Column(
                         children: [
                           Padding(padding: EdgeInsets.all(10.0),
@@ -470,14 +529,92 @@ class _QuotationsSentState extends State<QuotationsSent> {
                     ],
                   ),
 
-                )
+                  // )
 
-            ),
+                ),
+              ),
+
+              // ),
+            ],
           ),
         ),
       );
+
     }
-    return ListView(children: list);
+    // return ListView(children: list);
+    return Column(
+      children: [
+        Expanded(
+            child: ListView(children: list),
+        ),
+        Expanded(
+          // child: Padding(padding: EdgeInsets.fromLTRB(0.0,20,0.0,0.0),
+          child: Align(
+            // alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: () {
+                print('button pressed');
+                _interestedQuotations();
+                final snackBar = SnackBar(
+                  content: const Text('Successfully sent to customers!'),
+                  action: SnackBarAction(
+                    label: 'Ok',
+                    onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => EmpNavbar()));
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: Text(
+                'Send To Customer'
+              ),
+              style: ElevatedButton.styleFrom(
+                // shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                backgroundColor: Colors.orangeAccent, // <-- Button color
+                // foregroundColor: Colors.red, // <-- Splash color
+                alignment: Alignment.bottomRight,
+              ),
+            ),
+          ),
+        // ),
+        ),
+      ],
+    );
+
+  }
+
+  void _onSelected(bool selected, String quotation_url) {
+    // print(curr_userreqid);
+    // print(curr_userdocid);
+    if (selected == true) {
+      setState(() {
+        quotationChecked.add(quotation_url);
+        print(quotationChecked);
+        // productMap = {
+        //   '$CompanyName': quotation_url,
+        //   // 'price': i['price'],
+        //   // 'quantity': i['quantity'],
+        // };
+        // quotationChecked.add(productMap);
+
+      });
+    } else {
+      setState(() {
+        quotationChecked.remove(quotation_url);
+        print(quotationChecked);
+      });
+    }
+  }
+  
+  void _interestedQuotations() async{
+    await databaseReference.collection('Employee_Clients')
+        .where('RequestID', isEqualTo: '$_requestid')
+        .get()
+        .then((value) => value.docs.forEach((doc) {
+      doc.reference.update({'InterestedQuotation' : '${quotationChecked[0]}'});
+    })).catchError((error) => print('Quotation not added to database: $error'));
   }
   void signOut() async{
     final FirebaseAuth auth = FirebaseAuth.instance;

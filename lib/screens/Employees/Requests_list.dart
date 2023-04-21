@@ -4,17 +4,19 @@ class BuyRequests{
   String? requestid;
   String? contactno;
   String? userid;
+  String? reqstatus;
 
   BuyRequests();
 
-  Map<String, dynamic> toJson() => {'RequestID': requestid,'UserId': userid,'Category' : category, 'Option': option, 'ContactNo': contactno};
+  Map<String, dynamic> toJson() => {'RequestID': requestid,'UserId': userid,'Category' : category, 'Option': option, 'ContactNo': contactno, 'Status' : reqstatus};
 
   BuyRequests.fromSnapshot(snapshot)
   :requestid = snapshot.data()['RequestID'],
   userid = snapshot.data()['UserId'],
   category = snapshot.data()['Category'],
   option = snapshot.data()['Option'],
-  contactno = snapshot.data()['ContactNo'];
+  contactno = snapshot.data()['ContactNo'],
+  reqstatus = snapshot.data()['Status'];
 }
 
 class RenewRequests{
@@ -23,17 +25,19 @@ class RenewRequests{
   String? requestid;
   String? contactno;
   String? userid;
+  String? reqstatus;
 
   RenewRequests();
 
-  Map<String, dynamic> toJson() => {'RequestID': requestid,'UserId': userid,'Category' : category, 'Option': option, 'ContactNo': contactno};
+  Map<String, dynamic> toJson() => {'RequestID': requestid,'UserId': userid,'Category' : category, 'Option': option, 'ContactNo': contactno, 'Status': reqstatus};
 
   RenewRequests.fromSnapshot(snapshot)
       :requestid = snapshot.data()['RequestID'],
         userid = snapshot.data()['UserId'],
         category = snapshot.data()['Category'],
         option = snapshot.data()['Option'],
-        contactno = snapshot.data()['ContactNo'];
+        contactno = snapshot.data()['ContactNo'],
+        reqstatus = snapshot.data()['Status'];
 }
 
 class TpQuotations{

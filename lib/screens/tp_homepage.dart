@@ -8,6 +8,7 @@ import 'package:demo/screens/Clients_list.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:demo/screens/firebase_api.dart';
+import 'package:demo/screens/signin_screen.dart';
 import 'package:intl/intl.dart';
 
 class TpHomePage extends StatefulWidget {
@@ -40,6 +41,13 @@ class _TpHomePageState extends State<TpHomePage> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+              onPressed: (){
+                signOut();
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
         backgroundColor: Colors.orangeAccent,
       ),
       body: Container(
@@ -98,8 +106,14 @@ class _TpHomePageState extends State<TpHomePage> {
                       print(companyClientList[i].company);
                       print(companyClientList[i].category);
                       print(companyClientList[i].option);
+                      // if(companyClientList[i].option == 'buy'){
+                      //   Navigator.push(this.context, MaterialPageRoute(builder: (context) => BuyClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname)));
+                      // }
+                      // else if(companyClientList[i].option == 'renew'){
+                      //   Navigator.push(this.context, MaterialPageRoute(builder: (context) => RenewClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname)));
+                      // }
 
-                      Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname)));
+                      Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option)));
                     },
                     child: Column(
                       children: [
@@ -143,13 +157,19 @@ class _TpHomePageState extends State<TpHomePage> {
     }
     return ListView(children: list);
   }
+  void signOut() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    await auth.signOut();
+    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
+  }
 }
 
 class ClientInfo extends StatefulWidget {
   final String? clientreqid;
   final String? empid;
   final String? compname;
-  const ClientInfo({Key? key,@required this.clientreqid,@required this.empid,@required this.compname}) : super(key: key);
+  final String? option;
+  const ClientInfo({Key? key,@required this.clientreqid,@required this.empid,@required this.compname,@required this.option}) : super(key: key);
 
   @override
   State<ClientInfo> createState() => _ClientInfoState();
@@ -159,6 +179,7 @@ class _ClientInfoState extends State<ClientInfo> {
   String? client_requestid;
   String? employee_id;
   String? company_name;
+  String? req_option;
   File? file;
   bool _isVisible = false;
   UploadTask? task;
@@ -180,6 +201,7 @@ class _ClientInfoState extends State<ClientInfo> {
     client_requestid = widget.clientreqid;
     employee_id = widget.empid;
     company_name = widget.compname;
+    req_option = widget.option;
     // final fileName = file != null ? basename(file!.path) : 'No File Selected';
 
     return Scaffold(
@@ -190,6 +212,13 @@ class _ClientInfoState extends State<ClientInfo> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        // actions: [
+        //   IconButton(
+        //       onPressed: (){
+        //         signOut();
+        //       },
+        //       icon: Icon(Icons.logout_outlined))
+        // ],
         backgroundColor: Colors.orangeAccent,
       ),
       body: Container(
@@ -205,7 +234,8 @@ class _ClientInfoState extends State<ClientInfo> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
-                    } else {
+                    }
+                    else if(req_option == 'buy'){
                       // print(snapshot.data!.docs);
                       // return Text('Hello');
                       return ListView(
@@ -215,7 +245,6 @@ class _ClientInfoState extends State<ClientInfo> {
                               padding: EdgeInsets.all(12.0),
                               child: Column(
                                 children: [
-
                                   Padding(padding: EdgeInsets.only(bottom: 10.0),
                                     child: Text(
                                       'Category: ${e.data()['Category']}',
@@ -250,7 +279,6 @@ class _ClientInfoState extends State<ClientInfo> {
                                     padding: EdgeInsets.only(bottom: 10.0),
                                     child: Text(
                                       'Existing Disease: ${e.data()['ExistingDisease']}',
-
                                     ),
                                   ),
 
@@ -262,7 +290,58 @@ class _ClientInfoState extends State<ClientInfo> {
                         }).toList(),
                       );
                     }
-                  },
+                    else{
+                    return ListView(
+                      children: snapshot.data!.docs.map((e) {
+                        return Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Category: ${e.data()['Category']}',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Option: ${e.data()['Option']}',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Age: ${e.data()['Age']}',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Policy Number: ${e.data()['PolicyNumber']}',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Port: ${e.data()['Port']}',
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    'Health Updates : ${e.data()['HealthUpdates']}',
+                                  ),
+                                ),
+                                // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                //   child: Text(
+                                //     'Existing Disease: ${e.data()['ExistingDisease']}',
+                                //   ),
+                                // ),
+                                // _getExistingDisease(e.data()['DiseaseName']),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                    }
+                    },
                 ),
             ),
             Flexible(
@@ -486,7 +565,6 @@ class _ClientInfoState extends State<ClientInfo> {
                                   // flag = 1;
                                 });
                                 print('heyyyy $path $_isVisible');
-
                               }
                           },
 
@@ -584,7 +662,7 @@ class _ClientInfoState extends State<ClientInfo> {
           .where('RequestID', isEqualTo: '$client_requestid')
           .get()
           .then((value) => value.docs.forEach((doc) {
-        doc.reference.update({'Status' : 'Quotations recieved. Soon our executive will contact you'});
+        doc.reference.update({'Status' : 'Quotations received. Soon our executive will contact you'});
       })).catchError((error) => print('Status not updated: $error'));
 
           // .where('RequestID' , isEqualTo: '$client_requestid')
@@ -611,4 +689,25 @@ class _ClientInfoState extends State<ClientInfo> {
       }
     },
   );
+
+  // void signOut() async{
+  //   final FirebaseAuth auth = FirebaseAuth.instance;
+  //   await auth.signOut();
+  //   Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context) => SignInScreen()));
+  // }
 }
+
+
+// class RenewClientinfo extends StatefulWidget {
+//   const RenewClientinfo({Key? key}) : super(key: key);
+//
+//   @override
+//   State<RenewClientinfo> createState() => _RenewClientinfoState();
+// }
+//
+// class _RenewClientinfoState extends State<RenewClientinfo> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }

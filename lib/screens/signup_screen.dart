@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo/reusable_widgets/reusable_widget.dart';
-import 'package:demo/screens/home_screen.dart';
+import 'package:demo/screens/userside_bottomnav.dart';
 import 'package:demo/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // print('Signedup  User: $userid');
                             addUserDetails();
                             Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => HomeScreen()));
+                            MaterialPageRoute(builder: (context) => User_Botnav()));
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });

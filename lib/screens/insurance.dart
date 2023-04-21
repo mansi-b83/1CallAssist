@@ -1,3 +1,4 @@
+import 'package:demo/screens/select_renewpolicy.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/contact_details.dart';
 import 'package:demo/screens/signin_screen.dart';
@@ -138,7 +139,14 @@ class _InsuranceState extends State<Insurance> {
     );
   }
   void _sendCategoryAndInsOption(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
+    if(chosen_catg == 'health' && option == 'buy'){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
+    }
+    else if(chosen_catg == 'health' && option == 'renew'){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RenewPolicy(catg: chosen_catg, opt: option)));
+    }
+
   }
   void signOut() async{
     final FirebaseAuth auth = FirebaseAuth.instance;

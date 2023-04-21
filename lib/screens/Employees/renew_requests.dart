@@ -83,79 +83,182 @@ class _RenewAppState extends State<RenewApp> {
 
     List<Widget> list = <Widget>[];
     for (int i = 0; i < requestList.length; i++) {
-      list.add(
-        // Card(
-        //   child: ListTile(
-        //       leading: Icon(Icons.album),
-        //       title: Text(requestList[i].requestid),
-        //       subtitle: Text(requestList[i].category),
-        //       onTap: () {
-        //         print("Request ID ${requestList[i].requestid},");// assume that id is in .id field
-        //         print("User Id ${requestList[i].userid}");
-        //         print("Category ${requestList[i].category}");
-        //         print("Option ${requestList[i].option}");
-        //         print("Contact Number ${requestList[i].contactno}");
-        //
-        //       }
-        //   ),
-        // ),
-        Container(
-          child: Card(
-            child: Padding(
-                padding: EdgeInsets.all(12.0),
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                    renew_user_requestid = requestList[i].requestid;
-                    renew_user_contactno = requestList[i].contactno;
-                    renew_user_id = requestList[i].userid;
-                    renew_ins_category = requestList[i].category;
-                    ins_option = requestList[i].option;
-                    print("Request ID- $renew_user_requestid");// assume that id is in .id field
-                    print("User Id- $renew_user_id");
-                    print("Category- $renew_ins_category");
-                    print("Option- $ins_option");
-                    print("Contact Number- $renew_user_contactno");
-                    if(renew_ins_category == 'health' && ins_option == 'renew'){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm(userid: renew_user_id ,requestid: renew_user_requestid,category: renew_ins_category,option: ins_option)));
+       if(requestList[i].reqstatus == 'Request generated'){
+         list.add(
+           // Card(
+           //   child: ListTile(
+           //       leading: Icon(Icons.album),
+           //       title: Text(requestList[i].requestid),
+           //       subtitle: Text(requestList[i].category),
+           //       onTap: () {
+           //         print("Request ID ${requestList[i].requestid},");// assume that id is in .id field
+           //         print("User Id ${requestList[i].userid}");
+           //         print("Category ${requestList[i].category}");
+           //         print("Option ${requestList[i].option}");
+           //         print("Contact Number ${requestList[i].contactno}");
+           //
+           //       }
+           //   ),
+           // ),
+           Container(
+             child: Card(
+               child: Padding(
+                   padding: EdgeInsets.all(12.0),
+                   child: InkWell(
+                     splashColor: Colors.blue.withAlpha(30),
+                     onTap: () {
+                       renew_user_requestid = requestList[i].requestid;
+                       renew_user_contactno = requestList[i].contactno;
+                       renew_user_id = requestList[i].userid;
+                       renew_ins_category = requestList[i].category;
+                       ins_option = requestList[i].option;
+                       print("Request ID- $renew_user_requestid");// assume that id is in .id field
+                       print("User Id- $renew_user_id");
+                       print("Category- $renew_ins_category");
+                       // print("Option- $ins_option");
+                       print("Contact Number- $renew_user_contactno");
+                       if(renew_ins_category == 'health' && ins_option == 'renew'){
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm(userid: renew_user_id ,requestid: renew_user_requestid,category: renew_ins_category,option: ins_option)));
+                       }
+                     },
+                     child: Column(
+                       children: [
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Request ID: ${requestList[i].requestid}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Category: ${requestList[i].category}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Option: ${requestList[i].option}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Contact No: ${requestList[i].contactno}",
+                           ),
+                         ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.end,
+                           children: [
+                             Align(
+                               alignment: Alignment.bottomRight,
+                               child: Text('Action Needed',
+                                 style: TextStyle(
+                                   color: Colors.red,
+                                   // textAlign: TextAlign.start,
+                                 ),
+                               ),
+                             ),
+                           ],
+                         )
+                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         //   child: Text(
+                         //     "Option: $index",
+                         //   ),
+                         // ),
+                       ],
+                     ),
+                   )
 
-                    }
-                  },
-                  child: Column(
-                    children: [
-                      Padding(padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "Request ID: ${requestList[i].requestid}",
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "Category: ${requestList[i].category}",
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "Option: ${requestList[i].option}",
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "Contact No: ${requestList[i].contactno}",
-                        ),
-                      ),
-                      // Padding(padding: EdgeInsets.only(bottom: 10.0),
-                      //   child: Text(
-                      //     "Option: $index",
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                )
+               ),
+             ),
+           ),
+         );
+      }
+       else if(requestList[i].reqstatus == 'Necessary details collected' || requestList[i].reqstatus == 'Details sent to third party' || requestList[i].reqstatus == 'Quotations received. Soon our executive will contact you'){
+         list.add(
+           // Card(
+           //   child: ListTile(
+           //       leading: Icon(Icons.album),
+           //       title: Text(requestList[i].requestid),
+           //       subtitle: Text(requestList[i].category),
+           //       onTap: () {
+           //         print("Request ID ${requestList[i].requestid},");// assume that id is in .id field
+           //         print("User Id ${requestList[i].userid}");
+           //         print("Category ${requestList[i].category}");
+           //         print("Option ${requestList[i].option}");
+           //         print("Contact Number ${requestList[i].contactno}");
+           //
+           //       }
+           //   ),
+           // ),
+           Container(
+             child: Card(
+               child: Padding(
+                   padding: EdgeInsets.all(12.0),
+                   child: InkWell(
+                     splashColor: Colors.blue.withAlpha(30),
+                     // onTap: () {
+                     //   renew_user_requestid = requestList[i].requestid;
+                     //   renew_user_contactno = requestList[i].contactno;
+                     //   renew_user_id = requestList[i].userid;
+                     //   renew_ins_category = requestList[i].category;
+                     //   ins_option = requestList[i].option;
+                     //   print("Request ID- $renew_user_requestid");// assume that id is in .id field
+                     //   print("User Id- $renew_user_id");
+                     //   print("Category- $renew_ins_category");
+                     //   // print("Option- $ins_option");
+                     //   print("Contact Number- $renew_user_contactno");
+                     //   if(renew_ins_category == 'health' && ins_option == 'renew'){
+                     //     Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm(userid: renew_user_id ,requestid: renew_user_requestid,category: renew_ins_category,option: ins_option)));
+                     //   }
+                     // },
+                     child: Column(
+                       children: [
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Request ID: ${requestList[i].requestid}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Category: ${requestList[i].category}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Option: ${requestList[i].option}",
+                           ),
+                         ),
+                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                           child: Text(
+                             "Contact No: ${requestList[i].contactno}",
+                           ),
+                         ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.end,
+                           children: [
+                             Align(
+                               alignment: Alignment.bottomRight,
+                               child: Text('In Process',
+                                 style: TextStyle(
+                                   color: Colors.red,
+                                   // textAlign: TextAlign.start,
+                                 ),
+                               ),
+                             ),
+                           ],
+                         )
+                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         //   child: Text(
+                         //     "Option: $index",
+                         //   ),
+                         // ),
+                       ],
+                     ),
+                   )
 
-            ),
-          ),
-        ),
-      );
+               ),
+             ),
+           ),
+         );
+       }
     }
     return ListView(children: list);
   }

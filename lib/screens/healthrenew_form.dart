@@ -1,4 +1,7 @@
+import 'package:demo/screens/select_tp.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class healthRenewForm extends StatefulWidget {
 
@@ -17,18 +20,31 @@ class _healthRenewFormState extends State<healthRenewForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController healthupdate_contr = TextEditingController();
-  TextEditingController prevmedichist_contr = TextEditingController();
-
+  TextEditingController ageController = TextEditingController();
+  // TextEditingController prevmedichist_contr = TextEditingController();
+  final databaseReference = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
   String? policynum;
   String? insurername;
   String? port;
   String? newpolicy;
   String? health_update;
-  String? prevmedic_hist;
+  // String? prevmedic_hist;
+  String? catg;
+  String? opt;
+  String? reqid;
+  String? userid;
   int? healthupd_flag;
   int? prevmedic_flag;
+  int? age;
+  String? newid;
+
   @override
   Widget build(BuildContext context) {
+    catg = widget.category;
+    opt = widget.option;
+    reqid = widget.requestid;
+    userid = widget.userid;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -48,6 +64,25 @@ class _healthRenewFormState extends State<healthRenewForm> {
             child: ListView(
               children: [
                 Padding(padding: EdgeInsets.only(top:30.0,bottom: 10.0,left: 10.0,right:10.0),
+                  child: TextField(
+                      controller: ageController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        // labelText: 'Contact Number',
+                        hintText: 'Enter Age',
+                      ),
+
+                      onChanged: (value){
+                        setState(() {
+                          age = int.parse(value);
+                          print(age);
+                        });
+                      }
+                  ),
+                ),
+
+                Padding(padding: EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -129,52 +164,52 @@ class _healthRenewFormState extends State<healthRenewForm> {
                   ),
                 ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Do ypu want New Policy?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      // color: Colors.grey,
-                    ),
-                  ),
-                ),
+                // Padding(padding: EdgeInsets.all(10),
+                //   child: Text(
+                //     'Do ypu want New Policy?',
+                //     style: TextStyle(
+                //       fontSize: 18,
+                //       // color: Colors.grey,
+                //     ),
+                //   ),
+                // ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: RadioListTile(
-                          title: Text("Yes"),
-                          value: "yes",
-                          groupValue: newpolicy,
-                          onChanged: (String? newpolicy_val) {
-                            setState(() {
-                              newpolicy = newpolicy_val!;
-                              print(newpolicy);
-                              // _showdiseasenametxtbox = true;
-                            });
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: RadioListTile(
-                          title: Text(" No"),
-                          value: "no",
-                          groupValue: newpolicy,
-                          onChanged: (String? newpolicy_val){
-                            setState(() {
-                              newpolicy = newpolicy_val!;
-                              print(newpolicy);
-                              // _showdiseasenametxtbox = false;
-                            });
-                          },
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
+                // Padding(padding: EdgeInsets.all(10),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Flexible(
+                //         child: RadioListTile(
+                //           title: Text("Yes"),
+                //           value: "yes",
+                //           groupValue: newpolicy,
+                //           onChanged: (String? newpolicy_val) {
+                //             setState(() {
+                //               newpolicy = newpolicy_val!;
+                //               print(newpolicy);
+                //               // _showdiseasenametxtbox = true;
+                //             });
+                //           },
+                //         ),
+                //       ),
+                //       Flexible(
+                //         child: RadioListTile(
+                //           title: Text(" No"),
+                //           value: "no",
+                //           groupValue: newpolicy,
+                //           onChanged: (String? newpolicy_val){
+                //             setState(() {
+                //               newpolicy = newpolicy_val!;
+                //               print(newpolicy);
+                //               // _showdiseasenametxtbox = false;
+                //             });
+                //           },
+                //         ),
+                //       ),
+                //
+                //     ],
+                //   ),
+                // ),
 
                 Padding(padding: EdgeInsets.all(10),
                   child: TextFormField(
@@ -205,34 +240,34 @@ class _healthRenewFormState extends State<healthRenewForm> {
                   ),
                 ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: prevmedichist_contr,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      // labelText: 'Contact Number',
-                      hintText: 'Previous medical history(if any)',
-                    ),
-                    validator: (prevmedichist_contr) {
-                      prevmedic_flag =0;
-                      if(prevmedichist_contr!.isEmpty){
-                        prevmedic_flag =1;
-                        // health_update = 'None';
-                        // print('health_update');
-                      }
-                    },
-                    onSaved: (prevmedichist_contr){
-                      if(prevmedic_flag ==1){
-                        prevmedic_hist = 'None';
-                      }
-                      else{
-                        prevmedic_hist = prevmedichist_contr!;
-                      }
-                      // health_update = value!;
-                      // print(health_update);
-                    },
-                  ),
-                ),
+                // Padding(padding: EdgeInsets.all(10),
+                //   child: TextFormField(
+                //     controller: prevmedichist_contr,
+                //     decoration: InputDecoration(
+                //       border: OutlineInputBorder(),
+                //       // labelText: 'Contact Number',
+                //       hintText: 'Previous medical history(if any)',
+                //     ),
+                //     validator: (prevmedichist_contr) {
+                //       prevmedic_flag =0;
+                //       if(prevmedichist_contr!.isEmpty){
+                //         prevmedic_flag =1;
+                //         // health_update = 'None';
+                //         // print('health_update');
+                //       }
+                //     },
+                //     onSaved: (prevmedichist_contr){
+                //       if(prevmedic_flag ==1){
+                //         prevmedic_hist = 'None';
+                //       }
+                //       else{
+                //         prevmedic_hist = prevmedichist_contr!;
+                //       }
+                //       // health_update = value!;
+                //       // print(health_update);
+                //     },
+                //   ),
+                // ),
 
                 Center(
                   child: Padding(padding: EdgeInsets.all(20),
@@ -318,12 +353,39 @@ class _healthRenewFormState extends State<healthRenewForm> {
     );
   }
 
-  void _sendRenewPolicyInfo(BuildContext context){
+  void _sendRenewPolicyInfo(BuildContext context) async{
     print(policynum);
     print(insurername);
     print(port);
     print(newpolicy);
     print(health_update);
-    print(prevmedic_hist);
+    // print(prevmedic_hist);
+    await databaseReference.collection("Employee_Clients")
+        .add({
+      'Category' : '$catg',
+      'Option' : '$opt',
+      'RequestID' : '$reqid',
+      'UserID' : '$userid',
+      'EmployeeID' : user?.uid,
+      'Age' : '$age',
+      'PolicyNumber': '$policynum',
+      'InsurerName': '$insurername',
+      'Port': '$port',
+      'HealthUpdates': '$health_update'
+    })
+        .then((value) {
+      newid = value.id;
+      print("Renew Request Added $newid");
+    })
+        .catchError((error) => print("Failed to add renew request: $error"));
+
+    await databaseReference.collection('User_Requests')
+        .where('RequestID', isEqualTo: '$reqid')
+        .get()
+        .then((value) => value.docs.forEach((doc) {
+      doc.reference.update({'Status' : 'Necessary details collected'});
+    })).catchError((error) => print('Status not updated: $error'));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectTp(curr_docid: newid,reqid: reqid)));
   }
 }

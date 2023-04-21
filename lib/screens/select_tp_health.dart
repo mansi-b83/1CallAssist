@@ -93,6 +93,7 @@ class _healthTpState extends State<healthTp> {
                       ),
                       leading: Checkbox(
                         value: userChecked.contains(companyList[i].companyname),
+                        // print('userChecked.contains(companyList[i].companyname)')
                         onChanged: (val) {
                           print('$val ${companyList[i].companyname}');
                           _onSelected(val!, companyList[i].companyname);

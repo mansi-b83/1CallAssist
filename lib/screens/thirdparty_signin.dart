@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/reset_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,8 +73,9 @@ class _ThirdParty_SignInState extends State<ThirdParty_SignIn> {
                       email: _EmpemailController.text,
                       password: _EmppasswordController.text)
                       .then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TpHomePage()));
+                        authenticate_stakeholdertype();
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => TpHomePage()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
@@ -157,5 +159,38 @@ class _ThirdParty_SignInState extends State<ThirdParty_SignIn> {
             context, MaterialPageRoute(builder: (context) => ResetPassword())),
       ),
     );
+  }
+  Future authenticate_stakeholdertype() async{
+    print('hello....${_EmpemailController.text}');
+    AggregateQuerySnapshot query = await FirebaseFirestore.instance
+        .collection('ThirdParties')
+        .where("Email", isEqualTo: '${_EmpemailController.text}')
+        .count()
+        .get();
+    print('${query.count}');
+    if(query.count == 1){
+      print('is a third party ${_EmpemailController.text}');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TpHomePage()));
+    }
+    else{
+      final snackBar = SnackBar(
+        content: const Text('Invalid Third Party'),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: () {
+            // Some code to undo the change.
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => EmpNavbar()));
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    // else(
+    //
+    // )
+    //     .then((value){
+    //       print('is a user ${_emailTextController.text}');
+    //       // Navigator.push(context, MaterialPageRoute(builder: (context) => User_Botnav()));
+    // }).catchError((error) => print('Invalid User'));
   }
 }

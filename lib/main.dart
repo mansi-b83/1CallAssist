@@ -2,6 +2,7 @@ import 'package:demo/screens/Employees/empnavbar.dart';
 import 'package:demo/screens/signin_screen.dart';
 import 'package:demo/screens/select_tp_health.dart';
 import 'package:demo/screens/select_tp.dart';
+import 'package:demo/screens/user_payment.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -11,6 +12,11 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(const MyApp());
+  // runApp(
+  //     MaterialApp(
+  //         home: MyApp()
+  //     )
+  // );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SignInScreen(),
-      // home: const EmployeeHomePage(),
+      // home: const Payment_Integrate(),
       // home: SelectTp(),
     );
   }

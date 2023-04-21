@@ -5,7 +5,7 @@ import'package:demo/screens/thirdparty_signin.dart';
 import 'package:demo/screens/userside_bottomnav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../reusable_widgets/reusable_widget.dart';
 import '../utils/color_utils.dart';
 import 'home_screen.dart';
@@ -22,6 +22,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  final databaseReference = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
   String? empflag;
   String? tpflag;
   @override
@@ -67,8 +69,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       email: _emailTextController.text,
                       password: _passwordTextController.text)
                       .then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => User_Botnav()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => User_Botnav()));
+                        print('Authenticated ${_emailTextController.text}');
+                        authenticate_stakeholdertype();
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
@@ -83,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Emp_SignIn()));
                     }),
                     UIButton(context, 'Third Party SignIn', (){
-                      print('Third Part SignIn');
+                      print('Third Party SignIn');
                       tpflag = 'tp';
                       Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdParty_SignIn()));
                     })
@@ -134,6 +137,40 @@ class _SignInScreenState extends State<SignInScreen> {
             context, MaterialPageRoute(builder: (context) => ResetPassword())),
       ),
     );
+  }
+
+  Future authenticate_stakeholdertype() async{
+    print('hello....${_emailTextController.text}');
+    AggregateQuerySnapshot query = await FirebaseFirestore.instance
+        .collection('Users')
+        .where("Email", isEqualTo: '${_emailTextController.text}')
+        .count()
+        .get();
+        print('${query.count}');
+        if(query.count == 1){
+          print('is a user ${_emailTextController.text}');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => User_Botnav()));
+        }
+        else{
+          final snackBar = SnackBar(
+            content: const Text('Invalid User'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                // Some code to undo the change.
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => EmpNavbar()));
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        // else(
+        //
+        // )
+    //     .then((value){
+    //       print('is a user ${_emailTextController.text}');
+    //       // Navigator.push(context, MaterialPageRoute(builder: (context) => User_Botnav()));
+    // }).catchError((error) => print('Invalid User'));
   }
 
 }

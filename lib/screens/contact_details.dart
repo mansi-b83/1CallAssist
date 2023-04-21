@@ -6,14 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:demo/screens/signin_screen.dart';
 import 'package:date_field/date_field.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'globals.dart' as globals;
 
 class ContactDetail extends StatefulWidget {
   final String? finalcatg;
   final String? finalopt;
-  const ContactDetail({Key? key,@required this.finalcatg,@required this.finalopt  }) : super(key: key);
+  final String? policynum;
+  const ContactDetail({Key? key,@required this.finalcatg,@required this.finalopt, this.policynum }) : super(key: key);
 
   @override
   State<ContactDetail> createState() => _ContactDetailState();
@@ -25,17 +25,22 @@ class _ContactDetailState extends State<ContactDetail> {
   String? _preftime;
   String? final_category;
   String? final_option;
+  String? policy_num;
   String? request_id;
   var dateString;
-  var dateTime;
+  // var dateTime;
+  DateTime? dateTime;
   var date;
+
   TextEditingController _timeController = TextEditingController();
   @override
   void initState() {
     super.initState();
     dateString = DateTime.now().toString();
     dateTime = DateTime.parse(dateString!);
-    date = "${dateTime.day}-${dateTime.month}-${dateTime.year} ${dateTime.hour}.${dateTime.minute}.${dateTime.second}";
+    // final format = DateFormat('d-M-yyyy H:m:s:S');
+    // final d = format.parse(dateTime as String);
+    // date = "${dateTime.day}-${dateTime.month}-${dateTime.year} ${dateTime.hour}.${dateTime.minute}.${dateTime.second}";
   }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // CollectionReference users_requestdetails = FirebaseFirestore.instance.collection('UserRequest_data');
@@ -46,6 +51,7 @@ class _ContactDetailState extends State<ContactDetail> {
   Widget build(BuildContext context) {
     final_category = widget.finalcatg;
     final_option = widget.finalopt;
+    policy_num = widget.policynum;
     // final format = DateFormat('dd-MM-yyyy HH:mm:ss');
 
     // CollectionReference users_requestdetails = FirebaseFirestore.instance.collection('UserRequest_data');
@@ -279,20 +285,39 @@ class _ContactDetailState extends State<ContactDetail> {
     }
   }
   void addUserRequest() async{
-    await databaseReference.collection("User_Requests")
-        // .doc(user?.uid).collection(date)
-        .add({
-          'ContactNo': '$_phonenum',
-          'PrefferedTime': '$_preftime',
-          'Category': '$final_category',
-          'Option': '$final_option',
-          'RequestID' : '$request_id',
-          'UserId' : user?.uid,
-          'Status' : 'Request generated',
-          'Date' : date
-        })
-    .then((value) => print("User Request Added"))
-    .catchError((error) => print("Failed to add user: $error"));
+    if(final_option == 'renew'){
+      await databaseReference.collection("User_Requests")
+      // .doc(user?.uid).collection(date)
+          .add({
+        'ContactNo': '$_phonenum',
+        'PrefferedTime': '$_preftime',
+        'Category': '$final_category',
+        'Option': '$final_option',
+        'RequestID' : '$request_id',
+        'PolicyNumber' : '$policy_num',
+        'UserId' : user?.uid,
+        'Status' : 'Request generated',
+        'Date' : dateTime
+      })
+          .then((value) => print("User Request Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+    else{
+      await databaseReference.collection("User_Requests")
+      // .doc(user?.uid).collection(date)
+          .add({
+        'ContactNo': '$_phonenum',
+        'PrefferedTime': '$_preftime',
+        'Category': '$final_category',
+        'Option': '$final_option',
+        'RequestID' : '$request_id',
+        'UserId' : user?.uid,
+        'Status' : 'Request generated',
+        'Date' : dateTime
+      })
+          .then((value) => print("User Request Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
   }
   void signOut() async{
     final FirebaseAuth auth = FirebaseAuth.instance;
