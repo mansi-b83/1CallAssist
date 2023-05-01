@@ -484,9 +484,10 @@ class _QuotationsSentState extends State<QuotationsSent> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
-                        children: [
-                          Padding(padding: EdgeInsets.all(10.0),
+                      Expanded(
+                      // Column(
+                      //   children: [
+                          child: Padding(padding: EdgeInsets.all(10.0),
                               child: Checkbox(
                                 value: quotationChecked.contains(quotationList[i].quotation_url),
                                 // print('userChecked.contains(companyList[i].companyname)')
@@ -498,20 +499,24 @@ class _QuotationsSentState extends State<QuotationsSent> {
                               )
 
                           ),
-                        ],
                       ),
-                      Column(
-                        children: [
-                          Padding(padding: EdgeInsets.all(10.0),
+                      //   ],
+                      // ),
+                      // Column(
+                      //   children: [
+                      Expanded(
+                          child: Padding(padding: EdgeInsets.all(10.0),
                             child: Text(
                               "${quotationList[i].compname}",
                             ),
                           ),
-                        ],
                       ),
-                      Column(
-                        children: [
-                          Padding(padding: EdgeInsets.all(10.0),
+                      //   ],
+                      // ),
+                      // Column(
+                      //   children: [
+                      Expanded(
+                          child: Padding(padding: EdgeInsets.all(10.0),
                             child: ElevatedButton(
                               child: Text('View PDF'),
                               style: ButtonStyle(
@@ -524,9 +529,11 @@ class _QuotationsSentState extends State<QuotationsSent> {
                               },
                             ),
                           ),
-                        ],
-                      )
+                      ),
+
                     ],
+                    //   )
+                    // ],
                   ),
 
                   // )

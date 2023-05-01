@@ -27,7 +27,7 @@ class _SelectTpState extends State<SelectTp> {
   Widget build(BuildContext context) {
     docid = widget.curr_docid;
     rid = widget.reqid;
-    pages = [healthTp(docid: docid,rid: rid), LifeTp()];
+    pages = [healthTp(docid: docid,rid: rid), LifeTp(docid: docid,rid: rid)];
     return Scaffold(
       body: pages[current_index],
       bottomNavigationBar: Container(

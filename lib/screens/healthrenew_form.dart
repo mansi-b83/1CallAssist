@@ -375,9 +375,9 @@ class _healthRenewFormState extends State<healthRenewForm> {
     })
         .then((value) {
       newid = value.id;
-      print("Renew Request Added $newid");
+      print("Renew Details Added $newid");
     })
-        .catchError((error) => print("Failed to add renew request: $error"));
+        .catchError((error) => print("Failed to add renew details: $error"));
 
     await databaseReference.collection('User_Requests')
         .where('RequestID', isEqualTo: '$reqid')

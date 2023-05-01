@@ -86,7 +86,7 @@ class _User_InterestedQuotationsState extends State<User_InterestedQuotations> {
                                 //   ),
                                 // ),
 
-                                _InterestedQuotationURL(e.data()['InterestedQuotation'],e.data()['RequestID']),
+                                _InterestedQuotationURL(e.data()['InterestedQuotation'],e.data()['RequestID'],e.data()['Option']),
                               ],
                             ),
                           ),
@@ -104,68 +104,123 @@ class _User_InterestedQuotationsState extends State<User_InterestedQuotations> {
 
     );
   }
-  Widget _InterestedQuotationURL(quotation_url,reqid){
+  Widget _InterestedQuotationURL(quotation_url,reqid,option){
     print('in func');
     if(quotation_url != null){
       // return Container(
         // child: Text(
         //   '$reqid: $quotation_url',
         // ),
-        return Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(padding: EdgeInsets.all(10.0),
-                child: Text(
-                    '$reqid:'
-                ),
-              ),
-
-              Padding(padding: EdgeInsets.all(10.0),
-                child: ElevatedButton(
-                  child: Text('View Quotation'),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+        if(option == 'buy'){
+          return Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.all(10.0),
+                  child: Text(
+                      '$reqid:'
                   ),
-                  onPressed: (){
-                    print('ViewQuotation button pressed');
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent()))
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
-                  },
                 ),
-              ),
-              Column(
-                children: [
-                  Padding(padding: EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      child: Text('Buy'),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
-                      ),
-                      onPressed: (){
-                        print('Buy button pressed');
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Integrate(req_id: reqid, quotationURL: quotation_url
-                        )));
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
-                      },
+                Padding(padding: EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                    child: Text('View Quotation'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
                     ),
+                    onPressed: (){
+                      print('ViewQuotation button pressed');
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent()))
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
+                    },
+                  ),
+                ),
+                Column(
+                  children: [
+                    Padding(padding: EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                        child: Text('Buy'),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                        ),
+                        onPressed: (){
+                          print('Buy button pressed');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Integrate(req_id: reqid, quotationURL: quotation_url, opt: option)));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
+                        },
+                      ),
 
-                  )
-                ],
-              )
-              // Column(
-              //   children: [
-              //     Padding(padding: EdgeInsets.all(10.0),
-              //       child: Text(
-              //         '$reqid:'
-              //       ),
-              //     ),
-              //   ],
-              // )
-            ],
-          ),
-        );
+                    )
+                  ],
+                )
+                // Column(
+                //   children: [
+                //     Padding(padding: EdgeInsets.all(10.0),
+                //       child: Text(
+                //         '$reqid:'
+                //       ),
+                //     ),
+                //   ],
+                // )
+              ],
+            ),
+          );
+        }
+        else{
+          return Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.all(10.0),
+                  child: Text(
+                      '$reqid:'
+                  ),
+                ),
+
+                Padding(padding: EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                    child: Text('View Quotation'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                    ),
+                    onPressed: (){
+                      print('ViewQuotation button pressed');
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent()))
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
+                    },
+                  ),
+                ),
+                Column(
+                  children: [
+                    Padding(padding: EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                        child: Text('Renew'),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                        ),
+                        onPressed: (){
+                          print('Renew button pressed');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Integrate(req_id: reqid, quotationURL: quotation_url, opt: option)));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotation_url)));
+                        },
+                      ),
+
+                    )
+                  ],
+                )
+                // Column(
+                //   children: [
+                //     Padding(padding: EdgeInsets.all(10.0),
+                //       child: Text(
+                //         '$reqid:'
+                //       ),
+                //     ),
+                //   ],
+                // )
+              ],
+            ),
+          );
+        }
 
       // );
     }

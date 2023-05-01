@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../reusable_widgets/reusable_widget.dart';
 import '../utils/color_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -63,7 +64,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 5,
                 ),
                 forgetPassword(context),
-                firebaseUIButton(context, "Sign In", () {
+                firebaseUIButton(context, "Sign In", () async{
+                  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  // prefs.setString('email', _emailTextController.text);
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                       email: _emailTextController.text,

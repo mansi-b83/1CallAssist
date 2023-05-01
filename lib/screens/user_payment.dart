@@ -6,9 +6,10 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Payment_Integrate extends StatefulWidget {
-  final String req_id;
-  final String quotationURL;
-  const Payment_Integrate({Key? key,required this.req_id,required this.quotationURL}) : super(key: key);
+  final String? req_id;
+  final String? quotationURL;
+  final String? opt;
+  const Payment_Integrate({Key? key,this.req_id,this.quotationURL,this.opt}) : super(key: key);
 
   @override
   State<Payment_Integrate> createState() => _Payment_IntegrateState();
@@ -22,6 +23,7 @@ class _Payment_IntegrateState extends State<Payment_Integrate> {
   String? requestid;
   String? policynum;
   String? quoteurl;
+  String? req_option;
 
   @override
   void initState(){
@@ -33,30 +35,88 @@ class _Payment_IntegrateState extends State<Payment_Integrate> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async{
     requestid = widget.req_id;
     quoteurl = widget.quotationURL;
+    req_option = widget.opt;
     // Do something when payment succeeds
     print('Payment Successfully Done');
-    const available_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    var _rnd = Random();
-    // final reqid_list = [];
-    policynum = List.generate(6, (index) => available_chars[_rnd.nextInt(available_chars.length)]).join();
-    await databaseReference
-        .collection('Employee_Clients')
-        .where('RequestID' , isEqualTo: '$requestid')
-        .get()
-        .then((value) => value.docs.forEach((doc) {
-      doc.reference.update({'QuotationPurchased' : 'Yes'});
-    })).catchError((error) => print('Purchase status not updated: $error'));
-    
-    await databaseReference
-    .collection('Purchased_Quotations')
-    .add({
-      'UserID' : user?.uid,
-      'RequestID' : '$requestid',
-      'PolicyNumber' : '$policynum',
-      'QuotationURL' : '$quoteurl',
-    })
-        .then((value) => print("Quote purchase details Added"))
-        .catchError((error) => print("Failed to add quote purchase details: $error"));
+    if(req_option == 'buy'){
+      const available_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+      var _rnd = Random();
+      // final reqid_list = [];
+      policynum = List.generate(6, (index) => available_chars[_rnd.nextInt(available_chars.length)]).join();
+      await databaseReference
+          .collection('Employee_Clients')
+          .where('RequestID' , isEqualTo: '$requestid')
+          .get()
+          .then((value) => value.docs.forEach((doc) {
+        doc.reference.update({'isPurchased' : 'Yes'});
+      })).catchError((error) => print('Purchase status not updated: $error'));
+
+      await databaseReference
+          .collection('Purchased_Quotations')
+          .add({
+        'UserID' : user?.uid,
+        'RequestID' : '$requestid',
+        'PolicyNumber' : '$policynum',
+        'QuotationURL' : '$quoteurl',
+      })
+          .then((value) => print("Quote purchase details Added"))
+          .catchError((error) => print("Failed to add quote purchase details: $error"));
+    }
+    else if(req_option == 'renew'){
+      const available_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+      var _rnd = Random();
+      // final reqid_list = [];
+      policynum = List.generate(6, (index) => available_chars[_rnd.nextInt(available_chars.length)]).join();
+      await databaseReference
+          .collection('Employee_Clients')
+          .where('RequestID' , isEqualTo: '$requestid')
+          .get()
+          .then((value) => value.docs.forEach((doc) {
+        doc.reference.update({'isRenewed' : 'Yes'});
+      })).catchError((error) => print('Renew status not updated: $error'));
+
+      await databaseReference
+          .collection('Purchased_Quotations')
+          .add({
+        'UserID' : user?.uid,
+        'RequestID' : '$requestid',
+        'PolicyNumber' : '$policynum',
+        'QuotationURL' : '$quoteurl',
+      })
+          .then((value) => print("Quote purchase details Added"))
+          .catchError((error) => print("Failed to add quote purchase details: $error"));
+    }
+    else{
+      await databaseReference
+          .collection('Employee_Clients')
+          .where('RequestID' , isEqualTo: '$requestid')
+          .get()
+          .then((value) => value.docs.forEach((doc) {
+        doc.reference.update({'isClaimed' : 'Yes'});
+      })).catchError((error) => print('Claim status not updated: $error'));
+    }
+    // const available_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    // var _rnd = Random();
+    // // final reqid_list = [];
+    // policynum = List.generate(6, (index) => available_chars[_rnd.nextInt(available_chars.length)]).join();
+    // await databaseReference
+    //     .collection('Employee_Clients')
+    //     .where('RequestID' , isEqualTo: '$requestid')
+    //     .get()
+    //     .then((value) => value.docs.forEach((doc) {
+    //   doc.reference.update({'QuotationPurchased' : 'Yes'});
+    // })).catchError((error) => print('Purchase status not updated: $error'));
+    //
+    // await databaseReference
+    // .collection('Purchased_Quotations')
+    // .add({
+    //   'UserID' : user?.uid,
+    //   'RequestID' : '$requestid',
+    //   'PolicyNumber' : '$policynum',
+    //   'QuotationURL' : '$quoteurl',
+    // })
+    //     .then((value) => print("Quote purchase details Added"))
+    //     .catchError((error) => print("Failed to add quote purchase details: $error"));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

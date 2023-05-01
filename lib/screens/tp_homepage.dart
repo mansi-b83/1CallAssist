@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:demo/screens/user_payment.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,7 +114,12 @@ class _TpHomePageState extends State<TpHomePage> {
                       //   Navigator.push(this.context, MaterialPageRoute(builder: (context) => RenewClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname)));
                       // }
 
-                      Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option)));
+                      if(companyClientList[i].option == 'buy' || companyClientList[i].option == 'renew'){
+                        Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option)));
+                      }
+                      else{
+                          Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClaimClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option)));
+                      }
                     },
                     child: Column(
                       children: [
@@ -698,16 +704,269 @@ class _ClientInfoState extends State<ClientInfo> {
 }
 
 
-// class RenewClientinfo extends StatefulWidget {
-//   const RenewClientinfo({Key? key}) : super(key: key);
-//
-//   @override
-//   State<RenewClientinfo> createState() => _RenewClientinfoState();
-// }
-//
-// class _RenewClientinfoState extends State<RenewClientinfo> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
+class ClaimClientInfo extends StatefulWidget {
+  final String? clientreqid;
+  final String? empid;
+  final String? compname;
+  final String? option;
+  const ClaimClientInfo({Key? key,@required this.clientreqid,@required this.option,@required this.empid,@required this.compname}) : super(key: key);
+
+  @override
+  State<ClaimClientInfo> createState() => _ClaimClientInfoState();
+}
+
+class _ClaimClientInfoState extends State<ClaimClientInfo> {
+  String? client_requestid;
+  String? employee_id;
+  String? company_name;
+  String? req_option;
+  @override
+  Widget build(BuildContext context) {
+    client_requestid = widget.clientreqid;
+    employee_id = widget.empid;
+    company_name = widget.compname;
+    req_option = widget.option;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // actions: [
+        //   IconButton(
+        //       onPressed: (){
+        //         signOut();
+        //       },
+        //       icon: Icon(Icons.logout_outlined))
+        // ],
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body:  Container(
+        child: Column(
+        children: [
+          Flexible(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+              .collection('Employee_Clients')
+              .where("RequestID", isEqualTo: '$client_requestid')
+              // .orderBy("age", descending: true)
+              .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData){
+                  return Center(child: CircularProgressIndicator());
+                }
+                else{
+                  return ListView(
+                  children: snapshot.data!.docs.map((e) {
+                    return Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                      children: [
+                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          'Category: ${e.data()['Category']}',
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                            'Option: ${e.data()['Option']}',
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                            'Policy Number: ${e.data()['PolicyNumber']}',
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                            'UPI ID: ${e.data()['UPI_ID']}',
+                        ),
+                        ),
+                      Padding(padding: EdgeInsets.only(bottom: 20.0),
+                          child: ElevatedButton(
+                            child: Text(
+                              'View Documents',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
+                            ),
+                            onPressed: (){
+                              print('doc button pressed');
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => displayclaimDocs(docs: e.data()['Documents'])));
+                              // _displaydocs(e.data()['Documents']);
+                              // Image.network('${docs[i]}');
+                            },
+                          ),
+                          // child: _displaydocs(e.data()['Documents']),
+                        // child: Text(
+                        //   'Documents: ${e.data()['Documents']}',
+                        // ),
+                      ),
+                        // _displaydocs(e.data()['Documents']),
+                      ],
+                      ),
+                    ),
+                  );
+                  }).toList(),
+                );
+              }
+            }
+            ),
+          ),
+          Flexible(
+            child:ElevatedButton.icon(
+                label: Text(
+                  'Claim',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                  ),
+                ),
+                icon: Icon(Icons.monetization_on),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                ),
+                onPressed: ()async {
+                  print('claim approve button pressed');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Integrate(req_id: client_requestid, opt: req_option)));
+                  // Navigator.push(context, route)
+                  // Navigator.push(context, route)
+                  // _displayDialog(context);
+                }
+              )
+          )
+        ],
+        ),
+      ),
+    );
+  }
+
+
+//   Widget _displaydocs(List docs){
+//     List<Widget> list = <Widget> [];
+//     print(docs.length);
+//     for(int i = 0; i < docs.length; i++){
+//       print(i);
+//       print(docs[i]);
+//       // list.add(docs[i]);
+//       // print(list);
+//       // list.add(
+//       //     Container(
+//       //       child: Text(
+//       //         'Document $i: ${docs[i]}',
+//       //       ),
+//       //     ) ,
+//       // );
+//       list.add(
+//         Container(
+//           // child: ElevatedButton(
+//           //     child: Text(
+//           //       'Doc $i',
+//           //       style: TextStyle(
+//           //         color: Colors.white,
+//           //         fontSize: 22,
+//           //       ),
+//           //     ),
+//           //   onPressed: (){
+//           //       print('doc button pressed');
+//           //     Image.network('${docs[i]}');
+//           //   },
+//           // )
+//           child: Image.network('${docs[i]}'),
+//         ),
+//       );
+//     }
+//     // return CircularProgressIndicator();
+//     // print(docs.length);
+//     return Column(children: list,);
+//     // return ListView(children: list,);
+//     // return ListView(children: list,);
 //   }
-// }
+//
+}
+
+class displayclaimDocs extends StatefulWidget {
+  final List? docs;
+  const displayclaimDocs({Key? key,required this.docs}) : super(key: key);
+
+  @override
+  State<displayclaimDocs> createState() => _displayclaimDocsState();
+}
+
+class _displayclaimDocsState extends State<displayclaimDocs> {
+  List claimsdocs = [];
+
+  @override
+  Widget build(BuildContext context) {
+    claimsdocs = widget.docs!;
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // actions: [
+        //   IconButton(
+        //       onPressed: (){
+        //         signOut();
+        //       },
+        //       icon: Icon(Icons.logout_outlined))
+        // ],
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body: Container(
+        child: _displaydocs(claimsdocs) ,
+      )
+
+    );
+  }
+  Widget _displaydocs(List docs){
+    List<Widget> list = <Widget> [];
+    print(docs.length);
+    for(int i = 0; i < docs.length; i++){
+      print(i);
+      print(docs[i]);
+      // list.add(docs[i]);
+      // print(list);
+      // list.add(
+      //     Container(
+      //       child: Text(
+      //         'Document $i: ${docs[i]}',
+      //       ),
+      //     ) ,
+      // );
+      list.add(
+        Container(
+          // child: ElevatedButton(
+          //     child: Text(
+          //       'Doc $i',
+          //       style: TextStyle(
+          //         color: Colors.white,
+          //         fontSize: 22,
+          //       ),
+          //     ),
+          //   onPressed: (){
+          //       print('doc button pressed');
+          //     Image.network('${docs[i]}');
+          //   },
+          // )
+          child: Image.network('${docs[i]}'),
+        ),
+      );
+    }
+    // return CircularProgressIndicator();
+    // print(docs.length);
+    // return Column(children: list,);
+    return ListView(children: list,);
+    // return ListView(children: list,);
+  }
+}
+
+

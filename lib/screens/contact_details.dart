@@ -285,7 +285,7 @@ class _ContactDetailState extends State<ContactDetail> {
     }
   }
   void addUserRequest() async{
-    if(final_option == 'renew'){
+    if(final_option == 'renew' || final_option == 'claim'){
       await databaseReference.collection("User_Requests")
       // .doc(user?.uid).collection(date)
           .add({

@@ -6,26 +6,26 @@ import 'package:demo/screens/Employees/Requests_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import '../lifebuy_form.dart';
+import '../claim_form.dart';
 
-class Buy_Page extends StatefulWidget {
-  const Buy_Page({super.key});
+class Claim_Page extends StatefulWidget {
+  const Claim_Page({super.key});
 
   @override
-  State<Buy_Page> createState() => _Buy_PageState();
+  State<Claim_Page> createState() => _Claim_PageState();
 }
 
-class _Buy_PageState extends State<Buy_Page> {
-  String? buy_user_requestid;
-  String? buy_user_id;
-  String? buy_ins_category;
+class _Claim_PageState extends State<Claim_Page> {
+  String? claim_user_requestid;
+  String? claim_user_id;
+  String? claim_ins_category;
   String? ins_option;
-  String? buy_user_contactno;
-  List<Object> _buyrequestList = [];
+  String? claim_user_contactno;
+  List<Object> _claimrequestList = [];
 
   @override
   void didChangeDependencies(){
-    getBuyRequests();
+    getClaimRequests();
     super.didChangeDependencies();
   }
   // void initState(){
@@ -40,34 +40,34 @@ class _Buy_PageState extends State<Buy_Page> {
       //   backgroundColor: Colors.orangeAccent,
       // ),
       body: SafeArea(
-          child: _createRequestCard(_buyrequestList),
+        child: _createRequestCard(_claimrequestList),
         // child: ListView.builder(
         //
         //   itemCount: _requestList.length,
         //   itemBuilder: (context,index) {
         //     return _createRequestCard(_requestList);
-            // return ListTile(
-            //   title: Text(_requestList[index].requestiD),
-            // )
-            // return RequestCard(_requestList[index] as Requests);
-            // return Text('$_requestList');
-          //   return Card(
-          // },
-        ),
-      );
+        // return ListTile(
+        //   title: Text(_requestList[index].requestiD),
+        // )
+        // return RequestCard(_requestList[index] as Requests);
+        // return Text('$_requestList');
+        //   return Card(
+        // },
+      ),
+    );
     // );
   }
-  
-  Future getBuyRequests() async{
+
+  Future getClaimRequests() async{
     print('Hello');
     var data = await FirebaseFirestore.instance
         .collection('User_Requests')
-        .where("Option", isEqualTo: 'buy')
+        .where("Option", isEqualTo: 'claim')
         .orderBy('Date', descending: false)
         .get();
 
     setState(() {
-      _buyrequestList = List.from(data.docs.map((doc) => BuyRequests.fromSnapshot(doc)));
+      _claimrequestList = List.from(data.docs.map((doc) => BuyRequests.fromSnapshot(doc)));
       // print(requestid);
       // print(_requestList);
     });
@@ -103,21 +103,18 @@ class _Buy_PageState extends State<Buy_Page> {
                   child: InkWell(
                     splashColor: Colors.blue.withAlpha(30),
                     onTap: () {
-                      buy_user_requestid = requestList[i].requestid;
-                      buy_user_contactno = requestList[i].contactno;
-                      buy_user_id = requestList[i].userid;
-                      buy_ins_category = requestList[i].category;
+                      claim_user_requestid = requestList[i].requestid;
+                      claim_user_contactno = requestList[i].contactno;
+                      claim_user_id = requestList[i].userid;
+                      claim_ins_category = requestList[i].category;
                       ins_option = requestList[i].option;
-                      print("Request ID- $buy_user_requestid");// assume that id is in .id field
-                      print("User Id- $buy_user_id");
-                      print("Category- $buy_ins_category");
+                      // print("Request ID- $buy_user_requestid");// assume that id is in .id field
+                      // print("User Id- $buy_user_id");
+                      print("Category- $claim_ins_category");
                       print("Option- $ins_option");
-                      print("Contact Number- $buy_user_contactno");
-                      if(buy_ins_category == 'health' && ins_option == 'buy'){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => healthbuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
-                      }
-                      else if(buy_ins_category == 'life' && ins_option == 'buy'){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LifeBuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+                      // print("Contact Number- $buy_user_contactno");
+                      if(claim_ins_category == 'health' && ins_option == 'claim'){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MultiFileUplaodScreen(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
                       }
                       // if(ins_category == 'health' && ins_option == 'renew'){
                       //   Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm()));
@@ -153,8 +150,8 @@ class _Buy_PageState extends State<Buy_Page> {
                               alignment: Alignment.bottomRight,
                               child: Text('Action Needed',
                                 style: TextStyle(
-                                color: Colors.red,
-                                // textAlign: TextAlign.start,
+                                  color: Colors.red,
+                                  // textAlign: TextAlign.start,
                                 ),
                               ),
                             ),
@@ -212,7 +209,7 @@ class _Buy_PageState extends State<Buy_Page> {
                     //   //
                     //   // }
                     // },
-                    child:    Column(
+                    child:  Column(
                       children: [
                         Padding(padding: EdgeInsets.only(bottom: 10.0),
                           child: Text(

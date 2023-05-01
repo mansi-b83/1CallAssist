@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo/screens/thirdpartnavbar.dart';
+import 'package:demo/screens/thirdparty_buyrequests.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/reset_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -170,7 +172,8 @@ class _ThirdParty_SignInState extends State<ThirdParty_SignIn> {
     print('${query.count}');
     if(query.count == 1){
       print('is a third party ${_EmpemailController.text}');
-      Navigator.push(context, MaterialPageRoute(builder: (context) => TpHomePage()));
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => TpHomePage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdPartyNavbar()));
     }
     else{
       final snackBar = SnackBar(

@@ -40,6 +40,30 @@ class RenewRequests{
         reqstatus = snapshot.data()['Status'];
 }
 
+class ClaimRequests{
+  String? category;
+  String? option;
+  String? requestid;
+  String? contactno;
+  String? userid;
+  String? reqstatus;
+  String? policynum;
+
+  ClaimRequests();
+
+  Map<String, dynamic> toJson() => {'RequestID': requestid,'UserId': userid,'Category' : category, 'Option': option, 'ContactNo': contactno, 'Status': reqstatus, 'PolicyNumber': policynum};
+
+  ClaimRequests.fromSnapshot(snapshot) 
+      :requestid = snapshot.data()['RequestID'],
+        userid = snapshot.data()['UserId'],
+        category = snapshot.data()['Category'],
+        option = snapshot.data()['Option'],
+        contactno = snapshot.data()['ContactNo'],
+        reqstatus = snapshot.data()['Status'],
+        policynum = snapshot.data()['PolicyNumber'];
+}
+
+
 class TpQuotations{
   String? compname;
   String? quotation_url;

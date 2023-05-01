@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo/screens/thirdpartnavbar.dart';
 import'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:demo/screens/healthbuy_form.dart';
@@ -223,8 +224,9 @@ class _ThirdParty_SignUpState extends State<ThirdParty_SignUp> {
                     printdetails();
                     addThirdPartyDetails();
                     // addEmployeeDetails();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TpHomePage()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => TpHomePage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdPartyNavbar()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

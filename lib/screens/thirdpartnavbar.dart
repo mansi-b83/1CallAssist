@@ -1,6 +1,9 @@
 import 'package:demo/screens/Employees/Claim_requests.dart';
 import 'package:demo/screens/Employees/Requests_list.dart';
 import 'package:demo/screens/Employees/emp_homepage.dart';
+import 'package:demo/screens/thirdparty_buyrequests.dart';
+import 'package:demo/screens/thirdparty_claimrequests.dart';
+import 'package:demo/screens/thirdparty_renewrequests.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/Employees/buy_requests.dart';
 import 'package:demo/screens/Employees/renew_requests.dart';
@@ -11,26 +14,27 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 //import 'package:line_icons/line_icons.dart';
 
-class EmpNavbar extends StatefulWidget {
-  const EmpNavbar({super.key});
+class ThirdPartyNavbar extends StatefulWidget {
+  const ThirdPartyNavbar({super.key});
   @override
-  _EmpNavbarState createState() => _EmpNavbarState();
+  _ThirdPartyNavbarState createState() => _ThirdPartyNavbarState();
 }
 
-class _EmpNavbarState extends State<EmpNavbar> {
+class _ThirdPartyNavbarState extends State<ThirdPartyNavbar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetOptions = <Widget>[
     // HomeScreen(),
-    EmpHomePage(),
-    Buy_Page(),
-    RenewApp(),
-    Claim_Page(),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    // EmpHomePage(),
+    Tp_BuyRequestsPage(),
+    Tp_RenewRequestsPage(),
+    Tp_ClaimRequestsPage(),
+    // Tp_Claim_Page(),
+    // Text(
+    //   'Profile',
+    //   style: optionStyle,
+    // ),
   ];
 
   @override
@@ -78,10 +82,10 @@ class _EmpNavbarState extends State<EmpNavbar> {
               tabBackgroundColor: Colors.grey[100]!,
               color: Colors.black,
               tabs: [
-                GButton(
-                  icon: Icons.home,
-                  text: 'Home',
-                ),
+                // GButton(
+                //   icon: Icons.home,
+                //   text: 'Home',
+                // ),
                 GButton(
                   icon: Icons.favorite_border,
                   text: 'Buy',
