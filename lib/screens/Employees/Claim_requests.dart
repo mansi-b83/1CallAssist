@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../claim_form.dart';
+import '../lifeclaim_form.dart';
 
 class Claim_Page extends StatefulWidget {
   const Claim_Page({super.key});
@@ -116,10 +117,10 @@ class _Claim_PageState extends State<Claim_Page> {
                       if(claim_ins_category == 'health' && ins_option == 'claim'){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MultiFileUplaodScreen(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
                       }
-                      // if(ins_category == 'health' && ins_option == 'renew'){
-                      //   Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm()));
-                      //
-                      // }
+                      if(claim_ins_category  == 'life' && ins_option == 'claim'){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LifeClaim_form(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
+
+                      }
                     },
                     child: Column(
                       children: [

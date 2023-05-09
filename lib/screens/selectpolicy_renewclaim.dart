@@ -69,104 +69,117 @@ class _RenewClaimPolicyState extends State<RenewClaimPolicy> {
 
   Widget createPolicyNumCards(List PolicyNumList){
     List<Widget> list = <Widget>[];
-    for(int i = 0; i < PolicyNumList.length; i++){
-      if(chosencategory == 'health' && chosenoption == 'renew'){
-        list.add(
-          Container(
-            child: Card(
-              child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: InkWell(
-                    splashColor: Colors.blue.withAlpha(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                "Policy Number: ${PolicyNumList[i].policynum}",
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                child: Text('Renew'),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+    if(PolicyNumList.length > 0){
+      for(int i = 0; i < PolicyNumList.length; i++){
+        if(chosenoption == 'renew'){
+          list.add(
+            Container(
+              child: Card(
+                child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: InkWell(
+                      splashColor: Colors.blue.withAlpha(30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Padding(padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  "Policy Number: ${PolicyNumList[i].policynum}",
                                 ),
-                                onPressed: (){
-                                  print('Renew button pressed ${PolicyNumList[i].userid}');
-                                  String pnum = PolicyNumList[i].policynum;
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosencategory, finalopt: chosenoption, policynum: pnum)));
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
-                                },
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Padding(padding: EdgeInsets.all(10.0),
+                                child: ElevatedButton(
+                                  child: Text('Renew'),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                  ),
+                                  onPressed: (){
+                                    print('Renew button pressed ${PolicyNumList[i].userid}');
+                                    String pnum = PolicyNumList[i].policynum;
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosencategory, finalopt: chosenoption, policynum: pnum)));
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                  },
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
 
-                  )
+                    )
 
+                ),
               ),
             ),
-          ),
-        );
-      }
-      else if(chosencategory == 'health' && chosenoption == 'claim'){
-        list.add(
-          Container(
-            child: Card(
-              child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: InkWell(
-                    splashColor: Colors.blue.withAlpha(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                "Policy Number: ${PolicyNumList[i].policynum}",
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                child: Text('Claim'),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+          );
+        }
+        else if(chosenoption == 'claim'){
+          list.add(
+            Container(
+              child: Card(
+                child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: InkWell(
+                      splashColor: Colors.blue.withAlpha(30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Padding(padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  "Policy Number: ${PolicyNumList[i].policynum}",
                                 ),
-                                onPressed: (){
-                                  print('Claim button pressed ${PolicyNumList[i].userid}');
-                                  print('Policy Number ${PolicyNumList[i].policynum}');
-                                  String pnum = PolicyNumList[i].policynum;
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosencategory, finalopt: chosenoption, policynum: pnum)));
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
-                                },
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Padding(padding: EdgeInsets.all(10.0),
+                                child: ElevatedButton(
+                                  child: Text('Claim'),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                  ),
+                                  onPressed: (){
+                                    print('Claim button pressed ${PolicyNumList[i].userid}');
+                                    print('Policy Number ${PolicyNumList[i].policynum}');
+                                    String pnum = PolicyNumList[i].policynum;
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosencategory, finalopt: chosenoption, policynum: pnum)));
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                  },
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
 
-                  )
+                    )
 
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
       }
+    }
+    else{
+      return Center(
+        child: Text(
+          'No policies purchased',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
     }
     return ListView(children: list);
   }

@@ -127,7 +127,7 @@ class _MultiFileUplaodScreenState extends State<MultiFileUplaodScreen> {
                     borderRadius: BorderRadius.circular(8)),
                 height: 50,
                 onPressed: () async {
-                  print('upload clicked');
+                  print('send clicked');
                   for (int i = 0; i < images.length; i++) {
                     String url = await uploadFile(images[i]);
                     downloadUrls.add(url);

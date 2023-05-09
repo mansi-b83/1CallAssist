@@ -44,7 +44,7 @@ class _ThirdPartyNavbarState extends State<ThirdPartyNavbar> {
       appBar: AppBar(
         elevation: 20,
         // title: const Text('GoogleNavBar'),
-        leading: Icon(Icons.menu),
+        // leading: Icon(Icons.menu),
         actions: [
           IconButton(
             onPressed: (){

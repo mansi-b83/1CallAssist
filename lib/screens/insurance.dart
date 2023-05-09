@@ -34,109 +34,245 @@ class _InsuranceState extends State<Insurance> {
         ],
         backgroundColor: Colors.orangeAccent,
         ),
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Container was tapped");
-                        option = 'buy';
-                        _sendCategoryAndInsOption(context);
-                        // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
-                        height: 150,
-                        width: 150,
+        body: _showoptions(chosen_catg),
+    );
+    // Widget _showoptions(catg)
+  }
+  Widget _showoptions(catg){
+    if(catg == 'health'){
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Container was tapped");
+                    option = 'buy';
+                    _sendCategoryAndInsOption(context);
+                    // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+                    height: 150,
+                    width: 150,
 
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.red,width: 4),
-                          borderRadius: BorderRadius.all(Radius.circular(80)),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.orangeAccent,
-                          //     blurRadius: 15.0,
-                          //   ),
-                          // ],
-                        ),
-                        child: Text(
-                          'Buy',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.red,width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.orangeAccent,
+                      //     blurRadius: 15.0,
+                      //   ),
+                      // ],
                     ),
-                ),
-
-                Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Container was tapped");
-                      option = 'renew';
-                      _sendCategoryAndInsOption(context);
-                      // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.red, width: 4),
-                        borderRadius: BorderRadius.all(Radius.circular(80)),
-                      ),
-                      child: Text(
-                        'Renew',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                        ),
+                    child: Text(
+                      'Buy',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Container was tapped");
-                        option = 'claim';
-                        _sendCategoryAndInsOption(context);
-                        // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.red, width: 4),
-                          borderRadius: BorderRadius.all(Radius.circular(80)),
-                        ),
-                        child: Text(
-                          'Claim',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
+              Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Container was tapped");
+                    option = 'renew';
+                    _sendCategoryAndInsOption(context);
+                    // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                    ),
+                    child: Text(
+                      'Renew',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
                       ),
                     ),
+                  ),
                 ),
-              ],
-            )
-          ],
-        ),
-    );
+              ),
+            ],
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Container was tapped");
+                    option = 'claim';
+                    _sendCategoryAndInsOption(context);
+                    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                    ),
+                    child: Text(
+                      'Claim',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      );
+    }
+    else{
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Container was tapped");
+                    option = 'buy';
+                    _sendCategoryAndInsOption(context);
+                    // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+                    height: 150,
+                    width: 150,
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.red,width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.orangeAccent,
+                      //     blurRadius: 15.0,
+                      //   ),
+                      // ],
+                    ),
+                    child: Text(
+                      'Buy',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("Container was tapped");
+                    option = 'claim';
+                    _sendCategoryAndInsOption(context);
+                    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 4),
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                    ),
+                    child: Text(
+                      'Claim',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       print("Container was tapped");
+              //       option = 'renew';
+              //       _sendCategoryAndInsOption(context);
+              //       // Navigator.push(context , MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+              //     },
+              //     child: Container(
+              //       padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+              //       height: 150,
+              //       width: 150,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: Colors.red, width: 4),
+              //         borderRadius: BorderRadius.all(Radius.circular(80)),
+              //       ),
+              //       child: Text(
+              //         'Renew',
+              //         textAlign: TextAlign.center,
+              //         style: TextStyle(
+              //           fontSize: 22,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+          //       child: GestureDetector(
+          //         onTap: () {
+          //           print("Container was tapped");
+          //           option = 'claim';
+          //           _sendCategoryAndInsOption(context);
+          //           // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ContactDetail()));
+          //         },
+          //         child: Container(
+          //           padding: EdgeInsets.only(left: 0.0,top: 55.0,right: 0.0,bottom: 0.0),
+          //           height: 150,
+          //           width: 150,
+          //           decoration: BoxDecoration(
+          //             border: Border.all(color: Colors.red, width: 4),
+          //             borderRadius: BorderRadius.all(Radius.circular(80)),
+          //           ),
+          //           child: Text(
+          //             'Claim',
+          //             textAlign: TextAlign.center,
+          //             style: TextStyle(
+          //               fontSize: 22,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // )
+        ],
+      );
+    }
   }
   void _sendCategoryAndInsOption(BuildContext context){
     // Navigator.push(context, MaterialPageRoute(builder: (c ontext) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
@@ -147,6 +283,12 @@ class _InsuranceState extends State<Insurance> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => RenewClaimPolicy(catg: chosen_catg, opt: option)));
     }
     else if(chosen_catg == 'health' && option == 'claim'){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RenewClaimPolicy(catg: chosen_catg, opt: option)));
+    }
+    else if(chosen_catg == 'life' && option == 'buy'){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ContactDetail(finalcatg: chosen_catg, finalopt: option)));
+    }
+    else{
       Navigator.push(context, MaterialPageRoute(builder: (context) => RenewClaimPolicy(catg: chosen_catg, opt: option)));
     }
 

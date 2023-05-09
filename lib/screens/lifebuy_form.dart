@@ -41,16 +41,22 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
     'Typical Angina',
     'Atypical Angina',
     'Non-anginal pain',
-    'Asymtomatic',
+    'Asymptomatic',
   ];
-  int? age;
-  String? selected_gender,selected_cptype;
+
+  var thaltype = [
+    'Normal',
+    'Fixed Defect',
+    'Reversable Defect',
+  ];
+  int? age,restecg,bp,maxhr,chol,fbs;
+  String? selected_gender,selected_cptype,selected_thal;
   String? buy_userid,buy_requestid,buy_category,ins_option;
   String? newid;
   String? aadharnum;
   String? pannum;
   String? nomname;
-  String? nomrelation,bp,maxhr,chol,fbs,cp,exang,restecg,thal;
+  String? nomrelation,cp,exang;
   @override
   Widget build(BuildContext context) {
     buy_category = widget.category;
@@ -209,7 +215,7 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                bp = value;
+                                bp = int.parse(value);
                                 print(bp);
                               });
                             }
@@ -228,7 +234,7 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                chol = value;
+                                chol = int.parse(value);
                                 print(chol);
                               });
                             }
@@ -239,15 +245,14 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                     SizedBox(
                       child: Padding(padding: EdgeInsets.only(bottom: 15),
                         child: TextFormField(
-                            controller: fbsController,
-                            decoration: InputDecoration(
+                            controller: fbsController, decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               // labelText: 'Contact Number',
                               hintText: 'Fasting Blood sugar',
                             ),
                             onChanged: (value) {
                               setState(() {
-                                fbs = value;
+                                fbs = int.parse(value);
                                 print(fbs);
                               });
                             }
@@ -266,7 +271,7 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                restecg = value;
+                                restecg = int.parse(value);
                                 print(restecg);
                               });
                             }
@@ -285,7 +290,7 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                                maxhr = value;
+                                maxhr = int.parse(value);
                                 print(maxhr);
                               });
                             }
@@ -313,6 +318,32 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                                 setState(() {
                                   selected_cptype = newval!;
                                   print(selected_cptype);
+                                });
+                              },
+                            ),
+                          )
+                      ),
+                    ),
+                    SizedBox(
+                      child: Padding(padding: EdgeInsets.only(bottom: 15.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownButton(
+                              hint: Text('Thalassemia'),
+                              value: selected_thal,
+                              icon: Icon(Icons.keyboard_arrow_down,
+                                color: Colors.black,
+                              ),
+                              items: thaltype.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items,),
+                                );
+                              }).toList(),
+                              onChanged: (String? newval){
+                                setState(() {
+                                  selected_thal = newval!;
+                                  print(selected_thal);
                                 });
                               },
                             ),
@@ -369,58 +400,58 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Do you have Thalassemia?',
-                            style: TextStyle(
-                              fontSize: 16,
-                              // color: Colors.grey,
-                            ),
-                          ),
-                        )
-                      ),
-                    ),
-
-                    SizedBox(
-                      child: Padding(padding: EdgeInsets.only(bottom: 15.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                            Flexible(
-                              child: RadioListTile(
-                                title: Text("Yes"),
-                                value: "yes",
-                                groupValue: thal,
-                                onChanged: (value){
-                                  setState(() {
-                                    thal = value.toString();
-                                    print(thal);
-                                  });
-                                },
-                              ),
-                            ),
-                            Flexible(
-                              child: RadioListTile(
-                                title: Text("No"),
-                                value: "no",
-                                groupValue: thal,
-                                onChanged: (value) {
-                                setState(() {
-                                  thal = value.toString();
-                                  print(thal);
-                                });
-                              },
-                            ),
-                          )
-
-                          ],
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(bottom: 15),
+                    //     child: Align(
+                    //       alignment: Alignment.centerLeft,
+                    //       child: Text(
+                    //         'Do you have Thalassemia?',
+                    //         style: TextStyle(
+                    //           fontSize: 16,
+                    //           // color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ),
+                    // ),
+                    //
+                    // SizedBox(
+                    //   child: Padding(padding: EdgeInsets.only(bottom: 15.0),
+                    //       child: Row(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //         Flexible(
+                    //           child: RadioListTile(
+                    //             title: Text("Yes"),
+                    //             value: "yes",
+                    //             groupValue: thal,
+                    //             onChanged: (value){
+                    //               setState(() {
+                    //                 thal = value.toString();
+                    //                 print(thal);
+                    //               });
+                    //             },
+                    //           ),
+                    //         ),
+                    //         Flexible(
+                    //           child: RadioListTile(
+                    //             title: Text("No"),
+                    //             value: "no",
+                    //             groupValue: thal,
+                    //             onChanged: (value) {
+                    //             setState(() {
+                    //               thal = value.toString();
+                    //               print(thal);
+                    //             });
+                    //           },
+                    //         ),
+                    //       )
+                    //
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       child: Padding(padding: EdgeInsets.only(bottom: 20),
                         child: ElevatedButton.icon(
@@ -472,20 +503,21 @@ class _LifeBuyFormState extends State<LifeBuyForm> {
       'RequestID' : '$buy_requestid',
       'UserID' : '$buy_userid',
       'EmployeeID' : user?.uid,
-      'Age' : '$age',
+      'Age' : age,
       'Gender' : '$selected_gender',
       'AadharNumber' : '$aadharnum',
       'PANNumber' : '$pannum',
       'NomineeName' : '$nomname',
       'NomineeRelation' : '$nomrelation',
-      'BloodPressure' : '$bp',
-      'Cholestrol' : '$chol',
-      'FastingBloodSugar' : '$fbs',
-      'RestECG' : '$restecg',
-      'MaxHeartRate' : '$maxhr',
+      'BloodPressure' : bp,
+      'Cholestrol' : chol,
+      'FastingBloodSugar' : fbs,
+      'RestECG' : restecg,
+      'MaxHeartRate' : maxhr,
       'ChestPainType' : '$selected_cptype',
+      'Thalassemia' : '$selected_thal',
       'ExerciseAngima': '$exang',
-      'Thalassemia' : '$thal',
+
       // ''
       // 'Members' : FieldValue.arrayUnion(buy_famdetails),
       // 'ExistingDisease' : '$disease',

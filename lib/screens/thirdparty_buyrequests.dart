@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:demo/screens/firebase_api.dart';
+import 'ApiService/apiServiceGetHeartDisease.dart';
 
 import 'package:demo/screens/signin_screen.dart';
 
@@ -25,6 +26,7 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
   List<Object> _clientsInfoList = [];
   List<Object> _buyreqstatus = [];
   var companyname;
+  int flag = 0;
 
   @override
   void didChangeDependencies(){
@@ -91,6 +93,7 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
       // print('in for');
       if(companyClientList[i].company.contains(companyname)){
         if(companyClientList[i].option == 'buy'){
+          flag = 0;
           list.add(
             Container(
               child: Card(
@@ -146,10 +149,10 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
                             ),
                           ),
                           // Padding(padding: EdgeInsets.only(bottom: 20.0),
-                            // child: Align(
-                            //   alignment: Alignment.bottomRight,
-                            _tprequeststatus(_buyreqstatus,companyClientList[i].reqid),
-                            // )
+                          // child: Align(
+                          //   alignment: Alignment.bottomRight,
+                          _tprequeststatus(_buyreqstatus,companyClientList[i].reqid),
+                          // )
                           // ),
                         ],
                       ),
@@ -160,7 +163,7 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
             ),
           );
         }
-        }
+      }
       // else{
       //   print('error retrieving');
       // }
@@ -177,7 +180,7 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
           child: Align(
             alignment: Alignment.bottomRight,
             child: Text(
-                'Quotation sent',
+              'Quotation sent',
               style: TextStyle(
                 color: Colors.red,
               ),
@@ -203,6 +206,22 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
         //   );
         // }
       }
+    }
+    if(flag == 1){
+      flag = 0;
+    }
+    else{
+      return Container(
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: Text(
+            'Action needed',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      );
     }
     return Container();
   }
@@ -241,7 +260,7 @@ class _ClientInfoState extends State<ClientInfo> {
     dateTime = DateTime.parse(dateString!);
     date = "${dateTime.day}-${dateTime.month}-${dateTime.year} ${dateTime.hour}.${dateTime.minute}.${dateTime.second}";
   }
-
+  apiServiceGetHeartDisease _serviceForHeartDisease=new apiServiceGetHeartDisease();
   @override
   Widget build(BuildContext context) {
     client_requestid = widget.clientreqid;
@@ -413,12 +432,14 @@ class _ClientInfoState extends State<ClientInfo> {
                                       'Exercise Angima: ${e.data()['ExerciseAngima']}',
                                     ),
                                   ),
+
                                   Padding(
                                     padding: EdgeInsets.only(bottom: 10.0),
                                     child: Text(
                                       'Fasting Blood Sugar: ${e.data()['FastingBloodSugar']}',
                                     ),
                                   ),
+
                                   Padding(
                                     padding: EdgeInsets.only(bottom: 10.0),
                                     child: Text(
@@ -448,6 +469,26 @@ class _ClientInfoState extends State<ClientInfo> {
                                     child: Text(
                                       'Nominee Relation: ${e.data()['NomineeRelation']}',
                                     ),
+                                  ),Padding(
+                                      padding: EdgeInsets.only(bottom: 10.0),
+                                      child: FutureBuilder(
+                                          future:_serviceForHeartDisease.getHeartDiseaseInfo(client_requestid) ,
+                                          builder:( (context,snapshot){
+                                            if(snapshot.hasData){
+                                              return(
+                                                  Text(
+                                                      snapshot.data.toString()
+                                                  )
+                                              );
+                                            }
+                                            else{
+                                              return(
+                                                  Text(
+                                                      "Retrieving Data"
+                                                  )
+                                              );
+                                            }
+                                          }))
                                   ),
 
                                   //
@@ -663,8 +704,14 @@ class _ClientInfoState extends State<ClientInfo> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           OutlinedButton.icon(
-                            label: Text('Browse from device'),
-                            icon: Icon(Icons.web),
+                            label: Text('Browse from device',
+                              style: TextStyle(
+                                color: Colors.orangeAccent,
+                              ),
+                            ),
+                            icon: Icon(Icons.web,
+                              color: Colors.orangeAccent,
+                            ),
                             onPressed: () async{
                               print('button pressed');
                               print(_isVisible);
@@ -685,6 +732,9 @@ class _ClientInfoState extends State<ClientInfo> {
                                 print('heyyyy $path $_isVisible');
                               }
                             },
+                            // style: ButtonStyle(
+                            //   iconColor: Colors.orangeAccent,
+                            // ),
 
                           ),
                           SizedBox(height: 5.0,),
@@ -706,10 +756,25 @@ class _ClientInfoState extends State<ClientInfo> {
                               onPressed: () {
                                 print('Upload Pressed');
                                 uploadFile();
+                                final snackBar = SnackBar(
+                                  content: const Text('Successfully sent to companies!'),
+                                  action: SnackBarAction(
+                                    label: 'Ok',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tp_BuyRequestsPage()));
+                                    },
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                              ),
                             ),
                           ),
                           SizedBox(height: 10.0),
+                          // Text("data"),
                           // task != null ? buildUploadStatus(task!) : Container(),
                           // Align(
                           //   alignment:  Alignment.bottomRight,
@@ -788,25 +853,25 @@ class _ClientInfoState extends State<ClientInfo> {
     }
   }
 
-  // Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-  //   stream: task.snapshotEvents,
-  //   builder: (context,snapshot){
-  //     if(snapshot.hasData){
-  //       final snap = snapshot.data!;
-  //       final progress = snap.bytesTransferred / snap.totalBytes;
-  //
-  //       return Text(
-  //         '$progress %',
-  //         style: TextStyle(
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       );
-  //     }
-  //     else{
-  //       return Container();
-  //     }
-  //   },
-  // );
+// Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+//   stream: task.snapshotEvents,
+//   builder: (context,snapshot){
+//     if(snapshot.hasData){
+//       final snap = snapshot.data!;
+//       final progress = snap.bytesTransferred / snap.totalBytes;
+//
+//       return Text(
+//         '$progress %',
+//         style: TextStyle(
+//           fontWeight: FontWeight.bold,
+//         ),
+//       );
+//     }
+//     else{
+//       return Container();
+//     }
+//   },
+// );
 
 // void signOut() async{
 //   final FirebaseAuth auth = FirebaseAuth.instance;

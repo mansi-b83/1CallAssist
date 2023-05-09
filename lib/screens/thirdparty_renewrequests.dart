@@ -23,7 +23,7 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
   List<Object> _clientsList = [];
   List<Object> _renewreqstatus = [];
   var companyname;
-
+  int flag = 0;
   @override
   void didChangeDependencies(){
     getTpCompanyname();
@@ -87,6 +87,7 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
       // print('in for');
       if(companyClientList[i].company.contains(companyname)){
         if(companyClientList[i].option == 'renew'){
+          flag = 0;
           list.add(
             Container(
               child: Card(
@@ -194,6 +195,22 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
         //   );
         // }
       }
+    }
+    if(flag == 1){
+      flag = 0;
+    }
+    else{
+      return Container(
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: Text(
+            'Action needed',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      );
     }
     return Container();
   }

@@ -226,6 +226,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:demo/screens/signin_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'suggested_premium.dart';
 // import 'package:flutter_downloader/flutter_downloader.dart';
 // import 'package:open_file/open_file.dart';
 // import 'package:file_picker/file_picker.dart';
@@ -306,6 +307,84 @@ class _QuatationsRecdPageState extends State<QuatationsRecdPage> {
       }
       else{
         unique_reqid.add(reqidList[i].requestid);
+        // StreamBuilder(
+        //   stream: FirebaseFirestore.instance
+        //       .collection('Employee_Clients')
+        //       .where('RequestID' ,isEqualTo: '${reqidList[i].requestid}')
+        //       .snapshots(),
+        //   builder: (context,snapshot){
+        //     if(!snapshot.hasData){
+        //       return Center(child: CircularProgressIndicator());
+        //     }
+        //     else{
+        //       return ListView(
+        //         children: snapshot.data!.docs.map((e) {
+        //           if(e.data()['isPurchased'] == null){
+        //             // list.add(
+        //             //   Container(
+        //             //     child: Card(
+        //             //       child: Padding(
+        //             //           padding: EdgeInsets.all(12.0),
+        //             //           child: InkWell(
+        //             //             splashColor: Colors.blue.withAlpha(30),
+        //             //             child: Row(
+        //             //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //             //               children: [
+        //             //                 Column(
+        //             //                   children: [
+        //             //                     Padding(padding: EdgeInsets.all(10.0),
+        //             //                       child: Text(
+        //             //                         "Request ID: ${reqidList[i].requestid}",
+        //             //                       ),
+        //             //                     ),
+        //             //                   ],
+        //             //                 ),
+        //             //                 Column(
+        //             //                   children: [
+        //             //                     Padding(padding: EdgeInsets.all(10.0),
+        //             //                       child: ElevatedButton(
+        //             //                         child: Text('Quotations'),
+        //             //                         style: ButtonStyle(
+        //             //                             backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+        //             //                         ),
+        //             //                         onPressed: (){
+        //             //                           print('Quotations button pressed ${reqidList[i].requestid}');
+        //             //                           Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent(reqid: reqidList[i].requestid)));
+        //             //                           // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+        //             //                         },
+        //             //                       ),
+        //             //                     ),
+        //             //                     Padding(padding: EdgeInsets.all(10.0),
+        //             //                       child: ElevatedButton(
+        //             //                         child: Text('Suggested Premium'),
+        //             //                         style: ButtonStyle(
+        //             //                             backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+        //             //                         ),
+        //             //                         onPressed: (){
+        //             //                           print('Quotations button pressed ${reqidList[i].requestid}');
+        //             //                           //Parameter
+        //             //                           Navigator.push(context, MaterialPageRoute(builder: (context) => SuggestedPremium(reqidList[i].requestid)));
+        //             //                           // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+        //             //                         },
+        //             //                       ),
+        //             //                     ),
+        //             //                   ],
+        //             //                 )
+        //             //               ],
+        //             //             ),
+        //             //
+        //             //           )
+        //             //
+        //             //       ),
+        //             //     ),
+        //             //   ),
+        //             // );
+        //           }
+        //         })
+        //       )
+        //     }
+        //   },
+        // )
         list.add(
           Container(
             child: Card(
@@ -336,6 +415,20 @@ class _QuatationsRecdPageState extends State<QuatationsRecdPage> {
                                 onPressed: (){
                                   print('Quotations button pressed ${reqidList[i].requestid}');
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent(reqid: reqidList[i].requestid)));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                },
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.all(10.0),
+                              child: ElevatedButton(
+                                child: Text('Suggested Premium'),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                ),
+                                onPressed: (){
+                                  print('Quotations button pressed ${reqidList[i].requestid}');
+                                  //Parameter
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SuggestedPremium(reqidList[i].requestid)));
                                   // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
                                 },
                               ),
