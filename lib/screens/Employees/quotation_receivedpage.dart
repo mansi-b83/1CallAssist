@@ -392,47 +392,56 @@ class _QuatationsRecdPageState extends State<QuatationsRecdPage> {
                   padding: EdgeInsets.all(12.0),
                   child: InkWell(
                     splashColor: Colors.blue.withAlpha(30),
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
+                        Row(
                           children: [
                             Padding(padding: EdgeInsets.all(10.0),
                               child: Text(
                                 "Request ID: ${reqidList[i].requestid}",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                child: Text('Quotations'),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                            // Column(
+                            //   children: [
+                                Padding(padding: EdgeInsets.all(10.0),
+                                  child: ElevatedButton(
+                                    child: Text('Quotations'),
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.resolveWith((states) =>Color(0xFFfe846f))
+                                    ),
+                                    onPressed: (){
+                                      print('Quotations button pressed ${reqidList[i].requestid}');
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent(reqid: reqidList[i].requestid)));
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                    },
+                                  ),
                                 ),
-                                onPressed: (){
-                                  print('Quotations button pressed ${reqidList[i].requestid}');
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuotationsSent(reqid: reqidList[i].requestid)));
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
-                                },
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                child: Text('Suggested Premium'),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                Padding(padding: EdgeInsets.all(10.0),
+                                  child: ElevatedButton(
+                                    child: Text('Suggested Premium'),
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+                                    ),
+                                    onPressed: (){
+                                      print('Suggested premium button pressed ${reqidList[i].requestid}');
+                                      //Parameter
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => SuggestedPremium(reqidList[i].requestid)));
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
+                                    },
+                                  ),
                                 ),
-                                onPressed: (){
-                                  print('Quotations button pressed ${reqidList[i].requestid}');
-                                  //Parameter
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SuggestedPremium(reqidList[i].requestid)));
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPDF(pathPDF: quotationList[i].quotation_url)));
-                                },
-                              ),
-                            ),
+                              // ],
+                            // )
                           ],
                         )
                       ],
@@ -613,7 +622,7 @@ class _QuotationsSentState extends State<QuotationsSent> {
                             child: ElevatedButton(
                               child: Text('View PDF'),
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                                  backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
                               ),
                               onPressed: (){
                                 print('ViewPDF button pressed');
@@ -672,7 +681,7 @@ class _QuotationsSentState extends State<QuotationsSent> {
               style: ElevatedButton.styleFrom(
                 // shape: CircleBorder(),
                 padding: EdgeInsets.all(20),
-                backgroundColor: Colors.orangeAccent, // <-- Button color
+                backgroundColor: Color(0xFFfe846f), // <-- Button color
                 // foregroundColor: Colors.red, // <-- Splash color
                 alignment: Alignment.bottomRight,
               ),

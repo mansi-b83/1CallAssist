@@ -79,47 +79,47 @@ class _UserRequestsState extends State<UserRequests> {
                       Padding(padding: EdgeInsets.only(bottom: 10.0),
                         child: Row(
                           children: [
-                            Column(
-                              children: [
+                          //   Column(
+                          //     children: [
                                 Text(
                                   "Request ID: ",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   )
                                 ),
-                              ],
-                            ),
-                            Column(
-                              children: [
+                              // ],
+                            // ),
+                            // Column(
+                            //   children: [
                                 Text(
                                     "${requestList[i].reqid}",
                                 ),
-                              ],
-                            )
+                              // ],
+                            // )
                           ],
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 10.0),
                         child: Row(
                           children: [
-                            Column(
-                              children: [
+                            // Column(
+                            //   children: [
                                 Text(
                                     "Status: ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     )
                                 ),
-                              ],
-                            ),
+                              // ],
+                            // ),
                             Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
+                                // child: Column(
+                                //   children: [
+                                   child:  Text(
                                       "${requestList[i].req_status}",
                                     ),
-                                  ],
-                                )
+                                  // ],
+                                // ),
                             )
                           ],
                         ),

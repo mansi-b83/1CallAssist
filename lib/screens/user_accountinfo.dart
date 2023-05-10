@@ -102,18 +102,18 @@ class _User_AccountInfoState extends State<User_AccountInfo> {
             ),
           ),
           Divider(),
-          ListTile(
-            title: Text('About Us'),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.black,
-              ),
-              onPressed: (){
-                print('Icon pressed');
-              },
-            ),
-          )
+          // ListTile(
+          //   title: Text('About Us'),
+          //   trailing: IconButton(
+          //     icon: Icon(
+          //       Icons.keyboard_arrow_right,
+          //       color: Colors.black,
+          //     ),
+          //     onPressed: (){
+          //       print('Icon pressed');
+          //     },
+          //   ),
+          // )
         ],
       ),
     );

@@ -115,43 +115,53 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
                         // }
 
                         // if(companyClientList[i].category == 'health'){
-                        Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option, category: companyClientList[i].category)));
+                        // Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option, category: companyClientList[i].category)));
                         // }
                         // else{
                         //   Navigator.push(this.context, MaterialPageRoute(builder: (context) => Life_ClientInfo(clientreqid: companyClientList[i].reqid,empid: companyClientList[i].empid, compname : companyname, option: companyClientList[i].option)));
                         // }
                       },
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 5.0),
                             child: Text(
                               "Request ID: ${companyClientList[i].reqid}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 10.0),
                             child: Text(
                               "Category: ${companyClientList[i].category}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Option: ${companyClientList[i].option}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "User ID: ${companyClientList[i].userid}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Employee ID: ${companyClientList[i].empid}",
-                            ),
-                          ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Option: ${companyClientList[i].option}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "User ID: ${companyClientList[i].userid}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Employee ID: ${companyClientList[i].empid}",
+                          //   ),
+                          // ),
                           // Padding(padding: EdgeInsets.only(bottom: 20.0),
                           // child: Align(
                           //   alignment: Alignment.bottomRight,
-                          _tprequeststatus(_buyreqstatus,companyClientList[i].reqid),
+                          _tprequeststatus(_buyreqstatus,companyClientList[i].reqid,companyClientList[i].empid,companyname,companyClientList[i].option,companyClientList[i].category),
                           // )
                           // ),
                         ],
@@ -171,7 +181,7 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
     return ListView(children: list);
   }
 
-  Widget _tprequeststatus(List reqstatuslist,String requestid){
+  Widget _tprequeststatus(List reqstatuslist,String requestid,String empid,compname,option,category){
     // print('in reqstatus, $requestid');
     for(int i=0; i<_buyreqstatus.length; i++){
       if(reqstatuslist[i].requestid == requestid && reqstatuslist[i].compname == companyname){
@@ -179,12 +189,37 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
         return Container(
           child: Align(
             alignment: Alignment.bottomRight,
-            child: Text(
-              'Quotation sent',
-              style: TextStyle(
-                color: Colors.red,
+            child: ElevatedButton(
+              child: Text(
+                'Quotation Sent',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+              ),
+              onPressed: (){
+                // buy_user_requestid = requestList[i].requestid;
+                // buy_user_contactno = requestList[i].contactno;
+                // buy_user_id = requestList[i].userid;
+                // buy_ins_category = requestList[i].category;
+                // ins_option = requestList[i].option;
+                // print('$buy_ins_category $ins_option');
+                // if(buy_ins_category == 'health' && ins_option == 'buy'){
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => healthbuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+                // }
+                // else if(buy_ins_category == 'life' && ins_option == 'buy'){
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => LifeBuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+                // }
+              },
             ),
+            // child: Text(
+            //   'Quotation sent',
+            //   style: TextStyle(
+            //     color: Colors.red,
+            //   ),
+            // ),
           ),
         );
       }
@@ -214,12 +249,38 @@ class _Tp_BuyRequestsPageState extends State<Tp_BuyRequestsPage> {
       return Container(
         child: Align(
           alignment: Alignment.bottomRight,
-          child: Text(
-            'Action needed',
-            style: TextStyle(
-              color: Colors.red,
+          child: ElevatedButton(
+            child: Text(
+              'Action needed',
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+            ),
+            onPressed: (){
+              Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: requestid,empid: empid, compname : compname, option: option, category: category)));
+              // buy_user_requestid = requestList[i].requestid;
+              // buy_user_contactno = requestList[i].contactno;
+              // buy_user_id = requestList[i].userid;
+              // buy_ins_category = requestList[i].category;
+              // ins_option = requestList[i].option;
+              // print('$buy_ins_category $ins_option');
+              // if(buy_ins_category == 'health' && ins_option == 'buy'){
+              //   Navigator.push(context, MaterialPageRoute(builder: (context) => healthbuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+              // }
+              // else if(buy_ins_category == 'life' && ins_option == 'buy'){
+              //   Navigator.push(context, MaterialPageRoute(builder: (context) => LifeBuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+              // }
+            },
           ),
+          // child: Text(
+          //   'Action needed',
+          //   style: TextStyle(
+          //     color: Colors.red,
+          //   ),
+          // ),
         ),
       );
     }
@@ -290,7 +351,7 @@ class _ClientInfoState extends State<ClientInfo> {
       body: Container(
           child: Column(
             children: [
-              Flexible(
+              Expanded(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Employee_Clients')
@@ -364,6 +425,25 @@ class _ClientInfoState extends State<ClientInfo> {
                                   ),
 
                                   _getExistingDisease(e.data()['DiseaseName']),
+                                  Padding(padding: EdgeInsets.all(20),
+                                    child: ElevatedButton.icon(
+                                      label: Text(
+                                        'Select File',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      icon: Icon(Icons.attach_file_outlined),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                                      ),
+                                      onPressed: ()async {
+                                        print('button pressed');
+                                        _displayDialog(context);
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -469,7 +549,8 @@ class _ClientInfoState extends State<ClientInfo> {
                                     child: Text(
                                       'Nominee Relation: ${e.data()['NomineeRelation']}',
                                     ),
-                                  ),Padding(
+                                  ),
+                                  Padding(
                                       padding: EdgeInsets.only(bottom: 10.0),
                                       child: FutureBuilder(
                                           future:_serviceForHeartDisease.getHeartDiseaseInfo(client_requestid) ,
@@ -484,15 +565,39 @@ class _ClientInfoState extends State<ClientInfo> {
                                             else{
                                               return(
                                                   Text(
-                                                      "Retrieving Data"
+                                                      "Retrieving Data",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.red,
+                                                    ),
                                                   )
                                               );
                                             }
                                           }))
                                   ),
-
                                   //
                                   // _getExistingDisease(e.data()['DiseaseName']),
+                                  Padding(padding: EdgeInsets.all(20),
+                                    child: ElevatedButton.icon(
+                                      label: Text(
+                                        'Select File',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      icon: Icon(Icons.attach_file_outlined),
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                                      ),
+                                      onPressed: ()async {
+                                        print('button pressed');
+                                        _displayDialog(context);
+                                      },
+                                    ),
+                                  ),
+
                                 ],
                               ),
                             ),
@@ -503,176 +608,162 @@ class _ClientInfoState extends State<ClientInfo> {
                   },
                 ),
               ),
-              Flexible(
-                child: ElevatedButton.icon(
-                    label: Text(
-                      'Select File',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
-                    ),
-                    icon: Icon(Icons.attach_file_outlined),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
-                    ),
-                    onPressed: ()async {
-                      print('button pressed');
-                      _displayDialog(context);
-                    }
-                  // showfileName = false;
-                  // print('$showfileName');
-                  //     await showDialog<void>(
-                  //       context: this.context, barrierDismissible: false, // user must tap button!
-                  //
-                  //       builder: (BuildContext context) {
-                  //         bool showfileName = false;
-                  //         return AlertDialog(
-                  //           title: Text('Select File'),
-                  //           content: SingleChildScrollView(
-                  //             child: ListBody(
-                  //               children: [
-                  //                 OutlinedButton.icon(
-                  //                   label: Text('Browse from device'),
-                  //                   icon: Icon(Icons.web),
-                  //                   onPressed: () async {
-                  //                     print('pressed');
-                  //                     // print(showfileName);
-                  //                     _displayDialog(context);
-                  //                   },
-                  //                     // print(flag);
-                  //         //             final selected_file = await FilePicker.platform.pickFiles(allowMultiple: false);
-                  //         //             if(selected_file == null){
-                  //         //               // setState(() {
-                  //         //               //   showfileName = false;
-                  //         //               // });
-                  //         //               // flag =0;
-                  //         //               return;
-                  //         //             }
-                  //         //             else{
-                  //         //               final path = selected_file.files.single.path!;
-                  //         //               // flag = 1;
-                  //         //               setState(() {
-                  //         //                 file = File(path);
-                  //         //                 showfileName = true;
-                  //         //                 // flag = 1;
-                  //         //               });
-                  //         //               print('heyyyy $path $showfileName');
-                  //         //               // print('heyyyy $path $flag');
-                  //         //             }
-                  //         //             // await selectFile();
-                  //         //
-                  //         //             //   if(flag ==1){
-                  //         //             //     print('hey');
-                  //         //             //     showfileName = true;
-                  //         //             //   }
-                  //         //           },
-                  //         //         ),
-                  //         //         SizedBox(height: 10.0,),
-                  //         //         Visibility(
-                  //         //           visible: showfileName,
-                  //         //           child: Text(
-                  //         //             'hey',
-                  //         //           ),
-                  //         //         )
-                  //         //
-                  //         //       ],
-                  //         //     ),
-                  //         //   ),
-                  //         //   actions: [
-                  //         //     ElevatedButton.icon(
-                  //         //       label: Text('Upload'),
-                  //         //       icon: Icon(Icons.upload_file_outlined),
-                  //         //       onPressed: () {
-                  //         //         print('Upload Pressed');
-                  //         //       },
-                  //         //     ),
-                  //         //     // flag == 1 ? Text(
-                  //         //     //   'hey',
-                  //         //     // ): SizedBox()
-                  //         //   ],
-                  //         // );
-                  //         // // return StatefulBuilder(
-                  //         //     builder: (context,setState){
-                  //         //       bool showfileName = false;
-                  //         //       // int flag = 0;
-                  //         //       return AlertDialog(
-                  //         //         title: Text('Select File'),
-                  //         //         content: SingleChildScrollView(
-                  //         //           child: ListBody(
-                  //         //             children: [
-                  //         //               OutlinedButton.icon(
-                  //         //                 label: Text('Browse from device'),
-                  //         //                 icon: Icon(Icons.web),
-                  //         //                 onPressed: () async {
-                  //         //                   print('pressed');
-                  //         //                   print(showfileName);
-                  //         //                   // print(flag);
-                  //         //                   final selected_file = await FilePicker.platform.pickFiles(allowMultiple: false);
-                  //         //                   if(selected_file == null){
-                  //         //                     // setState(() {
-                  //         //                     //   showfileName = false;
-                  //         //                     // });
-                  //         //                     // flag =0;
-                  //         //                     return;
-                  //         //                   }
-                  //         //                   else{
-                  //         //                     final path = selected_file.files.single.path!;
-                  //         //                     // flag = 1;
-                  //         //                     setState(() {
-                  //         //                       file = File(path);
-                  //         //                       showfileName = true;
-                  //         //                       // flag = 1;
-                  //         //                     });
-                  //         //                     print('heyyyy $path $showfileName');
-                  //         //                     // print('heyyyy $path $flag');
-                  //         //                   }
-                  //         //                   // await selectFile();
-                  //         //
-                  //         //                   //   if(flag ==1){
-                  //         //                   //     print('hey');
-                  //         //                   //     showfileName = true;
-                  //         //                   //   }
-                  //         //                 },
-                  //         //               ),
-                  //         //               SizedBox(height: 10.0,),
-                  //         //               Visibility(
-                  //         //                 visible: showfileName,
-                  //         //                 child: Text(
-                  //         //                   'hey',
-                  //         //                 ),
-                  //         //               )
-                  //         //
-                  //         //             ],
-                  //         //           ),
-                  //         //         ),
-                  //         //         actions: [
-                  //         //           ElevatedButton.icon(
-                  //         //             label: Text('Upload'),
-                  //         //             icon: Icon(Icons.upload_file_outlined),
-                  //         //             onPressed: () {
-                  //         //               print('Upload Pressed');
-                  //         //             },
-                  //         //           ),
-                  //         //           // flag == 1 ? Text(
-                  //         //           //   'hey',
-                  //         //           // ): SizedBox()
-                  //         //         ],
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         );
-                  //       },
-                  //     );
-                  //     // selectFilePopUp();
-                  //   },
-                  // ),
-                ),
-              ),
+
+
+              //     // showfileName = false;
+              //     // print('$showfileName');
+              //     //     await showDialog<void>(
+              //     //       context: this.context, barrierDismissible: false, // user must tap button!
+              //     //
+              //     //       builder: (BuildContext context) {
+              //     //         bool showfileName = false;
+              //     //         return AlertDialog(
+              //     //           title: Text('Select File'),
+              //     //           content: SingleChildScrollView(
+              //     //             child: ListBody(
+              //     //               children: [
+              //     //                 OutlinedButton.icon(
+              //     //                   label: Text('Browse from device'),
+              //     //                   icon: Icon(Icons.web),
+              //     //                   onPressed: () async {
+              //     //                     print('pressed');
+              //     //                     // print(showfileName);
+              //     //                     _displayDialog(context);
+              //     //                   },
+              //     //                     // print(flag);
+              //     //         //             final selected_file = await FilePicker.platform.pickFiles(allowMultiple: false);
+              //     //         //             if(selected_file == null){
+              //     //         //               // setState(() {
+              //     //         //               //   showfileName = false;
+              //     //         //               // });
+              //     //         //               // flag =0;
+              //     //         //               return;
+              //     //         //             }
+              //     //         //             else{
+              //     //         //               final path = selected_file.files.single.path!;
+              //     //         //               // flag = 1;
+              //     //         //               setState(() {
+              //     //         //                 file = File(path);
+              //     //         //                 showfileName = true;
+              //     //         //                 // flag = 1;
+              //     //         //               });
+              //     //         //               print('heyyyy $path $showfileName');
+              //     //         //               // print('heyyyy $path $flag');
+              //     //         //             }
+              //     //         //             // await selectFile();
+              //     //         //
+              //     //         //             //   if(flag ==1){
+              //     //         //             //     print('hey');
+              //     //         //             //     showfileName = true;
+              //     //         //             //   }
+              //     //         //           },
+              //     //         //         ),
+              //     //         //         SizedBox(height: 10.0,),
+              //     //         //         Visibility(
+              //     //         //           visible: showfileName,
+              //     //         //           child: Text(
+              //     //         //             'hey',
+              //     //         //           ),
+              //     //         //         )
+              //     //         //
+              //     //         //       ],
+              //     //         //     ),
+              //     //         //   ),
+              //     //         //   actions: [
+              //     //         //     ElevatedButton.icon(
+              //     //         //       label: Text('Upload'),
+              //     //         //       icon: Icon(Icons.upload_file_outlined),
+              //     //         //       onPressed: () {
+              //     //         //         print('Upload Pressed');
+              //     //         //       },
+              //     //         //     ),
+              //     //         //     // flag == 1 ? Text(
+              //     //         //     //   'hey',
+              //     //         //     // ): SizedBox()
+              //     //         //   ],
+              //     //         // );
+              //     //         // // return StatefulBuilder(
+              //     //         //     builder: (context,setState){
+              //     //         //       bool showfileName = false;
+              //     //         //       // int flag = 0;
+              //     //         //       return AlertDialog(
+              //     //         //         title: Text('Select File'),
+              //     //         //         content: SingleChildScrollView(
+              //     //         //           child: ListBody(
+              //     //         //             children: [
+              //     //         //               OutlinedButton.icon(
+              //     //         //                 label: Text('Browse from device'),
+              //     //         //                 icon: Icon(Icons.web),
+              //     //         //                 onPressed: () async {
+              //     //         //                   print('pressed');
+              //     //         //                   print(showfileName);
+              //     //         //                   // print(flag);
+              //     //         //                   final selected_file = await FilePicker.platform.pickFiles(allowMultiple: false);
+              //     //         //                   if(selected_file == null){
+              //     //         //                     // setState(() {
+              //     //         //                     //   showfileName = false;
+              //     //         //                     // });
+              //     //         //                     // flag =0;
+              //     //         //                     return;
+              //     //         //                   }
+              //     //         //                   else{
+              //     //         //                     final path = selected_file.files.single.path!;
+              //     //         //                     // flag = 1;
+              //     //         //                     setState(() {
+              //     //         //                       file = File(path);
+              //     //         //                       showfileName = true;
+              //     //         //                       // flag = 1;
+              //     //         //                     });
+              //     //         //                     print('heyyyy $path $showfileName');
+              //     //         //                     // print('heyyyy $path $flag');
+              //     //         //                   }
+              //     //         //                   // await selectFile();
+              //     //         //
+              //     //         //                   //   if(flag ==1){
+              //     //         //                   //     print('hey');
+              //     //         //                   //     showfileName = true;
+              //     //         //                   //   }
+              //     //         //                 },
+              //     //         //               ),
+              //     //         //               SizedBox(height: 10.0,),
+              //     //         //               Visibility(
+              //     //         //                 visible: showfileName,
+              //     //         //                 child: Text(
+              //     //         //                   'hey',
+              //     //         //                 ),
+              //     //         //               )
+              //     //         //
+              //     //         //             ],
+              //     //         //           ),
+              //     //         //         ),
+              //     //         //         actions: [
+              //     //         //           ElevatedButton.icon(
+              //     //         //             label: Text('Upload'),
+              //     //         //             icon: Icon(Icons.upload_file_outlined),
+              //     //         //             onPressed: () {
+              //     //         //               print('Upload Pressed');
+              //     //         //             },
+              //     //         //           ),
+              //     //         //           // flag == 1 ? Text(
+              //     //         //           //   'hey',
+              //     //         //           // ): SizedBox()
+              //     //         //         ],
+              //     //                 ),
+              //     //               ],
+              //     //             ),
+              //     //           ),
+              //     //         );
+              //     //       },
+              //     //     );
+              //     //     // selectFilePopUp();
+              //     //   },
+              //     // ),
+              //   ),
+              // ),
+              // ),
             ],
           )
-      ),
+        ),
     );
 
   }
@@ -706,11 +797,11 @@ class _ClientInfoState extends State<ClientInfo> {
                           OutlinedButton.icon(
                             label: Text('Browse from device',
                               style: TextStyle(
-                                color: Colors.orangeAccent,
+                                color: Color(0xFFfe846f),
                               ),
                             ),
                             icon: Icon(Icons.web,
-                              color: Colors.orangeAccent,
+                              color: Color(0xFFfe846f),
                             ),
                             onPressed: () async{
                               print('button pressed');
@@ -769,7 +860,7 @@ class _ClientInfoState extends State<ClientInfo> {
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               },
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                                backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
                               ),
                             ),
                           ),

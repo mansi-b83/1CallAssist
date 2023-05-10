@@ -47,6 +47,7 @@ class _healthRenewFormState extends State<healthRenewForm> {
     userid = widget.userid;
     return Scaffold(
       appBar: AppBar(
+        title: Text('Renew Health Insurance'),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -276,7 +277,7 @@ class _healthRenewFormState extends State<healthRenewForm> {
                       child: ElevatedButton.icon(
                         icon: Icon(Icons.send_outlined),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                          backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
                         ),
                         onPressed: (){
                           print("button pressed");

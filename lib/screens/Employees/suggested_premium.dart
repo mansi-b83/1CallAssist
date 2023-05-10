@@ -49,12 +49,21 @@ class _SuggestedPremiumState extends State<SuggestedPremium> {
                 return Center(
                   child: Text(
                     snapshot.data!,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black54,
+                    ),
                   ),
                 );
               } else {
                 return Center(
                   child: Text(
                     "Retrieveing Data",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 );
               }

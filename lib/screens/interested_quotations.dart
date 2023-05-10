@@ -118,7 +118,12 @@ class _User_InterestedQuotationsState extends State<User_InterestedQuotations> {
               children: [
                 Padding(padding: EdgeInsets.all(10.0),
                   child: Text(
-                      '$reqid:'
+                    '$reqid:',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
 
@@ -173,7 +178,12 @@ class _User_InterestedQuotationsState extends State<User_InterestedQuotations> {
               children: [
                 Padding(padding: EdgeInsets.all(10.0),
                   child: Text(
-                      '$reqid:'
+                    '$reqid:',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
 
@@ -224,14 +234,33 @@ class _User_InterestedQuotationsState extends State<User_InterestedQuotations> {
 
       // );
     }
+    // else{
+    //   // return Text('');
+    // }
     else{
-      return Center(
-        child: Text(
-          '$reqid: No quotations',
-        ),
-      );
+      // return ;
+      return
+        Row(
+          children: [
+            Padding(padding: EdgeInsets.only(left: 30,bottom: 10,right: 10,top: 10),
+              child: Text(
+                '$reqid:',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(10),
+              child: Text(
+                  'No quotations',
+              ),
+            )
+        ],
+        );
     }
-    return Container();
+    // return Container();
   }
   // Future getInterestedQuotations() async{
   //   print('Hello');

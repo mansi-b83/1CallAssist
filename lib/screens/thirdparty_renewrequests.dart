@@ -116,33 +116,43 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
                         // }
                       },
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 5.0),
                             child: Text(
                               "Request ID: ${companyClientList[i].reqid}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 5.0),
                             child: Text(
                               "Category: ${companyClientList[i].category}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Option: ${companyClientList[i].option}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "User ID: ${companyClientList[i].userid}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Employee ID: ${companyClientList[i].empid}",
-                            ),
-                          ),
-                          _tprequeststatus(_renewreqstatus,companyClientList[i].reqid),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Option: ${companyClientList[i].option}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "User ID: ${companyClientList[i].userid}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Employee ID: ${companyClientList[i].empid}",
+                          //   ),
+                          // ),
+                          _tprequeststatus(_renewreqstatus,companyClientList[i].reqid,companyClientList[i].empid,companyname,companyClientList[i].option),
                         ],
                       ),
                     )
@@ -159,7 +169,7 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
     }
     return ListView(children: list);
   }
-  Widget _tprequeststatus(List reqstatuslist,String requestid){
+  Widget _tprequeststatus(List reqstatuslist,String requestid,String empid,String compname,String option){
     print('in reqstatus, $requestid $reqstatuslist');
     for(int j=0; j<_renewreqstatus.length; j++){
       print(j);
@@ -168,11 +178,18 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
         return Container(
           child: Align(
             alignment: Alignment.bottomRight,
-            child: Text(
-              'Quotation sent',
-              style: TextStyle(
-                color: Colors.red,
+            child: ElevatedButton(
+              child: Text(
+                'Quotation Sent',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+              ),
+              onPressed: (){
+              },
             ),
           ),
         );
@@ -203,12 +220,32 @@ class _Tp_RenewRequestsPageState extends State<Tp_RenewRequestsPage> {
       return Container(
         child: Align(
           alignment: Alignment.bottomRight,
-          child: Text(
-            'Action needed',
-            style: TextStyle(
-              color: Colors.red,
+            child: ElevatedButton(
+              child: Text(
+                'Action needed',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+              ),
+              onPressed: (){
+                Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClientInfo(clientreqid: requestid,empid: empid, compname : compname, option: option)));
+                // buy_user_requestid = requestList[i].requestid;
+                // buy_user_contactno = requestList[i].contactno;
+                // buy_user_id = requestList[i].userid;
+                // buy_ins_category = requestList[i].category;
+                // ins_option = requestList[i].option;
+                // print('$buy_ins_category $ins_option');
+                // if(buy_ins_category == 'health' && ins_option == 'buy'){
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => healthbuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+                // }
+                // else if(buy_ins_category == 'life' && ins_option == 'buy'){
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => LifeBuyForm(userid: buy_user_id ,requestid: buy_user_requestid,category: buy_ins_category,option: ins_option)));
+                // }
+              },
             ),
-          ),
         ),
       );
     }
@@ -358,7 +395,7 @@ class _ClientInfoState extends State<ClientInfo> {
                     ),
                     icon: Icon(Icons.attach_file_outlined),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                      backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
                     ),
                     onPressed: ()async {
                       print('button pressed');
@@ -536,8 +573,14 @@ class _ClientInfoState extends State<ClientInfo> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           OutlinedButton.icon(
-                            label: Text('Browse from device'),
-                            icon: Icon(Icons.web),
+                            label: Text('Browse from device',
+                              style: TextStyle(
+                                color: Color(0xFFfe846f),
+                              ),
+                            ),
+                            icon: Icon(Icons.web,
+                              color: Color(0xFFfe846f),
+                            ),
                             onPressed: () async{
                               print('button pressed');
                               print(_isVisible);
@@ -579,7 +622,21 @@ class _ClientInfoState extends State<ClientInfo> {
                               onPressed: () {
                                 print('Upload Pressed');
                                 uploadFile();
+                                final snackBar = SnackBar(
+                                  content: const Text('Successfully sent to companies!'),
+                                  action: SnackBarAction(
+                                    label: 'Ok',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tp_RenewRequestsPage()));
+                                    },
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                              ),
                             ),
                           ),
                           SizedBox(height: 10.0),

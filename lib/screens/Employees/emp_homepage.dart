@@ -37,9 +37,12 @@ class _EmpHomePageState extends State<EmpHomePage> {
                         child: ElevatedButton(
                           child: Text(
                             'Click Here',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.orangeAccent)
+                            backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
                           ),
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => QuatationsRecdPage()));

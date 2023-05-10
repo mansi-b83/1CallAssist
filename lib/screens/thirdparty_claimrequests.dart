@@ -114,33 +114,43 @@ class _Tp_ClaimRequestsPageState extends State<Tp_ClaimRequestsPage> {
                         // }
                       },
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 5.0),
                             child: Text(
                               "Request ID: ${companyClientList[i].reqid}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          Padding(padding: EdgeInsets.only(left: 10,bottom: 5.0),
                             child: Text(
                               "Category: ${companyClientList[i].category}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Option: ${companyClientList[i].option}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "User ID: ${companyClientList[i].userid}",
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "Employee ID: ${companyClientList[i].empid}",
-                            ),
-                          ),
-                          _tprequeststatus(companyClientList[i].reqid)
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Option: ${companyClientList[i].option}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "User ID: ${companyClientList[i].userid}",
+                          //   ),
+                          // ),
+                          // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                          //   child: Text(
+                          //     "Employee ID: ${companyClientList[i].empid}",
+                          //   ),
+                          // ),
+                          _tprequeststatus(companyClientList[i].reqid,companyClientList[i].empid,companyname,companyClientList[i].option)
                         ],
                       ),
                     )
@@ -158,7 +168,7 @@ class _Tp_ClaimRequestsPageState extends State<Tp_ClaimRequestsPage> {
     return ListView(children: list);
   }
 
-  Widget _tprequeststatus(String requestid) {
+  Widget _tprequeststatus(String requestid,String empid,String compname,String option) {
     // print('in reqstatus, $requestid');
     // Container(
       return StreamBuilder(
@@ -179,7 +189,7 @@ class _Tp_ClaimRequestsPageState extends State<Tp_ClaimRequestsPage> {
                   shrinkWrap: true,
                   children:snapshot.data!.docs.map((e){
                     return Container(
-                      child: getClaimStatus(e.data()['isClaimed']),
+                      child: getClaimStatus(e.data()['isClaimed'],requestid,empid,compname,option),
                       // child: Align(
                       //   alignment: Alignment.bottomRight,
                       //   child: Text(
@@ -210,27 +220,54 @@ class _Tp_ClaimRequestsPageState extends State<Tp_ClaimRequestsPage> {
     // );
   }
 
-  Widget getClaimStatus(claimstatus){
+  Widget getClaimStatus(claimstatus,requestid,empid,compname,option){
     // print('in getClaimStatus $claimstatus');
     if(claimstatus != null){
       return Align(
         alignment: Alignment.bottomRight,
-        child: Text(
-          'Claimed',
-          style: TextStyle(
-            color: Colors.red,
+        // child: Text(
+        //   'Claimed',
+        //   style: TextStyle(
+        //     color: Colors.red,
+        //   ),
+        // ),
+        child: ElevatedButton(
+          child: Text(
+            'Claimed',
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+          ),
+          onPressed: (){
+          },
         ),
       );
     }
     else{
       return Align(
         alignment: Alignment.bottomRight,
-        child: Text(
-          'Action needed',
-          style: TextStyle(
-            color: Colors.red,
+        // child: Text(
+        //   'Action needed',
+        //   style: TextStyle(
+        //     color: Colors.red,
+        //   ),
+        // ),
+        child: ElevatedButton(
+          child: Text(
+            'Action Needed',
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+          ),
+          onPressed: (){
+            Navigator.push(this.context, MaterialPageRoute(builder: (context) => ClaimClientInfo(clientreqid: requestid,empid: empid, compname : companyname, option: option)));
+          },
         ),
       );
     }
@@ -379,6 +416,9 @@ class _ClaimClientInfoState extends State<ClaimClientInfo> {
                                         // _displaydocs(e.data()['Documents']);
                                         // Image.network('${docs[i]}');
                                       },
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                                      ),
                                     ),
                                     // child: _displaydocs(e.data()['Documents']),
                                     // child: Text(
@@ -407,7 +447,7 @@ class _ClaimClientInfoState extends State<ClaimClientInfo> {
                     ),
                     icon: Icon(Icons.monetization_on),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                      backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
                     ),
                     onPressed: ()async {
                       print('claim approve button pressed');

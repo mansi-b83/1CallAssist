@@ -120,27 +120,46 @@ class _MultiFileUplaodScreenState extends State<MultiFileUplaodScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: MaterialButton(
-                color: Colors.orangeAccent,
-                minWidth: double.infinity,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+              // child: MaterialButton(
+              //   color: Colors.orangeAccent,
+              //   minWidth: double.infinity,
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(8)),
+              //   height: 50,
+              //   onPressed: () async {
+              //     print('send clicked');
+              //     for (int i = 0; i < images.length; i++) {
+              //       String url = await uploadFile(images[i]);
+              //       downloadUrls.add(url);
+              //
+              //       if (i == images.length - 1) {
+              //         storeEntry(downloadUrls, policynumController.text,upiController.text);
+              //       }
+              //     }
+              //   },
+              child: SizedBox(
                 height: 50,
-                onPressed: () async {
-                  print('send clicked');
-                  for (int i = 0; i < images.length; i++) {
-                    String url = await uploadFile(images[i]);
-                    downloadUrls.add(url);
+                child: ElevatedButton.icon(
+                  icon: Icon(Icons.send_outlined),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                  ),
+                  onPressed: () async {
+                    print('send clicked');
+                    for (int i = 0; i < images.length; i++) {
+                      String url = await uploadFile(images[i]);
+                      downloadUrls.add(url);
 
-                    if (i == images.length - 1) {
-                      storeEntry(downloadUrls, policynumController.text,upiController.text);
+                      if (i == images.length - 1) {
+                        storeEntry(downloadUrls, policynumController.text,upiController.text);
+                      }
                     }
-                  }
-                },
-                child: Text("Send",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                  },
+                  label: Text("Send",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
               ),

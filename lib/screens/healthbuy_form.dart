@@ -56,6 +56,7 @@ class _healthbuyFormState extends State<healthbuyForm> {
     ins_option = widget.option;
     return Scaffold(
       appBar: AppBar(
+        title: Text('Buy Health Insurance'),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -64,399 +65,409 @@ class _healthbuyFormState extends State<healthbuyForm> {
         ),
         backgroundColor: Colors.orangeAccent,
       ),
-      body: Center(
-        child: Container(
+      body: Container(
           margin: EdgeInsets.all(20),
           // padding: EdgeInsets.only(top: 40.0),
 
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  Padding(padding: EdgeInsets.only(left: 15.0,top: 30.0,bottom: 15.0,right: 15.0),
-                    child: TextField(
-                      controller: ageController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        // labelText: 'Contact Number',
-                        hintText: 'Enter Age',
-                      ),
+          // child: AlertDialog(
+          //   insetPadding: EdgeInsets.all(0),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                // mainAxisAlignment: MainAxisAlignment.center,
+               // child: Column(
+                 children: [
+                   Padding(padding: EdgeInsets.only(left: 10.0,top: 30.0,bottom: 15.0,right: 15.0),
+                     child: TextField(
+                         controller: ageController,
+                         keyboardType: TextInputType.number,
+                         decoration: InputDecoration(
+                           border: OutlineInputBorder(),
+                           // labelText: 'Contact Number',
+                           hintText: 'Enter Age',
+                         ),
 
-                      onChanged: (value){
-                        setState(() {
-                          age = int.parse(value);
-                          print(age);
-                        });
-                      }
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: DropdownButton(
-                        hint: Text('Gender'),
-                        value: selected_gender,
-                        icon: Icon(Icons.keyboard_arrow_down,
-                          color: Colors.black,
-                        ),
-                        items: gender.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items,),
-                          );
-                        }).toList(),
-                        onChanged: (String? newval){
-                          setState(() {
-                            selected_gender = newval!;
-                            print(selected_gender);
-                          });
-                        },
-                      ),
-                    )
-                  ),
+                         onChanged: (value){
+                           setState(() {
+                             age = int.parse(value);
+                             print(age);
+                           });
+                         }
+                     ),
+                   ),
+                   Padding(padding: EdgeInsets.all(10),
+                       child: Align(
+                         alignment: Alignment.centerLeft,
+                         child: DropdownButton(
+                           hint: Text('Gender'),
+                           value: selected_gender,
+                           icon: Icon(Icons.keyboard_arrow_down,
+                             color: Colors.black,
+                           ),
+                           items: gender.map((String items) {
+                             return DropdownMenuItem(
+                               value: items,
+                               child: Text(items,),
+                             );
+                           }).toList(),
+                           onChanged: (String? newval){
+                             setState(() {
+                               selected_gender = newval!;
+                               print(selected_gender);
+                             });
+                           },
+                         ),
+                       )
+                   ),
 
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Do you smoke?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            // color: Colors.grey,
-                          ),
-                    ),
-                  ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Align(
+                       alignment: Alignment.centerLeft,
+                       child: Text(
+                         'Do you smoke?',
+                         style: TextStyle(
+                           fontSize: 18,
+                           // color: Colors.grey,
+                         ),
+                       ),
+                     )
+                   ),
 
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                            child: RadioListTile(
-                              title: Text("Yes"),
-                              value: "yes",
-                              groupValue: smoke,
-                              onChanged: (value){
-                                setState(() {
-                                  smoke = value.toString();
-                                  print(smoke);
-                                });
-                              },
-                            ),
-                        ),
-                        Flexible(
-                            child: RadioListTile(
-                              title: Text("No"),
-                              value: "no",
-                              groupValue: smoke,
-                              onChanged: (value) {
-                                setState(() {
-                                  smoke = value.toString();
-                                  print(smoke);
-                                });
-                              },
-                            ),
-                        )
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text("Yes"),
+                             value: "yes",
+                             groupValue: smoke,
+                             onChanged: (value){
+                               setState(() {
+                                 smoke = value.toString();
+                                 print(smoke);
+                               });
+                             },
+                           ),
+                         ),
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text("No"),
+                             value: "no",
+                             groupValue: smoke,
+                             onChanged: (value) {
+                               setState(() {
+                                 smoke = value.toString();
+                                 print(smoke);
+                               });
+                             },
+                           ),
+                         )
 
-                      ],
-                    ),
-                  ),
+                       ],
+                     ),
+                   ),
 
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Do you consume Tobacco?',
-                      style: TextStyle(
-                        fontSize: 18,
-                        // color: Colors.grey,
-                      ),
-                    ),
-                  ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Align(
+                       alignment: Alignment.centerLeft,
+                       child: Text(
+                         'Do you consume Tobacco?',
+                         style: TextStyle(
+                           fontSize: 18,
+                           // color: Colors.grey,
+                         ),
+                       ),
+                     )
+                   ),
 
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                            child: RadioListTile(
-                              title: Text("Yes"),
-                              value: "yes",
-                              groupValue: tobacco,
-                              onChanged: (value){
-                                setState(() {
-                                  tobacco = value.toString();
-                                  print(tobacco);
-                                });
-                              },
-                            ),
-                        ),
-                        Flexible(
-                            child: RadioListTile(
-                              title: Text(" No"),
-                              value: "no",
-                              groupValue: tobacco,
-                              onChanged: (value){
-                                setState(() {
-                                  tobacco = value.toString();
-                                  print(tobacco);
-                                });
-                              },
-                            ),
-                        )
-                      ],
-                    ),
-                  ),
-                Padding(padding: EdgeInsets.only(right: 15.0),
-                  child: TextFormField(
-                    controller: bmi_contr,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      // labelText: 'Contact Number',
-                      hintText: 'BMI',
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        bmi = double.parse(value);
-                        print(bmi);
-                      });
-                    },
-                  ),
-                ),
-                  // Padding(padding: EdgeInsets.only(right: 15.0),
-                  //   child: TextFormField(
-                  //     controller: numofmem_contr,
-                  //     decoration: InputDecoration(
-                  //       border: OutlineInputBorder(),
-                  //       // labelText: 'Contact Number',
-                  //       hintText: 'Number of Members',
-                  //     ),
-                  //     keyboardType: TextInputType.number,
-                  //     onChanged: (value) {
-                  //       setState(() {
-                  //         noofmem = int.parse(value);
-                  //         print(noofmem);
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text("Yes"),
+                             value: "yes",
+                             groupValue: tobacco,
+                             onChanged: (value){
+                               setState(() {
+                                 tobacco = value.toString();
+                                 print(tobacco);
+                               });
+                             },
+                           ),
+                         ),
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text(" No"),
+                             value: "no",
+                             groupValue: tobacco,
+                             onChanged: (value){
+                               setState(() {
+                                 tobacco = value.toString();
+                                 print(tobacco);
+                               });
+                             },
+                           ),
+                         )
+                       ],
+                     ),
+                   ),
+                   Padding(padding: EdgeInsets.all(10.0),
+                     child: TextFormField(
+                       controller: bmi_contr,
+                       decoration: InputDecoration(
+                         border: OutlineInputBorder(),
+                         // labelText: 'Contact Number',
+                         hintText: 'BMI',
+                       ),
+                       keyboardType: TextInputType.number,
+                       onChanged: (value) {
+                         setState(() {
+                           bmi = double.parse(value);
+                           print(bmi);
+                         });
+                       },
+                     ),
+                   ),
+                   // Padding(padding: EdgeInsets.only(right: 15.0),
+                   //   child: TextFormField(
+                   //     controller: numofmem_contr,
+                   //     decoration: InputDecoration(
+                   //       border: OutlineInputBorder(),
+                   //       // labelText: 'Contact Number',
+                   //       hintText: 'Number of Members',
+                   //     ),
+                   //     keyboardType: TextInputType.number,
+                   //     onChanged: (value) {
+                   //       setState(() {
+                   //         noofmem = int.parse(value);
+                   //         print(noofmem);
+                   //       });
+                   //     },
+                   //   ),
+                   // ),
 
-                  Padding(padding: EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Flexible(
-                            child: Text(
-                              'Insurance Type',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                        ),
-                        Flexible(
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white12,
-                                border: Border.all(color: Colors.white10, width: 3),
-                                // boxShadow: <BoxShadow>[
-                                //   BoxShadow(
-                                //       color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                //       blurRadius: 3
-                                //   ) //blur radius of shadow
-                                // ]
-                            ),
-                            child: Padding(padding: EdgeInsets.only(left: 15.0),
-                              child: DropdownButton(
-                                value: instype,
-                                icon: Icon(Icons.keyboard_arrow_down),
-                                items: types.map((String items){
-                                  return DropdownMenuItem(
-                                    value: items,
-                                    child: Text(items),
-                                  );
-                                }).toList(),
-                                onChanged: (String? typeval) {
-                                  setState(() {
-                                    instype = typeval!;
-                                    print(instype);
-                                    if(instype == 'Family'){
-                                      flag = 1;
-                                      print(flag);
-                                      _showTextField = true;
-                                    }else{
-                                      flag = 0;
-                                      _showTextField = false;
-                                    }
-                                    // print(flag);
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Row(
+                       children: [
+                         Flexible(
+                           child: Text(
+                             'Insurance Type',
+                             style: TextStyle(
+                               fontSize: 18,
+                             ),
+                           ),
+                         ),
+                         Flexible(
+                           child: DecoratedBox(
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(5),
+                               color: Colors.white12,
+                               border: Border.all(color: Colors.white10, width: 3),
+                               // boxShadow: <BoxShadow>[
+                               //   BoxShadow(
+                               //       color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                               //       blurRadius: 3
+                               //   ) //blur radius of shadow
+                               // ]
+                             ),
+                             child: Padding(padding: EdgeInsets.all(10),
+                               child: DropdownButton(
+                                 value: instype,
+                                 icon: Icon(Icons.keyboard_arrow_down),
+                                 items: types.map((String items){
+                                   return DropdownMenuItem(
+                                     value: items,
+                                     child: Text(items),
+                                   );
+                                 }).toList(),
+                                 onChanged: (String? typeval) {
+                                   setState(() {
+                                     instype = typeval!;
+                                     print(instype);
+                                     if(instype == 'Family'){
+                                       flag = 1;
+                                       print(flag);
+                                       _showTextField = true;
+                                     }else{
+                                       flag = 0;
+                                       _showTextField = false;
+                                     }
+                                     // print(flag);
+                                   });
+                                 },
+                               ),
+                             ),
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Visibility(
-                    visible: _showTextField,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          width: 200,
-                            child:  Padding(padding: EdgeInsets.only(right: 15.0),
-                              child: TextFormField(
-                                controller: numofmem_contr,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                    // labelText: 'Contact Number',
-                                  hintText: 'Number of members',
-                                ),
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {
-                                  setState(() {
-                                    noofmem = int.parse(value);
-                                    print(noofmem);
-                                  });
-                                },
-                              ),
-                            ),
-                        ),
-                        // SizedBox(
-                        //   height: 40,
-                        //   width: 110,
-                        //     child: ElevatedButton(
-                        //       child: Text('Add entries',
-                        //         style: TextStyle(
-                        //           fontSize: 16,
-                        //         ),
-                        //       ),
-                        //       onPressed: () async {
-                        //         List<FamDetailsEntry> persons = await Navigator.push(context, MaterialPageRoute(builder: (context) => _famDetails()));
-                        //         if (persons != null){
-                        //           buy_famdetails =[];
-                        //           for(int i = 0;i<persons.length;i++){
-                        //             buy_famdetails.add(persons[i]);
-                        //           }
-                        //         }
-                        //         // setState(() {
-                        //         //
-                        //         // });
-                        //       },
-                        //       style: ButtonStyle(
-                        //         backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
-                        //       ),
-                        //
-                        //     ),
-                        // ),
-                      ],
-                    )
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Visibility(
+                         visible: _showTextField,
+                         child: Row(
+                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: [
+                             SizedBox(
+                               width: 200,
+                               // child:  Padding(padding: EdgeInsets.all(10.0),
+                                 child: TextFormField(
+                                   controller: numofmem_contr,
+                                   decoration: InputDecoration(
+                                     border: OutlineInputBorder(),
+                                     // labelText: 'Contact Number',
+                                     hintText: 'Number of members',
+                                   ),
+                                   keyboardType: TextInputType.number,
+                                   onChanged: (value) {
+                                     setState(() {
+                                       noofmem = int.parse(value);
+                                       print(noofmem);
+                                     });
+                                   },
+                                 ),
+                               // ),
+                             ),
+                             // SizedBox(
+                             //   height: 40,
+                             //   width: 110,
+                             //     child: ElevatedButton(
+                             //       child: Text('Add entries',
+                             //         style: TextStyle(
+                             //           fontSize: 16,
+                             //         ),
+                             //       ),
+                             //       onPressed: () async {
+                             //         List<FamDetailsEntry> persons = await Navigator.push(context, MaterialPageRoute(builder: (context) => _famDetails()));
+                             //         if (persons != null){
+                             //           buy_famdetails =[];
+                             //           for(int i = 0;i<persons.length;i++){
+                             //             buy_famdetails.add(persons[i]);
+                             //           }
+                             //         }
+                             //         // setState(() {
+                             //         //
+                             //         // });
+                             //       },
+                             //       style: ButtonStyle(
+                             //         backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                             //       ),
+                             //
+                             //     ),
+                             // ),
+                           ],
+                         )
 
-                  ),
-                ),
+                     ),
+                   ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Any existing disease or illness?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      // color: Colors.grey,
-                    ),
-                  ),
-                ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Text(
+                       'Any existing disease or illness?',
+                       style: TextStyle(
+                         fontSize: 18,
+                         // color: Colors.grey,
+                       ),
+                     ),
+                   ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: RadioListTile(
-                          title: Text("Yes"),
-                          value: "yes",
-                          groupValue: disease,
-                          onChanged: (String? disval) {
-                            setState(() {
-                              disease = disval!;
-                              print(disease);
-                              _showdiseasenametxtbox = true;
-                            });
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: RadioListTile(
-                          title: Text(" No"),
-                          value: "no",
-                          groupValue: disease,
-                          onChanged: (String? value){
-                            setState(() {
-                              disease = value!;
-                              print(disease);
-                              _showdiseasenametxtbox = false;
-                            });
-                          },
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text("Yes"),
+                             value: "yes",
+                             groupValue: disease,
+                             onChanged: (String? disval) {
+                               setState(() {
+                                 disease = disval!;
+                                 print(disease);
+                                 _showdiseasenametxtbox = true;
+                               });
+                             },
+                           ),
+                         ),
+                         Flexible(
+                           child: RadioListTile(
+                             title: Text(" No"),
+                             value: "no",
+                             groupValue: disease,
+                             onChanged: (String? value){
+                               setState(() {
+                                 disease = value!;
+                                 print(disease);
+                                 _showdiseasenametxtbox = false;
+                               });
+                             },
 
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                           ),
+                         )
+                       ],
+                     ),
+                   ),
 
-                Padding(padding: EdgeInsets.all(10),
-                  child: Visibility(
-                      visible: _showdiseasenametxtbox,
-                      child: TextFormField(
-                        controller: diseaseController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          // labelText: 'Contact Number',
-                          hintText: 'Enter disease/illness',
-                        ),
-                      ),
-                  ),
-                ),
+                   Padding(padding: EdgeInsets.all(10),
+                     child: Visibility(
+                       visible: _showdiseasenametxtbox,
+                       child: TextFormField(
+                         controller: diseaseController,
+                         decoration: InputDecoration(
+                           border: OutlineInputBorder(),
+                           // labelText: 'Contact Number',
+                           hintText: 'Enter disease/illness',
+                         ),
+                       ),
+                     ),
+                   ),
 
-                Center(
-                  child: Padding(padding: EdgeInsets.all(20),
-                    child: SizedBox(
-                      height: 50,
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.send_outlined),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
-                        ),
-                        onPressed: (){
-                          print("button pressed");
-                          final form = _formKey.currentState;
-                          if (form != null && !form.validate()){
-                            return;
-                          }
-                          else{
-                            form?.save();
-                            sendbuyforminput();
-                            // _sendFinalUserinfo(context);
-                            // create_pdf();
+                   Center(
+                     child: Padding(padding: EdgeInsets.all(20),
+                       child: SizedBox(
+                         height: 50,
+                         child: ElevatedButton.icon(
+                           icon: Icon(Icons.send_outlined),
+                           style: ButtonStyle(
+                             backgroundColor: MaterialStateProperty.all(Color(0xFFfe846f)),
+                           ),
+                           onPressed: (){
+                             print("button pressed");
+                             final form = _formKey.currentState;
+                             if (form != null && !form.validate()){
+                               return;
+                             }
+                             else{
+                               form?.save();
+                               sendbuyforminput();
+                               // _sendFinalUserinfo(context);
+                               // create_pdf();
 
-                          }
-                        },
-                        label: Text(
-                          'Send',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                             }
+                           },
+                           label: Text(
+                             'Send',
+                             style: TextStyle(
+                               color: Colors.white,
+                               fontSize: 22,
+                             ),
+                           ),
+                         ),
+                       ),
+                     ),
+                   ),
+                 ],
+               ),
+              // ),
             ),
-          ),
+          // )
         ),
-      ),
-    );
+      );
+    // );
   }
   // void create_pdf() async{
   //   PdfDocument document = PdfDocument();

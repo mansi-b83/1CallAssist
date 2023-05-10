@@ -3,6 +3,7 @@ import 'package:demo/screens/healthrenew_form.dart';
 import 'package:demo/screens/Employees/Requests_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RenewApp extends StatefulWidget {
   const RenewApp({super.key});
@@ -27,6 +28,14 @@ class _RenewAppState extends State<RenewApp> {
     super.didChangeDependencies();
   }
 
+  _makePhoneCall(contactnumber) async {
+    var url = Uri.parse("tel:$contactnumber");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,11 +116,7 @@ class _RenewAppState extends State<RenewApp> {
                    child: InkWell(
                      splashColor: Colors.blue.withAlpha(30),
                      onTap: () {
-                       renew_user_requestid = requestList[i].requestid;
-                       renew_user_contactno = requestList[i].contactno;
-                       renew_user_id = requestList[i].userid;
-                       renew_ins_category = requestList[i].category;
-                       ins_option = requestList[i].option;
+
                        print("Request ID- $renew_user_requestid");// assume that id is in .id field
                        print("User Id- $renew_user_id");
                        print("Category- $renew_ins_category");
@@ -122,25 +127,59 @@ class _RenewAppState extends State<RenewApp> {
                        }
                      },
                      child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
                            child: Text(
                              "Request ID: ${requestList[i].requestid}",
+                             style: TextStyle(
+                               fontSize: 18,
+                               fontWeight: FontWeight.w500,
+                             ),
                            ),
                          ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
                            child: Text(
                              "Category: ${requestList[i].category}",
+                             style: TextStyle(
+                               fontSize: 16,
+                               fontWeight: FontWeight.w500,
+                               color: Colors.black54,
+                             ),
                            ),
                          ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
-                           child: Text(
-                             "Option: ${requestList[i].option}",
-                           ),
-                         ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
-                           child: Text(
-                             "Contact No: ${requestList[i].contactno}",
+                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         //   child: Text(
+                         //     "Option: ${requestList[i].option}",
+                         //   ),
+                         // ),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
+                           // child: Text(
+                           //   "Contact No: ${requestList[i].contactno}",
+                           // ),
+                           child: Row(
+                             children: [
+                               InkWell(
+                                 child: Icon(
+                                   Icons.call_sharp,
+                                   size: 16,
+                                   color: Color(0xFFfe846f),
+                                 ),
+                                 onTap: () {
+                                   _makePhoneCall(requestList[i].contactno);
+                                 },
+                               ),
+                               Text(
+                                 // child: Text(
+                                 "${requestList[i].contactno}",
+                                 style: TextStyle(
+                                   fontSize: 16,
+                                   fontWeight: FontWeight.w500,
+                                   color: Colors.black54,
+                                 ),
+                                 // ),
+                               )
+                             ],
                            ),
                          ),
                          Row(
@@ -148,11 +187,33 @@ class _RenewAppState extends State<RenewApp> {
                            children: [
                              Align(
                                alignment: Alignment.bottomRight,
-                               child: Text('Action Needed',
-                                 style: TextStyle(
-                                   color: Colors.red,
-                                   // textAlign: TextAlign.start,
+                               // child: Text('Action Needed',
+                               //   style: TextStyle(
+                               //     color: Colors.red,
+                               //     // textAlign: TextAlign.start,
+                               //   ),
+                               // ),
+                               child: ElevatedButton(
+                                 child: Text(
+                                   'Action needed',
+                                   style: TextStyle(
+                                     fontSize: 16,
+                                   ),
                                  ),
+                                 style: ButtonStyle(
+                                     backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+                                 ),
+                                 onPressed: (){
+                                   renew_user_requestid = requestList[i].requestid;
+                                   renew_user_contactno = requestList[i].contactno;
+                                   renew_user_id = requestList[i].userid;
+                                   renew_ins_category = requestList[i].category;
+                                   ins_option = requestList[i].option;
+                                   print('$renew_ins_category $ins_option');
+                                   if(renew_ins_category == 'health' && ins_option == 'renew'){
+                                     Navigator.push(context, MaterialPageRoute(builder: (context) => healthRenewForm(userid: renew_user_id ,requestid: renew_user_requestid,category: renew_ins_category,option: ins_option)));
+                                   }
+                                 },
                                ),
                              ),
                            ],
@@ -210,25 +271,59 @@ class _RenewAppState extends State<RenewApp> {
                      //   }
                      // },
                      child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
                            child: Text(
                              "Request ID: ${requestList[i].requestid}",
+                             style: TextStyle(
+                               fontSize: 18,
+                               fontWeight: FontWeight.w500,
+                             ),
                            ),
                          ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
                            child: Text(
                              "Category: ${requestList[i].category}",
+                             style: TextStyle(
+                               fontSize: 16,
+                               fontWeight: FontWeight.w500,
+                               color: Colors.black54,
+                             ),
                            ),
                          ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
-                           child: Text(
-                             "Option: ${requestList[i].option}",
-                           ),
-                         ),
-                         Padding(padding: EdgeInsets.only(bottom: 10.0),
-                           child: Text(
-                             "Contact No: ${requestList[i].contactno}",
+                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
+                         //   child: Text(
+                         //     "Option: ${requestList[i].option}",
+                         //   ),
+                         // ),
+                         Padding(padding: EdgeInsets.only(bottom: 5.0),
+                           // child: Text(
+                           //   "Contact No: ${requestList[i].contactno}",
+                           // ),
+                           child: Row(
+                             children: [
+                               InkWell(
+                                 child: Icon(
+                                   Icons.call_sharp,
+                                   size: 16,
+                                   color: Color(0xFFfe846f),
+                                 ),
+                                 onTap: () {
+                                   _makePhoneCall(requestList[i].contactno);
+                                 },
+                               ),
+                               Text(
+                                 // child: Text(
+                                 "${requestList[i].contactno}",
+                                 style: TextStyle(
+                                   fontSize: 16,
+                                   fontWeight: FontWeight.w500,
+                                   color: Colors.black54,
+                                 ),
+                                 // ),
+                               )
+                             ],
                            ),
                          ),
                          Row(
@@ -236,11 +331,23 @@ class _RenewAppState extends State<RenewApp> {
                            children: [
                              Align(
                                alignment: Alignment.bottomRight,
-                               child: Text('In Process',
-                                 style: TextStyle(
-                                   color: Colors.red,
-                                   // textAlign: TextAlign.start,
+                               // child: Text('In Process',
+                               //   style: TextStyle(
+                               //     color: Colors.red,
+                               //     // textAlign: TextAlign.start,
+                               //   ),
+                               // ),
+                               child: ElevatedButton(
+                                 child: Text(
+                                   'In Process',
+                                   style: TextStyle(
+                                     fontSize: 16,
+                                   ),
                                  ),
+                                 style: ButtonStyle(
+                                     backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+                                 ),
+                                 onPressed: (){},
                                ),
                              ),
                            ],

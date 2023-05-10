@@ -5,6 +5,7 @@ import 'package:demo/screens/signin_screen.dart';
 import 'package:demo/screens/Employees/Requests_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../claim_form.dart';
 import '../lifeclaim_form.dart';
@@ -28,6 +29,14 @@ class _Claim_PageState extends State<Claim_Page> {
   void didChangeDependencies(){
     getClaimRequests();
     super.didChangeDependencies();
+  }
+  _makePhoneCall(contactnumber) async {
+    var url = Uri.parse("tel:$contactnumber");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
   // void initState(){
   //   getBuyRequests();
@@ -104,34 +113,40 @@ class _Claim_PageState extends State<Claim_Page> {
                   child: InkWell(
                     splashColor: Colors.blue.withAlpha(30),
                     onTap: () {
-                      claim_user_requestid = requestList[i].requestid;
-                      claim_user_contactno = requestList[i].contactno;
-                      claim_user_id = requestList[i].userid;
-                      claim_ins_category = requestList[i].category;
-                      ins_option = requestList[i].option;
+
                       // print("Request ID- $buy_user_requestid");// assume that id is in .id field
                       // print("User Id- $buy_user_id");
                       print("Category- $claim_ins_category");
                       print("Option- $ins_option");
                       // print("Contact Number- $buy_user_contactno");
-                      if(claim_ins_category == 'health' && ins_option == 'claim'){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MultiFileUplaodScreen(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
-                      }
-                      if(claim_ins_category  == 'life' && ins_option == 'claim'){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LifeClaim_form(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
-
-                      }
+                      // if(claim_ins_category == 'health' && ins_option == 'claim'){
+                      //   Navigator.push(context, MaterialPageRoute(builder: (context) => MultiFileUplaodScreen(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
+                      // }
+                      // if(claim_ins_category  == 'life' && ins_option == 'claim'){
+                      //   Navigator.push(context, MaterialPageRoute(builder: (context) => LifeClaim_form(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
+                      //
+                      // }
                     },
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
                           child: Text(
                             "Request ID: ${requestList[i].requestid}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
                           child: Text(
                             "Category: ${requestList[i].category}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54,
+                            ),
                           ),
                         ),
                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
@@ -139,9 +154,33 @@ class _Claim_PageState extends State<Claim_Page> {
                         //     "Option: ${requestList[i].option}",
                         //   ),
                         // ),
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            "Contact No: ${requestList[i].contactno}",
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
+                          // child: Text(
+                          //   "Contact No: ${requestList[i].contactno}",
+                          // ),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                child: Icon(
+                                  Icons.call_sharp,
+                                  size: 16,
+                                  color: Color(0xFFfe846f),
+                                ),
+                                onTap: () {
+                                  _makePhoneCall(requestList[i].contactno);
+                                },
+                              ),
+                              Text(
+                                // child: Text(
+                                "${requestList[i].contactno}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                                // ),
+                              )
+                            ],
                           ),
                         ),
                         Row(
@@ -149,11 +188,39 @@ class _Claim_PageState extends State<Claim_Page> {
                           children: [
                             Align(
                               alignment: Alignment.bottomRight,
-                              child: Text('Action Needed',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  // textAlign: TextAlign.start,
+                              // child: Text('Action Needed',
+                              //   style: TextStyle(
+                              //     color: Colors.red,
+                              //     fontWeight: FontWeight.w500,
+                              //     fontSize: 16,
+                              //     // textAlign: TextAlign.start,
+                              //   ),
+                              // ),
+                              child: ElevatedButton(
+                                child: Text(
+                                  'Action needed',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+                                ),
+                                onPressed: (){
+                                  claim_user_requestid = requestList[i].requestid;
+                                  claim_user_contactno = requestList[i].contactno;
+                                  claim_user_id = requestList[i].userid;
+                                  claim_ins_category = requestList[i].category;
+                                  ins_option = requestList[i].option;
+                                  print("$claim_ins_category $ins_option");
+                                  if(claim_ins_category == 'health' && ins_option == 'claim'){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MultiFileUplaodScreen(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
+                                  }
+                                  if(claim_ins_category  == 'life' && ins_option == 'claim'){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => LifeClaim_form(userid: claim_user_id ,requestid: claim_user_requestid,category: claim_ins_category,option: ins_option)));
+
+                                  }
+                                },
                               ),
                             ),
                           ],
@@ -211,15 +278,25 @@ class _Claim_PageState extends State<Claim_Page> {
                     //   // }
                     // },
                     child:  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
                           child: Text(
                             "Request ID: ${requestList[i].requestid}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
                           child: Text(
                             "Category: ${requestList[i].category}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54,
+                            ),
                           ),
                         ),
                         // Padding(padding: EdgeInsets.only(bottom: 10.0),
@@ -227,9 +304,33 @@ class _Claim_PageState extends State<Claim_Page> {
                         //     "Option: ${requestList[i].option}",
                         //   ),
                         // ),
-                        Padding(padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            "Contact No: ${requestList[i].contactno}",
+                        Padding(padding: EdgeInsets.only(bottom: 5.0),
+                          // child: Text(
+                          //   "Contact No: ${requestList[i].contactno}",
+                          // ),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                child: Icon(
+                                  Icons.call_sharp,
+                                  size: 16,
+                                  color: Color(0xFFfe846f),
+                                ),
+                                onTap: () {
+                                  _makePhoneCall(requestList[i].contactno);
+                                },
+                              ),
+                              Text(
+                                // child: Text(
+                                "${requestList[i].contactno}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                                // ),
+                              )
+                            ],
                           ),
                         ),
                         Row(
@@ -237,11 +338,25 @@ class _Claim_PageState extends State<Claim_Page> {
                           children: [
                             Align(
                               alignment: Alignment.bottomRight,
-                              child: Text('In Process',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  // textAlign: TextAlign.start,
+                              // child: Text('In Process',
+                              //   style: TextStyle(
+                              //     color: Colors.red,
+                              //     // textAlign: TextAlign.start,
+                              //   ),
+                              // ),
+                              child: ElevatedButton(
+                                child: Text(
+                                  'In Process',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFFfe846f))
+                                ),
+                                onPressed: (){
+
+                                },
                               ),
                             ),
                           ],
